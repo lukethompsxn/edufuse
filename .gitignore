@@ -257,3 +257,21 @@ typings/
 .next
 
 # <<<<< NODE GIT IGNORE END >>>>>
+
+
+# <<<<< BUILD GIT IGNORE START >>>>>
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+bin/
+lib/
+
+# <<<<< BUILD GIT IGNORE END >>>>>
+
+# <<<<< IDEA GIT IGNORE START >>>>>
+.idea/
+
+# <<<<< IDEA GIT IGNORE END >>>>>
