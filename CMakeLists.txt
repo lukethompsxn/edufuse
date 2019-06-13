@@ -12,5 +12,5 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 find_package(FUSE REQUIRED)
 
 include_directories(${FUSE_INCLUDE_DIR})
-add_executable(edufuse edufuse.c)
+add_executable(edufuse lib/edufuse.c lib/edufuse.h)
 target_link_libraries(edufuse ${FUSE_LIBRARIES})

@@ -101,7 +101,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -264,10 +263,10 @@ CMakeCache.txt
 CMakeFiles
 Makefile
 cmake_install.cmake
+cmake_install.cmake
 install_manifest.txt
 compile_commands.json
 bin/
-lib/
 
 # <<<<< BUILD GIT IGNORE END >>>>>
 

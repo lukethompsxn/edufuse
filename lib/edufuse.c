@@ -1,5 +1,6 @@
 #define FUSE_USE_VERSION 31
 
+#include "edufuse.h"
 #include <fuse.h>
 #include <string.h>
 #include <errno.h>
@@ -7,6 +8,13 @@
 static const char *filepath = "/file";
 static const char *filename = "file";
 static const char *filecontent = "I'm the content of the only file available there\n";
+
+static int edufuse_register(int argc, char *argv[], struct fuse_operations *edufuse_operations) {
+    // store a struct to allow us to redirect back to the implementation
+    // likely done through copying their struct, then modifying and passing a modified version to fuse
+
+    return fuse_main(argc, argv, edufuse_operations, NULL);
+}
 
 static int edufuse_getattr(const char *path, struct stat *stbuf) {
   memset(stbuf, 0, sizeof(struct stat));
