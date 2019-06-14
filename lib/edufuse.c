@@ -109,6 +109,98 @@ static int edufuse_setxattr(const char *path, const char *name, const char *valu
     return registered_operations->setxattr(path, name, value, size, flags);
 }
 
+/** Get extended attributes */
+static int edufuse_getxattr(const char *path, const char *name, char *value, size_t size) {
+    return registered_operations->getxattr(path, name, value, size);
+}
+
+/** List extended attributes */
+static int edufuse_listxattr(const char *path, char *list, size_t size) {
+    return registered_operations->listxattr(path, list, size);
+}
+
+/** Remove extended attributes */
+static int edufuse_removexattr(const char *path, const char *name) {
+    return registered_operations->removexattr(path, name);
+}
+
+/** Open directory */
+static int edufuse_opendir(const char *path, struct fuse_file_info *fi) {
+    return registered_operations->opendir(path, fi);
+}
+
+/** Read directory */
+static int edufuse_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t off, struct fuse_file_info *fi) {
+    return registered_operations->readdir(path, buf, filler, off, fi);
+}
+
+/** Release directory */
+static int edufuse_releasedir(const char *path, struct fuse_file_info *fi) {
+    return registered_operations->releasedir(path, fi);
+}
+
+/** Synchronize directory contents */
+static int edufuse_fsyncdir(const char *path, int datasync, struct fuse_file_info *fi) {
+    return registered_operations->fsyncdir(path, datasync, fi);
+}
+
+/** Initialize filesystem */
+static void *edufuse_init(struct fuse_conn_info *conn) {
+    return registered_operations->init(conn);
+}
+
+/**
+ * Clean up filesystem */
+static void edufuse_destroy(void *data) {
+    registered_operations->destroy(data);
+}
+
+/** Check file access permissions */
+static int edufuse_access(const char *path, int mask) {
+    return registered_operations->access(path, mask);
+}
+
+/**
+ * Create and open a file */
+static int edufuse_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
+    return registered_operations->create(path, mode, fi);
+}
+
+/** Change the size of an open file */
+static int edufuse_ftruncate(const char *path, off_t size, struct fuse_file_info *fi) {
+    return registered_operations->ftruncate(path, size, fi);
+}
+
+/** Get attributes from an open file */
+static int edufuse_fgetattr(const char *path, struct stat *buf, struct fuse_file_info *fi) {
+    return registered_operations->fgetattr(path, buf, fi);
+}
+
+/** Perform POSIX file locking operation */
+static int edufuse_lock(const char *path, struct fuse_file_info *fi, int cmd, struct flock *lock) {
+    return registered_operations->lock(path, fi, cmd, lock);
+}
+
+/** Change the access and modification times of a file with */
+static int edufuse_utimens(const char *path, const struct timespec tv[2]) {
+    return registered_operations->utimens(path, tv);
+}
+
+/** Map block index within file to block index within device */
+static int edufuse_bmap(const char *path, size_t blocksize, uint64_t *idx) {
+    return registered_operations->bmap(path, blocksize, idx);
+}
+
+/** Ioctl */
+static int edufuse_ioctl(const char *path, int cmd, void *arg, struct fuse_file_info *fi, unsigned int flags, void *data) {
+    return registered_operations->ioctl(path, cmd, arg, fi, flags, data);
+}
+
+/** Poll for IO readiness events */
+static int edufuse_poll(const char *path, struct fuse_file_info *fi, struct fuse_pollhandle *ph, unsigned *reventsp) {
+    return registered_operations->poll(path, fi, ph, reventsp);
+}
+
 /** Register implemented methods with eduFUSE */
 int edufuse_register(int argc, char *argv[], struct fuse_operations *edufuse_operations, int size) {
     registered_operations = malloc(size);
@@ -192,6 +284,78 @@ int edufuse_register(int argc, char *argv[], struct fuse_operations *edufuse_ope
 
     if (edufuse_operations->setxattr != NULL) {
         edufuse_operations->setxattr = edufuse_setxattr;
+    }
+
+    if (edufuse_operations->getxattr != NULL) {
+        edufuse_operations->getxattr = edufuse_getxattr;
+    }
+
+    if (edufuse_operations->listxattr != NULL) {
+        edufuse_operations->listxattr = edufuse_listxattr;
+    }
+
+    if (edufuse_operations->removexattr != NULL) {
+        edufuse_operations->removexattr = edufuse_removexattr;
+    }
+
+    if (edufuse_operations->opendir != NULL) {
+        edufuse_operations->opendir = edufuse_opendir;
+    }
+
+    if (edufuse_operations->readdir != NULL) {
+        edufuse_operations->readdir = edufuse_readdir;
+    }
+
+    if (edufuse_operations->releasedir != NULL) {
+        edufuse_operations->releasedir = edufuse_releasedir;
+    }
+
+    if (edufuse_operations->fsyncdir != NULL) {
+        edufuse_operations->fsyncdir = edufuse_fsyncdir;
+    }
+
+    if (edufuse_operations->init != NULL) {
+        edufuse_operations->init = edufuse_init;
+    }
+
+    if (edufuse_operations->destroy != NULL) {
+        edufuse_operations->destroy = edufuse_destroy;
+    }
+
+    if (edufuse_operations->access != NULL) {
+        edufuse_operations->access = edufuse_access;
+    }
+
+    if (edufuse_operations->create != NULL) {
+        edufuse_operations->create = edufuse_create;
+    }
+
+    if (edufuse_operations->ftruncate != NULL) {
+        edufuse_operations->ftruncate = edufuse_ftruncate;
+    }
+
+    if (edufuse_operations->fgetattr != NULL) {
+        edufuse_operations->fgetattr = edufuse_fgetattr;
+    }
+
+    if (edufuse_operations->lock != NULL) {
+        edufuse_operations->lock = edufuse_lock;
+    }
+
+    if (edufuse_operations->utimens != NULL) {
+        edufuse_operations->utimens = edufuse_utimens;
+    }
+
+    if (edufuse_operations->bmap != NULL) {
+        edufuse_operations->bmap = edufuse_bmap;
+    }
+
+    if (edufuse_operations->ioctl != NULL) {
+        edufuse_operations->ioctl = edufuse_ioctl;
+    }
+
+    if (edufuse_operations->poll != NULL) {
+        edufuse_operations->poll = edufuse_poll;
     }
 
     return fuse_main(argc, argv, edufuse_operations, NULL);
