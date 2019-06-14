@@ -4,6 +4,6 @@
 #define EDUFUSE_EDUFUSE_H
 
     // feel like we shouldn't be defining 'struct' in prefix??
-    static int edufuse_register(int argc, char *argv[], struct fuse_operations *);
+    extern int edufuse_register(int argc, char *argv[], struct fuse_operations *, int size);
 
 #endif //EDUFUSE_EDUFUSE_H
