@@ -31,7 +31,9 @@ int edufuse_register(int argc, char *argv[], struct fuse_operations *edufuse_ope
     registered_operations = malloc(size);
     memcpy(registered_operations, edufuse_operations, size);
 
-    // may be able to loop through these using memory additions
+
+
+    // todo may be able to loop through these using memory additions
     if (edufuse_operations->getattr != NULL) {
         edufuse_operations->getattr = edufuse_getattr;
     }

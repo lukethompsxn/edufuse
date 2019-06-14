@@ -10,7 +10,7 @@ static const char *filepath = "/file";
 static const char *filename = "file";
 static const char *filecontent = "I'm the content of the only file available there\n";
 
-static int example_getattr(const char *path, struct stat *stbuf) {
+static int efs_getattr(const char *path, struct stat *stbuf) {
     memset(stbuf, 0, sizeof(struct stat));
 
     if (strcmp(path, "/") == 0) {
@@ -29,7 +29,7 @@ static int example_getattr(const char *path, struct stat *stbuf) {
     return -ENOENT;
 }
 
-static int example_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
+static int efs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
                            off_t offset, struct fuse_file_info *fi) {
     (void) offset;
     (void) fi;
@@ -42,11 +42,11 @@ static int example_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
     return 0;
 }
 
-static int example_open(const char *path, struct fuse_file_info *fi) {
+static int efs_open(const char *path, struct fuse_file_info *fi) {
     return 0;
 }
 
-static int example_read(const char *path, char *buf, size_t size, off_t offset,
+static int efs_read(const char *path, char *buf, size_t size, off_t offset,
                         struct fuse_file_info *fi) {
     if (strcmp(path, filepath) == 0) {
         size_t len = strlen(filecontent);
@@ -66,14 +66,14 @@ static int example_read(const char *path, char *buf, size_t size, off_t offset,
     return -ENOENT;
 }
 
-static struct fuse_operations example_operations = {
-        .getattr = example_getattr,
-        .open = example_open,
-        .read = example_read,
-        .readdir = example_readdir,
+static struct fuse_operations efs_operations = {
+        .getattr = efs_getattr,
+        .open = efs_open,
+        .read = efs_read,
+        .readdir = efs_readdir,
 };
 
 int main(int argc, char *argv[])
 {
-    return edufuse_register(argc, argv, &example_operations, sizeof(example_operations));
+    return edufuse_register(argc, argv, &efs_operations, sizeof(efs_operations));
 }
