@@ -26,8 +26,6 @@
 
 # Shared objects (inc. Windows DLLs)
 *.dll
-*.so
-*.so.*
 *.dylib
 
 # Executables
@@ -64,7 +62,7 @@ dkms.conf
 *.log
 
 # BlueJ files
-*.ctxt
+*.ctxtf
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -89,9 +87,6 @@ hs_err_pid*
 __pycache__/
 *.py[cod]
 *$py.class
-
-# C extensions
-*.so
 
 # Distribution / packaging
 .Python
