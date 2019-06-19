@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 ./clean.sh
 cmake -DCMAKE_BUILD_TYPE=Debug .
 make -j
