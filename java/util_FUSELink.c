@@ -218,7 +218,7 @@ static int jef_poll(const char *path, struct fuse_file_info *fi, struct fuse_pol
 
  static char *operations_contains(JNIEnv *env, jobject operations_map, jmethodID contains_m, char *str) {
      char *data= (char*)malloc(16);
-     strcpy(data, "getattr");
+     strcpy(data, str);
      jstring jstr = (*env)->NewStringUTF(env, data);
      char *bool = (char *)(*env)->CallObjectMethod(env, operations_map, contains_m, jstr);
      free(data);
