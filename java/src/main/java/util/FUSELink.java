@@ -1,10 +1,10 @@
 package util;
 
 public class FUSELink {
-    private native void registerOperations();
+    private native int registerOperations(FunctionMap operations);
 
-    public void call() {
-        new FUSELink().registerOperations();
+    public void register(FunctionMap operations) {
+        Integer a = new FUSELink().registerOperations(operations);
     }
 
     static {

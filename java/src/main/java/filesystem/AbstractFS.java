@@ -1,9 +1,7 @@
 package filesystem;
 
 import data.*;
-import util.FUSEOperations;
-
-import java.util.EnumMap;
+import util.FunctionMap;
 
 /**
  * This class should be extended. Then override any methods which you wish to implement for your file system.
@@ -15,7 +13,7 @@ import java.util.EnumMap;
  * operations.put(FUSEOperations.getattr, (String path, String buf) -> getattr(path, buf));
  */
 public abstract class AbstractFS {
-    public EnumMap<FUSEOperations, Runnable> operations = new EnumMap<FUSEOperations, Runnable>(FUSEOperations.class);
+    public FunctionMap operations = new FunctionMap();
 
     /** Get file attributes*/
     public int getattr(String path, Stat stat) {
@@ -153,9 +151,7 @@ public abstract class AbstractFS {
     }
 
     /** Clean up filesystem */
-    public void destroy() {
-
-    }
+    public void destroy() { }
 
     /** Check file access permissions */
     public int access(String path, int mask) {

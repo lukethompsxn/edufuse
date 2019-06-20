@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     util_FUSELink
  * Method:    registerOperations
- * Signature: ()V
+ * Signature: (Lutil/FunctionMap;)I
  */
-JNIEXPORT void JNICALL Java_util_FUSELink_registerOperations
-  (JNIEnv *, jobject);
+JNIEXPORT jint JNICALL Java_util_FUSELink_registerOperations
+  (JNIEnv *, jobject, jobject);
 
 #ifdef __cplusplus
 }
