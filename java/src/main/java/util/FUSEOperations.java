@@ -31,6 +31,8 @@ public enum FUSEOperations {
     destroy,
     access,
     create,
+    ftruncate,
+    fgetattr,
     lock,
     utimens,
     bmap,

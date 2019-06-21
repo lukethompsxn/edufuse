@@ -9,7 +9,8 @@
 #include <errno.h>
 #include <stdlib.h>
 
-static struct fuse_operations *registered_operations;
+struct fuse_operations *jef_operations;
+static struct jobject *operations;
 
 /**
  *
@@ -19,195 +20,194 @@ static struct fuse_operations *registered_operations;
 
 /** Get file attributes */
 static int jef_getattr(const char *path, struct stat *stbuf) {
-    return registered_operations->getattr(path, stbuf);
+    return 0;
 }
 
 /** Read the target of a symbolic link */
 static int jef_readlink(const char *path, char *buf, size_t len) {
-    return registered_operations->readlink(path, buf, len);
+    return 0;
 }
 
 /** Create a file node */
 static int jef_mknod(const char *path, mode_t mode, dev_t rdev) {
-    return registered_operations->mknod(path, mode, rdev);
+    return 0;
 }
 
 /** Create a directory */
 static int jef_mkdir(const char *path, mode_t mode) {
-    return registered_operations->mkdir(path, mode);
+    return 0;
 }
 
 /** Remove a file */
 static int jef_unlink(const char *path) {
-    return registered_operations->unlink(path);
+    return 0;
 }
 
 /** Remove a directory */
 static int jef_rmdir(const char *path) {
-    return registered_operations->rmdir(path);
+    return 0;
 }
 
 /** Create a symbolic link */
 static int jef_symlink(const char *linkname, const char *path) {
-    return registered_operations->symlink(linkname, path);
+    return 0;
 }
 
 /** Rename a file */
 static int jef_rename(const char *oldpath, const char *newpath) {
-    return registered_operations->rename(oldpath, newpath);
+    return 0;
 }
 
 /** Create a hard link to a file */
 static int jef_link(const char *oldpath, const char *newpath) {
-    return registered_operations->link(oldpath, newpath);
+    return 0;
 }
 
 /** Change the permission bits of a file */
 static int jef_chmod(const char *path, mode_t mode) {
-    return registered_operations->chmod(path, mode);
+    return 0;
 }
 
 /** Change the owner and group of a file */
 static int jef_chown(const char *path, uid_t uid, gid_t gid) {
-    return registered_operations->chown(path, uid, gid);
+    return 0;
 }
 
 /** Change the size of a file */
 static int jef_truncate(const char *path, off_t size) {
-    return registered_operations->truncate(path, size);
+    return 0;
 }
 
 /** File open operation */
 static int jef_open(const char *path, struct fuse_file_info *fi) {
-    return registered_operations->open(path, fi);
+    return 0;
 }
 
 /** Read data from an open file */
 static int jef_read(const char *path, char *buf, size_t size, off_t off, struct fuse_file_info *fi) {
-    return registered_operations->read(path, buf, size, off, fi);
+    return 0;
 }
 
 /** Write data to an open file */
 static int jef_write(const char *path, const char *buf, size_t size, off_t off, struct fuse_file_info *fi) {
-    return registered_operations->write(path, buf, size, off, fi);
+    return 0;
 }
 
 /** Get file system statistics */
 static int jef_statfs(const char *path, struct statvfs *buf) {
-    return registered_operations->statfs(path, buf);
+    return 0;
 }
 
 /** Possibly flush cached data */
 static int jef_flush(const char *path, struct fuse_file_info *fi) {
-    return registered_operations->flush(path, fi);
+    return 0;
 }
 
 /** Release an open file */
 static int jef_release(const char *path, struct fuse_file_info *fi) {
-    return registered_operations->release(path, fi);
+    return 0;
 }
 
 /** Synchronize file contents */
 static int jef_fsync(const char *path, int datasync, struct fuse_file_info *fi) {
-    return registered_operations->fsync(path, datasync, fi);
+    return 0;
 }
 
 /** Set extended attributes */
 static int jef_setxattr(const char *path, const char *name, const char *value, size_t size, int flags) {
-    return registered_operations->setxattr(path, name, value, size, flags);
+    return 0;
 }
 
 /** Get extended attributes */
 static int jef_getxattr(const char *path, const char *name, char *value, size_t size) {
-    return registered_operations->getxattr(path, name, value, size);
+    return 0;
 }
 
 /** List extended attributes */
 static int jef_listxattr(const char *path, char *list, size_t size) {
-    return registered_operations->listxattr(path, list, size);
+    return 0;
 }
 
 /** Remove extended attributes */
 static int jef_removexattr(const char *path, const char *name) {
-    return registered_operations->removexattr(path, name);
+    return 0;
 }
 
 /** Open directory */
 static int jef_opendir(const char *path, struct fuse_file_info *fi) {
-    return registered_operations->opendir(path, fi);
+    return 0;
 }
 
 /** Read directory */
 static int jef_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t off, struct fuse_file_info *fi) {
-    return registered_operations->readdir(path, buf, filler, off, fi);
+    return 0;
 }
 
 /** Release directory */
 static int jef_releasedir(const char *path, struct fuse_file_info *fi) {
-    return registered_operations->releasedir(path, fi);
+    return 0;
 }
 
 /** Synchronize directory contents */
 static int jef_fsyncdir(const char *path, int datasync, struct fuse_file_info *fi) {
-    return registered_operations->fsyncdir(path, datasync, fi);
+    return 0;
 }
 
 /** Initialize filesystem */
 static void *jef_init(struct fuse_conn_info *conn) {
-    return registered_operations->init(conn);
+    return 0;
 }
 
 /**
  * Clean up filesystem */
 static void jef_destroy(void *data) {
-    registered_operations->destroy(data);
 }
 
 /** Check file access permissions */
 static int jef_access(const char *path, int mask) {
-    return registered_operations->access(path, mask);
+    return 0;
 }
 
 /**
  * Create and open a file */
 static int jef_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
-    return registered_operations->create(path, mode, fi);
+    return 0;
 }
 
 /** Change the size of an open file */
 static int jef_ftruncate(const char *path, off_t size, struct fuse_file_info *fi) {
-    return registered_operations->ftruncate(path, size, fi);
+    return 0;
 }
 
 /** Get attributes from an open file */
 static int jef_fgetattr(const char *path, struct stat *buf, struct fuse_file_info *fi) {
-    return registered_operations->fgetattr(path, buf, fi);
+    return 0;
 }
 
 /** Perform POSIX file locking operation */
 static int jef_lock(const char *path, struct fuse_file_info *fi, int cmd, struct flock *lock) {
-    return registered_operations->lock(path, fi, cmd, lock);
+    return 0;
 }
 
 /** Change the access and modification times of a file with */
 static int jef_utimens(const char *path, const struct timespec tv[2]) {
-    return registered_operations->utimens(path, tv);
+    return 0;
 }
 
 /** Map block index within file to block index within device */
 static int jef_bmap(const char *path, size_t blocksize, uint64_t *idx) {
-    return registered_operations->bmap(path, blocksize, idx);
+    return 0;
 }
 
 /** Ioctl */
 static int jef_ioctl(const char *path, int cmd, void *arg, struct fuse_file_info *fi, unsigned int flags, void *data) {
-    return registered_operations->ioctl(path, cmd, arg, fi, flags, data);
+    return 0;
 }
 
-/** Poll for IO readiness events */
-static int jef_poll(const char *path, struct fuse_file_info *fi, struct fuse_pollhandle *ph, unsigned *reventsp) {
-    return registered_operations->poll(path, fi, ph, reventsp);
-}
+///** Poll for IO readiness events */
+//static int jef_poll(const char *path, struct fuse_file_info *fi, struct fuse_pollhandle *ph, unsigned *reventsp) {
+//    return 0;
+//}
 
 
 /**
@@ -216,179 +216,189 @@ static int jef_poll(const char *path, struct fuse_file_info *fi, struct fuse_pol
  *
  */
 
- static char *operations_contains(JNIEnv *env, jobject operations_map, jmethodID contains_m, char *str) {
+ static int operations_contains(JNIEnv *env, jobject operations_map, jmethodID contains_m, char *str) {
      char *data= (char*)malloc(16);
      strcpy(data, str);
      jstring jstr = (*env)->NewStringUTF(env, data);
-     char *bool = (char *)(*env)->CallObjectMethod(env, operations_map, contains_m, jstr);
+     int bool = (int)(*env)->CallObjectMethod(env, operations_map, contains_m, jstr);
      free(data);
      return bool;
  }
 
-JNIEXPORT jint JNICALL Java_util_FUSELink_registerOperations(JNIEnv *env, jobject this, jobject operations_map)
+JNIEXPORT jint JNICALL Java_util_FUSELink_registerOperations(JNIEnv *env, jobject this, jobject operations_map, jobjectArray args)
 {
-    registered_operations = malloc(sizeof(struct fuse_operations));
+    jef_operations = malloc(sizeof(struct fuse_operations));
+    operations = malloc(sizeof(operations_map));
+    memcpy(operations, &operations_map, sizeof(operations_map));
+
     jclass function_map_c = (*env)->FindClass(env, "util/FunctionMap");
     jmethodID contains_m = (*env)->GetMethodID(env, function_map_c, "contains", "(Ljava/lang/String;)Z");
 
     if (operations_contains(env, operations_map, contains_m, "getattr")) {
-        registered_operations->getattr = jef_getattr;
+        printf("java getattr not null\n");
+        jef_operations->getattr = jef_getattr;
     }
 
-//    if (jef_operations->readlink != NULL) {
-//        jef_operations->readlink = jef_readlink;
-//    }
-//
-//    if (jef_operations->mknod != NULL) {
-//        jef_operations->mknod = jef_mknod;
-//    }
-//
-//    if (jef_operations->mkdir != NULL) {
-//        jef_operations->mkdir = jef_mkdir;
-//    }
-//
-//    if (jef_operations->unlink != NULL) {
-//        jef_operations->unlink = jef_unlink;
-//    }
-//
-//    if (jef_operations->rmdir != NULL) {
-//        jef_operations->rmdir = jef_rmdir;
-//    }
-//
-//    if (jef_operations->symlink != NULL) {
-//        jef_operations->symlink = jef_symlink;
-//    }
-//
-//    if (jef_operations->rename != NULL) {
-//        jef_operations->rename = jef_rename;
-//    }
-//
-//    if (jef_operations->link != NULL) {
-//        jef_operations->link = jef_link;
-//    }
-//
-//    if (jef_operations->chmod != NULL) {
-//        jef_operations->chmod = jef_chmod;
-//    }
-//
-//    if (jef_operations->chown != NULL) {
-//        jef_operations->chown = jef_chown;
-//    }
-//
-//    if (jef_operations->truncate != NULL) {
-//        jef_operations->truncate = jef_truncate;
-//    }
-//
-//    if (jef_operations->open != NULL) {
-//        jef_operations->open = jef_open;
-//    }
-//
-//    if (jef_operations->read != NULL) {
-//        jef_operations->read = jef_read;
-//    }
-//
-//    if (jef_operations->write != NULL) {
-//        jef_operations->write = jef_write;
-//    }
-//
-//    if (jef_operations->statfs != NULL) {
-//        jef_operations->statfs = jef_statfs;
-//    }
-//
-//    if (jef_operations->flush != NULL) {
-//        jef_operations->flush = jef_flush;
-//    }
-//
-//    if (jef_operations->release != NULL) {
-//        jef_operations->release = jef_release;
-//    }
-//
-//    if (jef_operations->fsync != NULL) {
-//        jef_operations->fsync = jef_fsync;
-//    }
-//
-//    if (jef_operations->setxattr != NULL) {
-//        jef_operations->setxattr = jef_setxattr;
-//    }
-//
-//    if (jef_operations->getxattr != NULL) {
-//        jef_operations->getxattr = jef_getxattr;
-//    }
-//
-//    if (jef_operations->listxattr != NULL) {
-//        jef_operations->listxattr = jef_listxattr;
-//    }
-//
-//    if (jef_operations->removexattr != NULL) {
-//        jef_operations->removexattr = jef_removexattr;
-//    }
-//
-//    if (jef_operations->opendir != NULL) {
-//        jef_operations->opendir = jef_opendir;
-//    }
-//
-//    if (jef_operations->readdir != NULL) {
-//        jef_operations->readdir = jef_readdir;
-//    }
-//
-//    if (jef_operations->releasedir != NULL) {
-//        jef_operations->releasedir = jef_releasedir;
-//    }
-//
-//    if (jef_operations->fsyncdir != NULL) {
-//        jef_operations->fsyncdir = jef_fsyncdir;
-//    }
-//
-//    if (jef_operations->init != NULL) {
-//        jef_operations->init = jef_init;
-//    }
-//
-//    if (jef_operations->destroy != NULL) {
-//        jef_operations->destroy = jef_destroy;
-//    }
-//
-//    if (jef_operations->access != NULL) {
-//        jef_operations->access = jef_access;
-//    }
-//
-//    if (jef_operations->create != NULL) {
-//        jef_operations->create = jef_create;
-//    }
-//
-//    if (jef_operations->ftruncate != NULL) {
-//        jef_operations->ftruncate = jef_ftruncate;
-//    }
-//
-//    if (jef_operations->fgetattr != NULL) {
-//        jef_operations->fgetattr = jef_fgetattr;
-//    }
-//
-//    if (jef_operations->lock != NULL) {
-//        jef_operations->lock = jef_lock;
-//    }
-//
-//    if (jef_operations->utimens != NULL) {
-//        jef_operations->utimens = jef_utimens;
-//    }
-//
-//    if (jef_operations->bmap != NULL) {
-//        jef_operations->bmap = jef_bmap;
-//    }
-//
-//    if (jef_operations->ioctl != NULL) {
-//        jef_operations->ioctl = jef_ioctl;
-//    }
-//
-//    if (jef_operations->poll != NULL) {
+    if (operations_contains(env, operations_map, contains_m, "readlink")) {
+        printf("java readlink not null\n");
+        jef_operations->readlink = jef_readlink;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "mknod")) {
+        jef_operations->mknod = jef_mknod;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "mkdir")) {
+        jef_operations->mkdir = jef_mkdir;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "unlink")) {
+        jef_operations->unlink = jef_unlink;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "rmdir")) {
+        jef_operations->rmdir = jef_rmdir;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "symlink")) {
+        jef_operations->symlink = jef_symlink;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "rename")) {
+        jef_operations->rename = jef_rename;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "link")) {
+        jef_operations->link = jef_link;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "chmod")) {
+        jef_operations->chmod = jef_chmod;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "chown")) {
+        jef_operations->chown = jef_chown;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "truncate")) {
+        jef_operations->truncate = jef_truncate;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "open")) {
+        jef_operations->open = jef_open;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "read")) {
+        jef_operations->read = jef_read;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "write")) {
+        jef_operations->write = jef_write;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "statfs")) {
+        jef_operations->statfs = jef_statfs;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "flush")) {
+        jef_operations->flush = jef_flush;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "release")) {
+        jef_operations->release = jef_release;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "fsync")) {
+        jef_operations->fsync = jef_fsync;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "setxattr")) {
+        jef_operations->setxattr = jef_setxattr;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "getxattr")) {
+        jef_operations->getxattr = jef_getxattr;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "listxattr")) {
+        jef_operations->listxattr = jef_listxattr;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "removexattr")) {
+        jef_operations->removexattr = jef_removexattr;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "opendir")) {
+        jef_operations->opendir = jef_opendir;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "readdir")) {
+        jef_operations->readdir = jef_readdir;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "releasedir")) {
+        jef_operations->releasedir = jef_releasedir;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "fsyncdir")) {
+        jef_operations->fsyncdir = jef_fsyncdir;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "init")) {
+        jef_operations->init = jef_init;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "destroy")) {
+        jef_operations->destroy = jef_destroy;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "access")) {
+        jef_operations->access = jef_access;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "create")) {
+        jef_operations->create = jef_create;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "ftruncate")) {
+        jef_operations->ftruncate = jef_ftruncate;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "fgetattr")) {
+        jef_operations->fgetattr = jef_fgetattr;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "lock")) {
+        jef_operations->lock = jef_lock;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "utimens")) {
+        jef_operations->utimens = jef_utimens;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "bmap")) {
+        jef_operations->bmap = jef_bmap;
+    }
+
+    if (operations_contains(env, operations_map, contains_m, "ioctl")) {
+        jef_operations->ioctl = jef_ioctl;
+    }
+
+//    if (operations_contains(env, operations_map, contains_m, "poll")) {
 //        jef_operations->poll = jef_poll;
 //    }
 
-    jint num = 2;
-    return num;
-    //need to pass the operations object from java, and accept int return type
-    //convert operations object to struct
-    //when converting the operations object to struct, need to maintain the methods from the class which they are
-    //defined in, as this will allow invoking it when. may be able to store the pointer to env to call methods
+    int argc = (*env)->GetArrayLength(env, args);
+    char *argv[argc];
 
-//    return jef_register(argc, argv, &efs_operations, sizeof(efs_operations));
+    for (int i = 0; i < argc; ++i)
+    {
+        jstring jarg = (*env)->GetObjectArrayElement(env, args, i);
+        const char* arg = (*env)->GetStringUTFChars(env, jarg, 0);
+        argv[i] = arg;
+//        (*env)->ReleaseStringUTFChars(env, jarg, arg);       releasing these screws the values in the char array, but
+//        (*env)->DeleteLocalRef(env, jarg);                    if we dont release them we may get memory leaks??
+    }
+
+    return edufuse_register(argc, argv, jef_operations, sizeof(jef_operations));
 }

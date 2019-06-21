@@ -12,6 +12,12 @@ public class FunctionMap extends EnumMap<FUSEOperations, Runnable> {
      * Used through JNI, do not delete
      */
     public boolean contains(String key) {
-        return containsKey(FUSEOperations.valueOf(key));
+        FUSEOperations operation;
+        try {
+            operation = FUSEOperations.valueOf(key);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return containsKey(operation);
     }
 }

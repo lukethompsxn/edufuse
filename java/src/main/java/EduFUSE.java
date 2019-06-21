@@ -8,6 +8,6 @@ public class EduFUSE {
         FUSELink link = new FUSELink();
         FunctionMap operations = new FunctionMap();
         operations.put(FUSEOperations.getattr, () -> System.out.println("it worked!"));
-        link.register(operations);
+        link.register(operations, args);
     }
 }
