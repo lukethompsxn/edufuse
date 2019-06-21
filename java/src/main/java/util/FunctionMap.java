@@ -1,12 +1,8 @@
 package util;
 
-import java.util.EnumMap;
+import java.util.HashSet;
 
-public class FunctionMap extends EnumMap<FUSEOperations, Runnable> {
-
-    public FunctionMap() {
-        super(FUSEOperations.class);
-    }
+public class FunctionMap extends HashSet<FUSEOperations> {
 
     /**
      * Used through JNI, do not delete
@@ -18,6 +14,6 @@ public class FunctionMap extends EnumMap<FUSEOperations, Runnable> {
         } catch (IllegalArgumentException e) {
             return false;
         }
-        return containsKey(operation);
+        return contains(operation);
     }
 }

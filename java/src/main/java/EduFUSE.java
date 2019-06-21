@@ -17,7 +17,7 @@ public class EduFUSE {
     public static void main(String[] args) {
         FUSELink link = new FUSELink();
         FunctionMap operations = new FunctionMap();
-        operations.put(FUSEOperations.getattr, () -> System.out.println("it worked!"));
+        operations.add(FUSEOperations.getattr);
         link.register(operations, args);
     }
 }

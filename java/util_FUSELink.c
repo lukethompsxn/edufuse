@@ -20,6 +20,7 @@ static struct jobject *operations;
 
 /** Get file attributes */
 static int jef_getattr(const char *path, struct stat *stbuf) {
+    printf("we made it bro\n");
     return 0;
 }
 
