@@ -7,7 +7,7 @@ public class ExampleFS extends AbstractFS {
 
     @Override
     public int getattr(String path, Stat stat) {
-        System.out.println("java got called!!!!");
+        System.out.println("java getattr got called!!!!");
         return super.getattr(path, stat);
     }
 }

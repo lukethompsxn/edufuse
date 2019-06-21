@@ -13,6 +13,8 @@ struct fuse_operations jef_operations;
 JNIEnv *env;
 jclass abstract_fs_c;
 jobject filesystem;
+jclass stat_c;
+jmethodID stat_constructor_m;
 
 /**
  *
@@ -22,12 +24,42 @@ jobject filesystem;
  */
 static int operations_contains(jobject operations_map, jmethodID contains_m, char *str)
 {
-    char *data= (char*)malloc(16);
+    char *data= (char*)malloc(sizeof(str));
     strcpy(data, str);
     jstring jstr = (*env)->NewStringUTF(env, data);
     int bool = (int)(*env)->CallObjectMethod(env, operations_map, contains_m, jstr);
     free(data);
     return bool;
+}
+
+static jstring convert_path(const char *path)
+{
+    char *str = (char*)malloc(sizeof(path));
+    strcpy(str, path);
+    return (*env)->NewStringUTF(env, str);
+}
+
+static jobject convert_stat(struct stat *stbuf)
+{
+    jobject stat = (*env)->NewObject(
+            env,
+            stat_c,
+            stat_constructor_m,
+            (jlong) stbuf->st_dev,
+            (jint) 0, // __pad1
+            (jlong) stbuf->st_ino,
+            (jint) stbuf->st_mode,
+            (jlong) stbuf->st_nlink,
+            (jint) stbuf->st_uid,
+            (jint) stbuf->st_gid,
+            (jint) stbuf->__pad0,
+            (jlong) stbuf->st_rdev,
+            (jint) 0, // __pad2
+            (jlong) stbuf->st_size,
+            (jint) stbuf->st_blksize,
+            (jlong) stbuf->st_blocks);
+
+    return stat;
 }
 
 /**
@@ -37,13 +69,10 @@ static int operations_contains(jobject operations_map, jmethodID contains_m, cha
  */
 
 /** Get file attributes */
-static int jef_getattr(const char *path, struct stat *stbuf) {
-    printf("before\n");
-
+static int jef_getattr(const char *path, struct stat *stbuf)
+{
     jmethodID getattr_m = (*env)->GetMethodID(env, abstract_fs_c, "getattr", "(Ljava/lang/String;Ldata/Stat;)I");
-
-
-    return 0;
+    return (*env)->CallObjectMethod(env, filesystem, getattr_m, convert_path(path), convert_stat(stbuf));
 }
 
 /** Read the target of a symbolic link */
@@ -319,8 +348,12 @@ JNIEXPORT jint JNICALL Java_util_FUSELink_registerOperations(JNIEnv *jniEnv, job
     jclass function_map_c = (*env)->FindClass(env, "util/FunctionMap");
     jmethodID contains_m = (*env)->GetMethodID(env, function_map_c, "contains", "(Ljava/lang/String;)Z");
 
+    // Setup classes and methods for future use (save time by only retrieving once)
     jmethodID get_filesystem_m = (*env)->GetMethodID(env, function_map_c, "getFilesystem", "()Lfilesystem/AbstractFS;");
     filesystem = (*env)->CallObjectMethod(env, operations_map, get_filesystem_m);
+
+    stat_c = (*env)->FindClass(env, "data/Stat");
+    stat_constructor_m = (*env)->GetMethodID(env, stat_c, "<init>", "(JIJIJIIIJIJIJ)V");
 
     if (operations_contains(operations_map, contains_m, "getattr")) {
         jef_operations.getattr = jef_getattr;
