@@ -1,3 +1,4 @@
+import example.ExampleFS;
 import util.FUSELink;
 import util.FUSEOperations;
 import util.FunctionMap;
@@ -16,7 +17,7 @@ public class EduFUSE {
      */
     public static void main(String[] args) {
         FUSELink link = new FUSELink();
-        FunctionMap operations = new FunctionMap();
+        FunctionMap operations = new FunctionMap(new ExampleFS());
         operations.add(FUSEOperations.getattr);
         link.register(operations, args);
     }

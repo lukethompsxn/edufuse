@@ -1,19 +1,12 @@
 package filesystem;
 
 import data.*;
-import util.FunctionMap;
 
 /**
  * This class should be extended. Then override any methods which you wish to implement for your file system.
  * Only operations which are implemented by your file system should be added to the registered operations map.
- *
- * Add your method to the operations map using
- * operations.put(FUSEOperations.<operation>, (<parameters>) -> <method>(<parameters>));
- * For example
- * operations.put(FUSEOperations.getattr, (String path, String buf) -> getattr(path, buf));
  */
 public abstract class AbstractFS {
-    public FunctionMap operations = new FunctionMap();
 
     /** Get file attributes*/
     public int getattr(String path, Stat stat) {
