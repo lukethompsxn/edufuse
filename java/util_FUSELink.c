@@ -9,7 +9,7 @@
 #include <errno.h>
 #include <stdlib.h>
 
-struct fuse_operations *jef_operations;
+struct fuse_operations jef_operations;
 static struct jobject *operations;
 
 /**
@@ -216,7 +216,8 @@ static int jef_ioctl(const char *path, int cmd, void *arg, struct fuse_file_info
  *
  */
 
- static int operations_contains(JNIEnv *env, jobject operations_map, jmethodID contains_m, char *str) {
+ static int operations_contains(JNIEnv *env, jobject operations_map, jmethodID contains_m, char *str)
+ {
      char *data= (char*)malloc(16);
      strcpy(data, str);
      jstring jstr = (*env)->NewStringUTF(env, data);
@@ -227,7 +228,6 @@ static int jef_ioctl(const char *path, int cmd, void *arg, struct fuse_file_info
 
 JNIEXPORT jint JNICALL Java_util_FUSELink_registerOperations(JNIEnv *env, jobject this, jobject operations_map, jobjectArray args)
 {
-    jef_operations = malloc(sizeof(struct fuse_operations));
     operations = malloc(sizeof(operations_map));
     memcpy(operations, &operations_map, sizeof(operations_map));
 
@@ -235,158 +235,158 @@ JNIEXPORT jint JNICALL Java_util_FUSELink_registerOperations(JNIEnv *env, jobjec
     jmethodID contains_m = (*env)->GetMethodID(env, function_map_c, "contains", "(Ljava/lang/String;)Z");
 
     if (operations_contains(env, operations_map, contains_m, "getattr")) {
-        printf("java getattr not null\n");
-        jef_operations->getattr = jef_getattr;
+        jef_operations.getattr = jef_getattr;
     }
 
     if (operations_contains(env, operations_map, contains_m, "readlink")) {
-        printf("java readlink not null\n");
-        jef_operations->readlink = jef_readlink;
+        jef_operations.readlink = jef_readlink;
     }
 
     if (operations_contains(env, operations_map, contains_m, "mknod")) {
-        jef_operations->mknod = jef_mknod;
+        jef_operations.mknod = jef_mknod;
     }
 
     if (operations_contains(env, operations_map, contains_m, "mkdir")) {
-        jef_operations->mkdir = jef_mkdir;
+        jef_operations.mkdir = jef_mkdir;
     }
 
     if (operations_contains(env, operations_map, contains_m, "unlink")) {
-        jef_operations->unlink = jef_unlink;
+        jef_operations.unlink = jef_unlink;
     }
 
     if (operations_contains(env, operations_map, contains_m, "rmdir")) {
-        jef_operations->rmdir = jef_rmdir;
+        jef_operations.rmdir = jef_rmdir;
     }
 
     if (operations_contains(env, operations_map, contains_m, "symlink")) {
-        jef_operations->symlink = jef_symlink;
+        jef_operations.symlink = jef_symlink;
     }
 
     if (operations_contains(env, operations_map, contains_m, "rename")) {
-        jef_operations->rename = jef_rename;
+        jef_operations.rename = jef_rename;
     }
 
     if (operations_contains(env, operations_map, contains_m, "link")) {
-        jef_operations->link = jef_link;
+        jef_operations.link = jef_link;
     }
 
     if (operations_contains(env, operations_map, contains_m, "chmod")) {
-        jef_operations->chmod = jef_chmod;
+        jef_operations.chmod = jef_chmod;
     }
 
     if (operations_contains(env, operations_map, contains_m, "chown")) {
-        jef_operations->chown = jef_chown;
+        jef_operations.chown = jef_chown;
     }
 
     if (operations_contains(env, operations_map, contains_m, "truncate")) {
-        jef_operations->truncate = jef_truncate;
+        jef_operations.truncate = jef_truncate;
     }
 
     if (operations_contains(env, operations_map, contains_m, "open")) {
-        jef_operations->open = jef_open;
+        jef_operations.open = jef_open;
     }
 
     if (operations_contains(env, operations_map, contains_m, "read")) {
-        jef_operations->read = jef_read;
+        jef_operations.read = jef_read;
     }
 
     if (operations_contains(env, operations_map, contains_m, "write")) {
-        jef_operations->write = jef_write;
+        jef_operations.write = jef_write;
     }
 
     if (operations_contains(env, operations_map, contains_m, "statfs")) {
-        jef_operations->statfs = jef_statfs;
+        jef_operations.statfs = jef_statfs;
     }
 
     if (operations_contains(env, operations_map, contains_m, "flush")) {
-        jef_operations->flush = jef_flush;
+        jef_operations.flush = jef_flush;
     }
 
     if (operations_contains(env, operations_map, contains_m, "release")) {
-        jef_operations->release = jef_release;
+        jef_operations.release = jef_release;
     }
 
     if (operations_contains(env, operations_map, contains_m, "fsync")) {
-        jef_operations->fsync = jef_fsync;
+        jef_operations.fsync = jef_fsync;
     }
 
     if (operations_contains(env, operations_map, contains_m, "setxattr")) {
-        jef_operations->setxattr = jef_setxattr;
+        jef_operations.setxattr = jef_setxattr;
     }
 
     if (operations_contains(env, operations_map, contains_m, "getxattr")) {
-        jef_operations->getxattr = jef_getxattr;
+        jef_operations.getxattr = jef_getxattr;
     }
 
     if (operations_contains(env, operations_map, contains_m, "listxattr")) {
-        jef_operations->listxattr = jef_listxattr;
+        jef_operations.listxattr = jef_listxattr;
     }
 
     if (operations_contains(env, operations_map, contains_m, "removexattr")) {
-        jef_operations->removexattr = jef_removexattr;
+        jef_operations.removexattr = jef_removexattr;
     }
 
     if (operations_contains(env, operations_map, contains_m, "opendir")) {
-        jef_operations->opendir = jef_opendir;
+        jef_operations.opendir = jef_opendir;
     }
 
     if (operations_contains(env, operations_map, contains_m, "readdir")) {
-        jef_operations->readdir = jef_readdir;
+        jef_operations.readdir = jef_readdir;
     }
 
     if (operations_contains(env, operations_map, contains_m, "releasedir")) {
-        jef_operations->releasedir = jef_releasedir;
+        jef_operations.releasedir = jef_releasedir;
     }
 
     if (operations_contains(env, operations_map, contains_m, "fsyncdir")) {
-        jef_operations->fsyncdir = jef_fsyncdir;
+        jef_operations.fsyncdir = jef_fsyncdir;
     }
 
     if (operations_contains(env, operations_map, contains_m, "init")) {
-        jef_operations->init = jef_init;
+        jef_operations.init = jef_init;
     }
 
     if (operations_contains(env, operations_map, contains_m, "destroy")) {
-        jef_operations->destroy = jef_destroy;
+        jef_operations.destroy = jef_destroy;
     }
 
     if (operations_contains(env, operations_map, contains_m, "access")) {
-        jef_operations->access = jef_access;
+        jef_operations.access = jef_access;
     }
 
     if (operations_contains(env, operations_map, contains_m, "create")) {
-        jef_operations->create = jef_create;
+        jef_operations.create = jef_create;
     }
 
     if (operations_contains(env, operations_map, contains_m, "ftruncate")) {
-        jef_operations->ftruncate = jef_ftruncate;
+        jef_operations.ftruncate = jef_ftruncate;
     }
 
     if (operations_contains(env, operations_map, contains_m, "fgetattr")) {
-        jef_operations->fgetattr = jef_fgetattr;
+        jef_operations.fgetattr = jef_fgetattr;
     }
 
     if (operations_contains(env, operations_map, contains_m, "lock")) {
-        jef_operations->lock = jef_lock;
+        jef_operations.lock = jef_lock;
     }
 
     if (operations_contains(env, operations_map, contains_m, "utimens")) {
-        jef_operations->utimens = jef_utimens;
+        jef_operations.utimens = jef_utimens;
     }
 
     if (operations_contains(env, operations_map, contains_m, "bmap")) {
-        jef_operations->bmap = jef_bmap;
+        jef_operations.bmap = jef_bmap;
     }
 
     if (operations_contains(env, operations_map, contains_m, "ioctl")) {
-        jef_operations->ioctl = jef_ioctl;
+        jef_operations.ioctl = jef_ioctl;
     }
 
-//    if (operations_contains(env, operations_map, contains_m, "poll")) {
-//        jef_operations->poll = jef_poll;
-//    }
+    /* not currently supported
+    if (operations_contains(env, operations_map, contains_m, "poll")) {
+        jef_operations.poll = jef_poll;
+    }
+     */
 
     int argc = (*env)->GetArrayLength(env, args);
     char *argv[argc];
@@ -400,5 +400,5 @@ JNIEXPORT jint JNICALL Java_util_FUSELink_registerOperations(JNIEnv *env, jobjec
 //        (*env)->DeleteLocalRef(env, jarg);                    if we dont release them we may get memory leaks??
     }
 
-    return edufuse_register(argc, argv, jef_operations, sizeof(jef_operations));
+    return edufuse_register(argc, argv, &jef_operations, sizeof(jef_operations));
 }
