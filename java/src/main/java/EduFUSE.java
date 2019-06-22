@@ -3,6 +3,8 @@ import util.FUSELink;
 import util.FUSEOperations;
 import util.FunctionMap;
 
+import java.util.Arrays;
+
 public class EduFUSE {
 
     /**
@@ -18,7 +20,7 @@ public class EduFUSE {
     public static void main(String[] args) {
         FUSELink link = new FUSELink();
         FunctionMap operations = new FunctionMap(new ExampleFS());
-        operations.add(FUSEOperations.getattr);
+        operations.addAll(Arrays.asList(FUSEOperations.values()));
         link.register(operations, args);
     }
 }

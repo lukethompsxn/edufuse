@@ -4,6 +4,7 @@ public enum FUSEOperations {
     getattr,
     readlink,
     mknod,
+    mkdir,
     unlink,
     rmdir,
     symlink,
