@@ -129,7 +129,7 @@ public abstract class AbstractFS {
     }
 
     /** Read directory */
-    public int readdir(String path, FUSEFillDir filler, long off, FUSEFileInfo fileInfo) {
+    public int readdir(String path, long off, FUSEFileInfo fileInfo) {
         return 0;
     }
 
@@ -140,6 +140,11 @@ public abstract class AbstractFS {
 
     /** Synchronize directory contents */
     public int fsyncdir(String path, int datasync, FUSEFileInfo fileInfo) {
+        return 0;
+    }
+
+    /** Initialize filesystem */
+    public int init(FUSEConnectionInfo connInfo) {
         return 0;
     }
 

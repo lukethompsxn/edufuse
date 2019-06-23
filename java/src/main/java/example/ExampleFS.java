@@ -151,9 +151,9 @@ public class ExampleFS extends AbstractFS {
     }
 
     @Override
-    public int readdir(String path, FUSEFillDir filler, long off, FUSEFileInfo fileInfo) {
+    public int readdir(String path, long off, FUSEFileInfo fileInfo) {
         System.out.println("java readdir got called!!!!");
-        return super.readdir(path, filler, off, fileInfo);
+        return super.readdir(path, off, fileInfo);
     }
 
     @Override

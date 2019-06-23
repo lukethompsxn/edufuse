@@ -25,6 +25,8 @@ jclass flock_c;
 jmethodID flock_constructor_m;
 jclass timespec_c;
 jmethodID timespec_constructor_m;
+jclass fuse_conn_info_c;
+jmethodID fuse_conn_info_constructor_m;
 
 /**
  *
@@ -52,6 +54,9 @@ static void create_jni_objects()
 
     timespec_c = (*env)->FindClass(env, "data/TimeSpec");
     timespec_constructor_m = (*env)->GetMethodID(env, timespec_c, "<init>", "(JJJJ)V");
+
+    fuse_conn_info_c = (*env)->FindClass(env, "data/FUSEConnectionInfo");
+    fuse_conn_info_constructor_m = (*env)->GetMethodID(env, fuse_conn_info_c, "<init>", "(IIIIIIII)V");
 }
 
 static int operations_contains(jobject operations_map, jmethodID contains_m, char *str)
@@ -136,17 +141,6 @@ static jobject convert_statvfs(struct statvfs *buf)
     return statvfs;
 }
 
-// fuse fill dir is a method, need to make a call back to C to invoke this
-//static jobject convert_fuse_fill_dir(fuse_fill_dir_t *filler)
-//{
-//    jobject fuse_fill_dir = (*env)->NewObject(
-//            env,
-//            fuse_fill_dir_c,
-//            fuse_fill_dir_constructor_m,
-//            convert_chars() filler
-//            )
-//}
-
 static jobject convert_flock(struct flock *lock)
 {
     jobject flock = (*env)->NewObject(
@@ -160,6 +154,24 @@ static jobject convert_flock(struct flock *lock)
             (jint) lock->l_pid);
 
     return flock;
+}
+
+static jobject convert_fuse_conn_info(struct fuse_conn_info *conn)
+{
+    jobject fuse_conn_info = (*env)->NewObject(
+            env,
+            fuse_conn_info_c,
+            fuse_conn_info_constructor_m,
+            (jint) conn->proto_major,
+            (jint) conn->proto_minor,
+            (jint) conn->async_read,
+            (jint) conn->max_write,
+            (jint) conn->max_readahead,
+            (jint) conn->capable,
+            (jint) conn->want,
+            (jint) conn->congestion_threshold);
+
+    return fuse_conn_info;
 }
 
 static jobject convert_timespec(struct timespec *tv[2])
@@ -364,11 +376,9 @@ static int jef_opendir(const char *path, struct fuse_file_info *fi) {
 
 /** Read directory */
 static int jef_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t off, struct fuse_file_info *fi) {
-    jmethodID readdir_m = (*env)->GetMethodID(env, abstract_fs_c, "readdir", "(Ljava/lang/String;Ldata/FUSEFillDir;JLdata/FUSEFileInfo;)I");
-    //trialling just not passing the method
-//    return (*env)->CallObjectMethod(env, filesystem, readdir_m, convert_chars(path), convert_fuse_fill_dir(&filler), (jlong) off, convert_fuse_file_info(fi));
-    return 0;
-    //todo finish
+    jmethodID readdir_m = (*env)->GetMethodID(env, abstract_fs_c, "readdir", "(Ljava/lang/String;JLdata/FUSEFileInfo;)I");
+    return (*env)->CallObjectMethod(env, filesystem, readdir_m, convert_chars(path), (jlong) off, convert_fuse_file_info(fi));
+    //todo test this function
 }
 
 /** Release directory */
@@ -387,9 +397,9 @@ static int jef_fsyncdir(const char *path, int datasync, struct fuse_file_info *f
 
 /** Initialize filesystem */
 static void *jef_init(struct fuse_conn_info *conn) {
-//    jmethodID init_m = (*env)->GetMethodID(env, abstract_fs_c, "init", "");
-    //todo finish this
-    return 0;
+    jmethodID init_m = (*env)->GetMethodID(env, abstract_fs_c, "init", "(Ldata/FUSEConnectionInfo;)I");
+    return (*env)->CallObjectMethod(env, filesystem, init_m, convert_fuse_conn_info(conn));
+    //todo test this function
 }
 
 /**
@@ -458,10 +468,10 @@ static int jef_ioctl(const char *path, int cmd, void *arg, struct fuse_file_info
     //todo test this function
 }
 
-///** Poll for IO readiness events */
-//static int jef_poll(const char *path, struct fuse_file_info *fi, struct fuse_pollhandle *ph, unsigned *reventsp) {
-//    return 0;
-//}
+/** Poll for IO readiness events */
+/* static int jef_poll(const char *path, struct fuse_file_info *fi, struct fuse_pollhandle *ph, unsigned *reventsp) {
+    return 0;
+} */
 
 
 /**
@@ -634,8 +644,7 @@ JNIEXPORT jint JNICALL Java_util_FUSELink_registerOperations(JNIEnv *jniEnv, job
     /* not currently supported
     if (operations_contains(operations_map, contains_m, "poll")) {
         jef_operations.poll = jef_poll;
-    }
-     */
+    } */
 
     int argc = (*env)->GetArrayLength(env, args);
     char *argv[argc];
