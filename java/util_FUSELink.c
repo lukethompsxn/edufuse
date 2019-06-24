@@ -407,6 +407,9 @@ static void *jef_init(struct fuse_conn_info *conn) {
 static void jef_destroy(void *data) {
     jmethodID destroy_m = (*env)->GetMethodID(env, abstract_fs_c, "destroy", "()V");
     (*env)->CallObjectMethod(env, filesystem, destroy_m);
+
+    //todo after calling these, free all memory of jclass's and jmethodID's
+
     //todo test this function
 }
 
