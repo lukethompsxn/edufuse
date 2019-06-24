@@ -2,6 +2,8 @@
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
 
+const visualiser = require('./build/Release/edufuse_visualiser');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;

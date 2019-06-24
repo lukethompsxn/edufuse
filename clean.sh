@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 if [ -d "CMakeFiles/" ]; then
   rm -r CMakeFiles/
 fi
