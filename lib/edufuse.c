@@ -1,6 +1,7 @@
 #define FUSE_USE_VERSION 31
 
 #include "edufuse.h"
+#include "edufuse_visualiser.h"
 #include <fuse.h>
 #include <string.h>
 #include <errno.h>
@@ -8,9 +9,11 @@
 #include <stdlib.h>
 
 static struct fuse_operations *registered_operations;
+int is_visualised;
 
 /** Get file attributes */
 static int edufuse_getattr(const char *path, struct stat *stbuf) {
+    send_data("test getattr called");
     return registered_operations->getattr(path, stbuf);
 }
 
@@ -202,9 +205,15 @@ static int edufuse_poll(const char *path, struct fuse_file_info *fi, struct fuse
 }
 
 /** Register implemented methods with eduFUSE */
-int edufuse_register(int argc, char *argv[], struct fuse_operations *edufuse_operations, int size) {
-    registered_operations = malloc(size);
-    memcpy(registered_operations, edufuse_operations, size);
+int edufuse_register(int argc, char *argv[], struct fuse_operations *edufuse_operations, int visualise) {
+    registered_operations = malloc(sizeof(struct fuse_operations));
+    memcpy(registered_operations, edufuse_operations, sizeof(struct fuse_operations));
+    is_visualised = visualise;
+
+    if (is_visualised) {
+        init_visualiser();
+        atexit(destroy_visualiser);
+    }
 
     if (edufuse_operations->getattr != NULL) {
         edufuse_operations->getattr = edufuse_getattr;

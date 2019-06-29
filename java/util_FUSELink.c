@@ -661,5 +661,6 @@ JNIEXPORT jint JNICALL Java_util_FUSELink_registerOperations(JNIEnv *jniEnv, job
 //        (*env)->DeleteLocalRef(env, jarg);                    if we dont release them we may get memory leaks??
     }
 
-    return edufuse_register(argc, argv, &jef_operations, sizeof(jef_operations));
+    //todo remove hardcoded is visualised parameter
+    return edufuse_register(argc, argv, &jef_operations, 1);
 }

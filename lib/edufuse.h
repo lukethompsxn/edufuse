@@ -4,6 +4,6 @@
 #define EDUFUSE_EDUFUSE_H
 
 
-extern int edufuse_register(int argc, char *argv[], struct fuse_operations *, int size);
+extern int edufuse_register(int argc, char *argv[], struct fuse_operations *, int visualise);
 
 #endif //EDUFUSE_EDUFUSE_H

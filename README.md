@@ -4,3 +4,6 @@
 A multi-language, educational, user space file system tool.
 
 Part IV Honours Project by Luke Thompson and Joel Clarke. Supervised by Robert Sheehan.
+
+### Acknowledgements
+- [mkjson](https://github.com/Jacajack/mkjson)

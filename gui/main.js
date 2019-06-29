@@ -1,9 +1,30 @@
-// Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
+const net = require('net');
+const port = 8080;
+const host = '127.0.0.1';
+
 let mainWindow;
+
+//todo move all of this logic out of main, its only here for socket communication testing purposes
+var server = net.createServer(function(socket) {
+  socket.on('data', function(data){
+    let str = data.toString('utf8');
+    console.log(str);
+    try {
+      let json = JSON.parse(str);
+      console.log(json);
+    } catch (e) {
+      console.log('error str: ' + str);
+    }
+
+  });
+  socket.on('error', function(err) {
+    console.log(err)
+  })
+});
+
+server.listen(port, host);
 
 function createWindow () {
   // Create the browser window.
