@@ -19,6 +19,7 @@ body, html {
     height:100%;
     background-color: #232931;
     /*background-color: #27323a;*/
+
 }
 
 .tab div {
@@ -29,6 +30,7 @@ body, html {
     padding: 14px 16px;
     transition: 0.3s;
     color: #969696;
+
 }
 
 .tab div:hover {
@@ -41,10 +43,6 @@ body, html {
 
 .tabcontent {
     display: none;
-}
-
-.defaulttab {
-    display: block;
 }
 
 .main {
