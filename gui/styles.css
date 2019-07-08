@@ -5,6 +5,7 @@ body, html {
     margin: 0;
     font-family: 'Montserrat', sans-serif;
     text-align: center;
+    background-color: #2d3134;
 }
 
 .tabs {
@@ -16,7 +17,8 @@ body, html {
     float: left;
     width: 125px;
     height:100%;
-    background-color: #27323a;
+    background-color: #232931;
+    /*background-color: #27323a;*/
 }
 
 .tab div {
@@ -26,18 +28,15 @@ body, html {
     cursor: pointer;
     padding: 14px 16px;
     transition: 0.3s;
-}
-
-.tab div {
-    color: #828282;
+    color: #969696;
 }
 
 .tab div:hover {
-    color: #e0e2de;
+    color: #eeeeee;
 }
 
 .tab div.active {
-    color: #fcfefa;
+    color: #eeeeee;
 }
 
 .tabcontent {
