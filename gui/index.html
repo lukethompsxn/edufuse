@@ -1,16 +1,57 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
+    <title>eduFUSE</title>
+    <link href="styles.css" rel="stylesheet">
+    <link href="node_modules/material-design-icons/iconfont/material-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400&display=swap" rel="stylesheet">
+</head>
+<body>
 
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
-  </body>
+<!--    icon here-->
+<div class="tab">
+    <img class="logo" src="res/icon.png">
+    <div class="tabs">
+        <div class="tablinks" onclick="selectTab(event, 'Overview')">
+            <i class="material-icons icons">dashboard</i>
+            <i class="text">OVERVIEW</i>
+        </div>
+        <div class="tablinks" onclick="selectTab(event, 'Charts')">
+            <i class="material-icons icons">show_chart</i>
+            <i class="text">CHARTS</i>
+        </div>
+        <div class="tablinks" onclick="selectTab(event, 'Console')">
+            <i class="material-icons">developer_mode</i>
+            <i class="text">CONSOLE</i>
+        </div>
+    </div>
+    <div class="tablinks settings" onclick="selectTab(event, 'Settings')">
+        <i class="material-icons">settings</i>
+        <i class="text">SETTINGS</i>
+    </div>
+
+</div>
+
+
+<div class="main">
+    <div id="Overview" class="tabcontent defaulttab">
+        <p>Overview.</p>
+    </div>
+
+    <div id="Charts" class="tabcontent">
+        <p>Charts.</p>
+    </div>
+
+    <div id="Console" class="tabcontent">
+        <p>Console.</p>
+    </div>
+
+    <div id="Settings" class="tabcontent">
+        <p>Settings.</p>
+    </div>
+</div>
+
+<script src="./renderer.js"></script>
+</body>
 </html>

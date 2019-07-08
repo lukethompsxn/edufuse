@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron');
+const {app, Menu, BrowserWindow} = require('electron');
 const path = require('path');
 const net = require('net');
 const port = 8080;
@@ -50,6 +50,8 @@ function createWindow () {
     mainWindow = null
   })
 }
+
+Menu.setApplicationMenu(null);
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

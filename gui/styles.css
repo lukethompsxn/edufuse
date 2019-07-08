@@ -1,0 +1,80 @@
+/** TAB STYLES START **/
+
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+
+.tabs {
+    margin-top: 80%;
+}
+
+.tab {
+    display: inline;
+    float: left;
+    width: 125px;
+    height:100%;
+    background-color: #27323a;
+}
+
+.tab div {
+    background-color: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+.tab div {
+    color: #828282;
+}
+
+.tab div:hover {
+    color: #e0e2de;
+}
+
+.tab div.active {
+    color: #fcfefa;
+}
+
+.tabcontent {
+    display: none;
+}
+
+.defaulttab {
+    display: block;
+}
+
+.main {
+    display: inline;
+    float: left;
+    margin: 5px 5px;
+}
+
+.icons {
+    display: block;
+    font-size: 8px;
+}
+
+.text {
+    display: block;
+    font-size: 8px;
+    font-style: normal;
+}
+
+.logo {
+    padding-top: 30px;
+    height: 40px;
+    width: 40px;
+}
+
+.settings {
+    position: absolute;
+    bottom: 15px;
+    margin-left: 27px
+}
+
+/** TAB STYLES END **/
