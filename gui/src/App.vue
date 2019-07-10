@@ -1,43 +1,26 @@
 <template>
     <div id="app">
-        <Menu id="menu"/>
-        <Window id="window"/>
+        <Menu id="menu" @tab-selected="updateWindow"/>
+        <router-view class="window"></router-view>
     </div>
-    <!--<div id="app">-->
-        <!--<Menu id="menu" @tab-selected="updateWindow"/>-->
-        <!--<Window id="window" :tab="activeTab"/>-->
-    <!--</div>-->
 </template>
 
 <script>
     import Menu from './components/Menu'
-    import Window from './components/Window'
 
-    // export default {
-    //     name: 'app',
-    //     components: {
-    //         Menu,
-    //         Window
-    //     },
-    //     methods: {
-    //         updateWindow(tab) {
-    //             console.log("called");
-    //             this.activeTab = tab;
-    //         }
-    //     },
-    //     data() {
-    //         return {
-    //             activeTab: "Overview"
-    //         }
-    //     }
-    // }
     export default {
         name: 'app',
         components: {
             Menu,
             Window
+        },
+        methods: {
+            updateWindow(tab) {
+                this.$router.push(tab);
+            }
         }
     }
+
 </script>
 
 <style>
@@ -66,7 +49,7 @@
         float: left;
     }
 
-    #window {
+    .window {
         display: inline-block;
         float: left;
     }

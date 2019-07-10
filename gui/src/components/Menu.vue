@@ -41,8 +41,7 @@
 
                 event.target.parentElement.className += " active";
 
-                // this.$emit('tab-selected', '/' + tab);
-                this.$router.push(tab);
+                this.$emit('tab-selected', '/' + tab);
             }
         }
     }

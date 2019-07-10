@@ -10,14 +10,16 @@ import Settings from './components/tabs/Settings'
 Vue.use(VueRouter);
 
 const routes = [
-  {path: 'Overview', component: Overview},
-  {path: 'Charts', component: Charts},
-  {path: 'Console', component: Console},
-  {path: 'Settings', component: Settings}
+  {path: '/Overview', component: Overview},
+  {path: '/Charts', component: Charts},
+  {path: '/Console', component: Console},
+  {path: '/Settings', component: Settings},
+  {path: '/', redirect: '/Overview'}
 ];
 
 const router = new VueRouter({
-  routes: routes
+  routes: routes,
+  default: '/Overview'
 });
 
 Vue.config.productionTip = false;

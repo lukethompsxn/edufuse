@@ -1,5 +1,5 @@
 <template>
-    <p>charts m8</p>
+    <p>charts placeholder</p>
 </template>
 
 <script>

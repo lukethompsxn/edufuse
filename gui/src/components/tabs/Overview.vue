@@ -1,5 +1,5 @@
 <template>
-    <p>overview m8</p>
+    <p>overview placeholder</p>
 </template>
 
 <script>

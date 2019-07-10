@@ -1,5 +1,5 @@
 <template>
-    <p>console m8</p>
+    <p>console placeholder</p>
 </template>
 
 <script>

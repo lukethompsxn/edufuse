@@ -1,5 +1,5 @@
 <template>
-    <p>settings m8</p>
+    <p>settings placeholder</p>
 </template>
 
 <script>
