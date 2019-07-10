@@ -6,10 +6,13 @@
     <link href="styles.css" rel="stylesheet">
     <link href="node_modules/material-design-icons/iconfont/material-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400&display=swap" rel="stylesheet">
+    <script src="tabs/overview/overview.js"></script>
+    <script src="tabs/charts/charts.js"></script>
+    <script src="tabs/console/console.js"></script>
+    <script src="tabs/settings/settings.js"></script>
 </head>
 <body>
 
-<!--    icon here-->
 <div class="tab">
     <img class="logo" src="res/icon.png">
     <div class="tabs">
@@ -33,25 +36,33 @@
 
 </div>
 
-
 <div class="main">
     <div id="Overview" class="tabcontent defaulttab">
-        <p>Overview.</p>
+        <div id="overview-content"></div>
     </div>
 
     <div id="Charts" class="tabcontent">
-        <p>Charts.</p>
+        <div id="charts-content"></div>
     </div>
 
     <div id="Console" class="tabcontent">
-        <p>Console.</p>
+        <div id="console-content"></div>
     </div>
 
     <div id="Settings" class="tabcontent">
-        <p>Settings.</p>
+        <div id="settings-content"></div>
     </div>
 </div>
 
 <script src="./renderer.js"></script>
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#overview-content').load("./tabs/overview/overview.html");
+        $('#charts-content').load("tabs/charts/charts.html");
+        $('#console-content').load("tabs/console/console.html");
+        $('#settings-content').load("tabs/settings/settings.html");
+    });
+</script>
 </body>
 </html>
