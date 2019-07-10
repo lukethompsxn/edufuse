@@ -1,25 +1,5 @@
-/** TAB STYLES START **/
-
-body, html {
-    height: 100%;
-    margin: 0;
-    font-family: 'Montserrat', sans-serif;
-    text-align: center;
-    background-color: #2d3134;
-}
-
 .tabs {
     margin-top: 80%;
-}
-
-.tab {
-    display: inline;
-    float: left;
-    width: 125px;
-    height:100%;
-    background-color: #232931;
-    /*background-color: #27323a;*/
-
 }
 
 .tab div {
@@ -30,7 +10,6 @@ body, html {
     padding: 14px 16px;
     transition: 0.3s;
     color: #969696;
-
 }
 
 .tab div:hover {
@@ -41,19 +20,9 @@ body, html {
     color: #eeeeee;
 }
 
-.tabcontent {
-    display: none;
-}
-
-.main {
-    display: inline;
-    float: left;
-    margin: 5px 5px;
-}
-
 .icons {
     display: block;
-    font-size: 8px;
+    padding-bottom: 6px;
 }
 
 .text {
@@ -73,5 +42,3 @@ body, html {
     bottom: 15px;
     margin-left: 27px
 }
-
-/** TAB STYLES END **/
