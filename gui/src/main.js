@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
+// import HighchartsVue from 'highcharts-vue'
 
 import Overview from './components/tabs/Overview'
 import Charts from './components/tabs/Charts'

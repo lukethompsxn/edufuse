@@ -1,9 +1,14 @@
 <template>
-    <p>charts placeholder</p>
+    <div>
+        <p>charts placeholder</p>
+        <highcharts :options="chartOptions"></highcharts>
+    </div>
 </template>
 
 <script>
     import * as net from 'net';
+    import {Chart} from 'highcharts-vue'
+
     const port = 8081;
     const host = '127.0.0.1';
 
@@ -27,7 +32,23 @@
     server.listen(port, host);
 
     export default {
-        name: "Charts"
+        name: "Charts",
+        components: {
+            highcharts: Chart
+        },
+        data() {
+            return {
+                chartOptions: {
+                    series: [{
+                        data: [1,2,3] // sample data
+                    }],
+                    credits: false,
+                    chart: {
+                        backgroundColor: "transparent"
+                    }
+                }
+            }
+        }
     }
 </script>
 
