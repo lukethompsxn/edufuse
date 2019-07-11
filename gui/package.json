@@ -13,8 +13,12 @@
     "electron": "^5.0.6",
     "jquery": "^3.4.1",
     "material-design-icons": "^3.0.1",
+    "net": "^1.0.2",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0",
     "vue": "^2.6.10",
-    "vue-router": "^3.0.7"
+    "vue-router": "^3.0.7",
+    "vue-socket.io-extended": "^3.2.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",
