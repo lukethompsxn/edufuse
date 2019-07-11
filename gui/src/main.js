@@ -19,7 +19,6 @@ const routes = [
 
 const router = new VueRouter({
   routes: routes,
-  default: '/Overview'
 });
 
 Vue.config.productionTip = false;
