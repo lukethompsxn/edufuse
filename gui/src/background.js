@@ -1,7 +1,9 @@
 'use strict';
 
-import { app, protocol, BrowserWindow } from 'electron';
+import { app, protocol, BrowserWindow, ipcMain } from 'electron';
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib';
+import walkdir from 'walkdir';
+// import chokidar from 'chokidar';
 const isDev = process.env.NODE_ENV !== 'production';
 
 // Global reference so object is not garbage collected.
@@ -11,7 +13,7 @@ protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: tru
 
 function createWindow() {
   window = new BrowserWindow({
-    width: 800 ,
+    width: 850,
     height: 600,
     webPreferences: {
       nodeIntegration: true
@@ -25,6 +27,8 @@ function createWindow() {
     createProtocol('app');
     window.loadURL('app://./index.html');
   }
+
+  scanDirectory();
 }
 
 // Quit when all windows are closed.
@@ -64,12 +68,63 @@ if (isDev) {
   if (process.platform === 'win32') {
     process.on('message', data => {
       if (data === 'graceful-exit') {
+        destroyWatcher();
         app.quit();
       }
     });
   } else {
     process.on('SIGTERM', () => {
+      destroyWatcher();
       app.quit();
     });
   }
 }
+
+let dir = '/tmp/test/';
+if (dir.lastIndexOf('/') === dir.length - 1) {
+  dir = dir.substring(0, dir.lastIndexOf('/'));
+}
+const index = dir.lastIndexOf('/');
+
+function scanDirectory() {
+  console.log('scan called');
+  window.webContents.send('clear-nodes');
+  walkdir(dir, {})
+      .on('file', (fn, stat) => {
+        window.webContents.send('file', fn.slice(index), stat);
+      })
+      .on('directory', (fn, stat) => {
+        window.webContents.send('directory', fn.slice(index), stat);
+      })
+      .on('error', (fn, err) => {
+        console.error(`!!!! ${fn} ${err}`);
+      });
+}
+
+ipcMain.on('rescan-directory', () => {
+  scanDirectory();
+});
+
+var chokidar = require('chokidar');
+
+var watcher = chokidar.watch(dir, {ignored: /^\./, persistent: true});
+
+watcher
+    .on('add', function(path) {console.log('File', path, 'has been added');})
+    .on('change', function(path) {console.log('File', path, 'has been changed');})
+    .on('unlink', function(path) {console.log('File', path, 'has been removed');})
+    .on('error', function(error) {console.error('Error happened', error);});
+
+
+function destroyWatcher() {
+  watcher.unwatch(dir);
+  watcher.close();
+}
+//
+// let watcher = chokidar.watch(dir, {ignored: /^\./, persistent: true, awaitWriteFinish: true});
+// watcher
+//     .on('add', function() {scanDirectory();})
+//     .on('change', function() {scanDirectory();})
+//     .on('unlink', function() {scanDirectory();})
+//     .on('error', function() {scanDirectory();}
+//     );

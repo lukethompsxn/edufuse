@@ -42,14 +42,16 @@
   }
 
 </script>
-
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+</style>
 <style>
   body, html {
     height: 100%;
     margin: 0;
     font-family: 'Montserrat', sans-serif;
     text-align: center;
-    background-color: #2d3134;
+    background-color: #E7EBEE !important;
   }
 
   #app {
@@ -67,6 +69,7 @@
     background-color: #232931;
     display: inline-block;
     float: left;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   }
 
   .window {

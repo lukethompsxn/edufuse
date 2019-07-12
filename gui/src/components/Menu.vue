@@ -15,6 +15,10 @@
                 <i class="material-icons icons">show_chart</i>
                 <i class="text">CHARTS</i>
             </div>
+            <div class="tablinks" v-on:click="selectTab($event, 'Directory')">
+                <i class="material-icons icons">folder</i>
+                <i class="text">DIRECTORY</i>
+            </div>
             <div class="tablinks" v-on:click="selectTab($event, 'Console')">
                 <i class="material-icons icons">developer_mode</i>
                 <i class="text">CONSOLE</i>
