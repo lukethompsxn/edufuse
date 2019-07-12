@@ -10,7 +10,7 @@
 #include "../ext/mkjson/mkjson.h"
 
 #define HOST "127.0.0.1"
-#define PORT 8080
+#define PORT 8081
 
 int sockfd;
 struct sockaddr_in servaddr;
@@ -33,12 +33,12 @@ void connect_to_socket() {
 }
 
 int init_visualiser() {
-    system("chmod +x ../../gui/launch.sh");
-    int pid = fork();
-    if (pid == 0) {
-        system("../../gui/launch.sh");
-        exit(0);
-    }
+//    system("chmod +x ../../gui/launch.sh");
+//    int pid = fork();
+//    if (pid == 0) {
+//        system("../../gui/launch.sh");
+//        exit(0);
+//    }
 
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
         printf("Socket creation failed... exiting...\n");
