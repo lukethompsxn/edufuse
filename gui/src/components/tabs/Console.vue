@@ -1,5 +1,14 @@
 <template>
-    <p>console placeholder</p>
+    <div>
+        <div class="console-options">
+
+        </div>
+        <div class="console">
+
+        </div>
+        <p>console placeholder</p>
+
+    </div>
 </template>
 
 <script>
