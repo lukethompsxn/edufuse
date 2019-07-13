@@ -5,7 +5,7 @@
                 <div class="title">
                     <span>Directory Contents.</span>
                 </div>
-                <div id="wrapper" class="columns is-gapless is-mobile">
+                <div id="wrapper" class="columns is-gapless is-mobile" ref="tree">
                     <file-browser-tree
                             id="file-tree"
                             ref="filetree"
@@ -37,12 +37,45 @@
                             <td>{{node.data.stat.mtime}}</td>
                         </tr>
                         <tr>
+                            <th>File Mode:</th>
+                            <td>{{node.data.stat.mode}}</td>
+                        </tr>
+                        <tr>
                             <th>Size:</th>
                             <td>{{node.data.stat.size === '' ? '' : node.data.stat.size + ' bytes' }}</td>
                         </tr>
                         <tr>
-                            <th>Mode:</th>
-                            <td>{{node.data.stat.mode}}</td>
+                            <th>Optimal Block Size:</th>
+                            <td>{{node.data.stat.blksize === '' ? '' : node.data.stat.blksize + ' bytes' }}</td>
+                        </tr>
+                        <tr>
+                            <th># Blocks Allocated:</th>
+                            <td>{{node.data.stat.blocks === '' ? '' : node.data.stat.blocks + ' blocks of 512-bytes'}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>File Serial Number:</th>
+                            <td>{{node.data.stat.ino}}</td>
+                        </tr>
+                        <tr>
+                            <th>Device:</th>
+                            <td>{{node.data.stat.dev}}</td>
+                        </tr>
+                        <tr>
+                            <th>Device Number:</th>
+                            <td>{{node.data.stat.rdev}}</td>
+                        </tr>
+                        <tr>
+                            <th>Owner ID:</th>
+                            <td>{{node.data.stat.uid}}</td>
+                        </tr>
+                        <tr>
+                            <th>Group ID:</th>
+                            <td>{{node.data.stat.gid}}</td>
+                        </tr>
+                        <tr>
+                            <th>Link Count:</th>
+                            <td>{{node.data.stat.nlink}}</td>
                         </tr>
                     </table>
                 </div>
@@ -52,23 +85,29 @@
 </template>
 
 <script>
-
     const path = require('path');
     const util = require('util');
     import {messageBus} from '../../main.js';
     import {ipcRenderer} from 'electron';
-
-    import FileBrowserTree from 'vue-file-tree';
+    import FileBrowserTree from '../../ext_components/vue-file-tree';
 
     const blankNode = {
         data: {
             pathname: '',
-                stat: {
+            stat: {
                 ctime: '',
-                    atime: '',
-                    mtime: '',
-                    size: '',
-                    mode: ''
+                atime: '',
+                mtime: '',
+                mode: '',
+                size: '',
+                blksize: '',
+                blocks: '',
+                ino: '',
+                dev: '',
+                uid: '',
+                gid: '',
+                nlink: '',
+                rdev: '',
             }
         }
     };
@@ -82,7 +121,7 @@
             return {
                 fileInfo: "",
                 nodes: [],
-                node: blankNode
+                node: blankNode,
             }
         },
         methods: {
@@ -97,7 +136,7 @@
             rescan() {
                 this.nodes = [];
                 ipcRenderer.send('rescan-directory');
-            }
+            },
         },
         created: function () {
             messageBus.$on('file', (fn, stat) => {
@@ -107,15 +146,13 @@
                 this.$refs.filetree.addPathToTree(fn, stat, true);
             });
             messageBus.$on('clear-nodes', () => {
-               this.nodes = [];
+                if (this.$refs.filetree) this.$refs.filetree.clearTree();
             });
 
             this.nodes = [];
             ipcRenderer.send('rescan-directory');
         }
     }
-
-
 </script>
 
 <style>
@@ -123,23 +160,6 @@
     body {
         height: 100%;
         font-size: 13px;
-    }
-
-    .sl-vue-tree.sl-vue-tree-root {
-        background-color: transparent !important;
-        border: 0 !important;
-        border-radius: 0 !important;
-        color: #232931 !important;
-    }
-
-    .sl-vue-tree-selected > .sl-vue-tree-node-item {
-        /*if we need to override the selected property*/
-        background-color: #8eabb0 !important;
-        color: #232931 !important;
-    }
-
-    .sl-vue-tree-node-item:hover {
-        color: #232931 !important;
     }
 
     #wrapper {
