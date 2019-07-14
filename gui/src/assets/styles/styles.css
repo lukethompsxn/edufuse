@@ -42,3 +42,21 @@
     bottom: 15px;
     margin-left: 27px
 }
+
+.title {
+    text-align: left;
+    line-height: 35px;
+    border-bottom: 1px solid #232931;
+    color: #232931;
+    vertical-align: middle;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.bv-example-row {
+    height: 100%;
+}

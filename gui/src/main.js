@@ -9,7 +9,7 @@ import Buefy from 'buefy';
 
 import Overview from './components/tabs/Overview'
 import Charts from './components/tabs/Charts'
-import Console from './components/tabs/Console'
+import Logger from './components/tabs/Logger'
 import Directory from './components/tabs/Directory'
 import Settings from './components/tabs/Settings'
 
@@ -22,7 +22,7 @@ export const messageBus = new Vue({});
 const routes = [
     {path: '/Overview', component: Overview},
     {path: '/Charts', component: Charts},
-    {path: '/Console', component: Console},
+    {path: '/Logger', component: Logger},
     {path: '/Settings', component: Settings},
     {path: '/Directory', component: Directory},
     {path: '/', redirect: '/Overview'}

@@ -19,9 +19,9 @@
                 <i class="material-icons icons">folder</i>
                 <i class="text">DIRECTORY</i>
             </div>
-            <div class="tablinks" v-on:click="selectTab($event, 'Console')">
+            <div class="tablinks" v-on:click="selectTab($event, 'Logger')">
                 <i class="material-icons icons">developer_mode</i>
-                <i class="text">CONSOLE</i>
+                <i class="text">LOGGER</i>
             </div>
         </div>
         <div class="tablinks settings" v-on:click="selectTab($event, 'Settings')">

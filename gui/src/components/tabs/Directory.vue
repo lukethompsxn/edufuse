@@ -191,10 +191,6 @@
         height: 100%;
     }
 
-    .card {
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    }
-
     .left {
         margin: 16px 8px 16px 16px;
     }
@@ -212,13 +208,5 @@
         text-align: left;
     }
 
-    .title {
-        text-align: left;
-        line-height: 35px;
-        border-bottom: 1px solid #232931;
-        color: #232931;
-        vertical-align: middle;
-        font-family: 'Montserrat', sans-serif;
-        font-size: 15px;
-    }
 </style>
+<style src="../../assets/styles/styles.css"></style>
