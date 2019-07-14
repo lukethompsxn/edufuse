@@ -7,3 +7,6 @@ Part IV Honours Project by Luke Thompson and Joel Clarke. Supervised by Robert S
 
 ### Acknowledgements
 - [mkjson](https://github.com/Jacajack/mkjson)
+- [ptty](https://gitlab.com/pachanka/ptty)
+- [vue-terminal-ui](https://github.com/shershen08/vue-terminal-ui)
+- [vue-file-tree](https://github.com/robogeek/vue-file-tree)
