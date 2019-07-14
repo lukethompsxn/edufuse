@@ -1,3 +1,5 @@
+<!--Courtesy of https://github.com/shershen08/vue-terminal-ui (Modified)-->
+
 <template>
     <div class="vue-terminal-wrapper">
         <div class="lds-css" v-if="this.waiting">

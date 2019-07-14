@@ -81,10 +81,5 @@
         margin-bottom: 0 !important;
     }
 
-    .boring {
-        font-family: "Courier New", Courier, monospace;
-        background-color: #ffffff !important;
-        color: #232931 !important;
-    }
 </style>
 <style src="../../assets/styles/styles.css"></style>

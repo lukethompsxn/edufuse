@@ -1,3 +1,5 @@
+// Courtesy of https://gitlab.com/pachanka/ptty
+
 import jQuery from 'jquery'
 
 /**
