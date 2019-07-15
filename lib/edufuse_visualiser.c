@@ -96,7 +96,7 @@ int send_log(char *syscall, char *file, char *fileInfo) {
 
     int result = send(sockfd, msg, strlen(msg), 0);
     free(msg);
-    free(fileInfo);
+    free(fileInfo); //freeing this may cause seg fault if we call more send methods with it
 
     return result;
 }
@@ -124,4 +124,145 @@ char *stringify_stat(struct stat *stbuf) {
 
     return json;
 }
+
+char *stringify_fusefileinfo(struct fuse_file_info *fi) {
+    char *json = mkjson(MKJSON_OBJ, 10,
+                        MKJSON_INT, "flags", fi->flags,
+                        MKJSON_INT, "writepage", fi->writepage,
+                        MKJSON_BOOL, "direct_io", fi->direct_io,
+                        MKJSON_BOOL, "keep_cache", fi->keep_cache,
+                        MKJSON_BOOL, "flush", fi->flush,
+                        MKJSON_BOOL, "nonseekable", fi->nonseekable,
+                        MKJSON_BOOL, "flock_release", fi->flock_release,
+                        MKJSON_INT, "padding", fi->padding,
+                        MKJSON_LLINT, "fh", fi->fh,
+                        MKJSON_LLINT, "lock_owner", fi->lock_owner);
+
+    return json;
+}
+
+char *stringify_fusefileinfo_with_buf_size_off(struct fuse_file_info *fi, char *buf, size_t size, off_t off) {
+    char *json = mkjson(MKJSON_OBJ, 4,
+                        MKJSON_JSON, "fi", mkjson(MKJSON_OBJ, 10,
+                                MKJSON_INT, "flags", fi->flags,
+                                MKJSON_INT, "writepage", fi->writepage,
+                                MKJSON_BOOL, "direct_io", fi->direct_io,
+                                MKJSON_BOOL, "keep_cache", fi->keep_cache,
+                                MKJSON_BOOL, "flush", fi->flush,
+                                MKJSON_BOOL, "nonseekable", fi->nonseekable,
+                                MKJSON_BOOL, "flock_release", fi->flock_release,
+                                MKJSON_INT, "padding", fi->padding,
+                                MKJSON_LLINT, "fh", fi->fh,
+                                MKJSON_LLINT, "lock_owner", fi->lock_owner),
+                        MKJSON_STRING, "buf", buf,
+                        MKJSON_LLINT, "size", size,
+                        MKJSON_LLINT, "off", off);
+
+    return json;
+}
+
+char *stringify_fusefileinfo_with_datasync(struct fuse_file_info *fi, int datasync) {
+    char *json = mkjson(MKJSON_OBJ, 2,
+                        MKJSON_JSON, "fi", mkjson(MKJSON_OBJ, 10,
+                                MKJSON_INT, "flags", fi->flags,
+                                MKJSON_INT, "writepage", fi->writepage,
+                                MKJSON_BOOL, "direct_io", fi->direct_io,
+                                MKJSON_BOOL, "keep_cache", fi->keep_cache,
+                                MKJSON_BOOL, "flush", fi->flush,
+                                MKJSON_BOOL, "nonseekable", fi->nonseekable,
+                                MKJSON_BOOL, "flock_release", fi->flock_release,
+                                MKJSON_INT, "padding", fi->padding,
+                                MKJSON_LLINT, "fh", fi->fh,
+                                MKJSON_LLINT, "lock_owner", fi->lock_owner),
+                        MKJSON_INT, "datasync", datasync);
+
+    return json;
+}
+
+char *stringify_fusefileinfo_with_mode(struct fuse_file_info *fi, int mode) {
+    char *json = mkjson(MKJSON_OBJ, 2,
+                        MKJSON_JSON, "fi", mkjson(MKJSON_OBJ, 10,
+                                MKJSON_INT, "flags", fi->flags,
+                                MKJSON_INT, "writepage", fi->writepage,
+                                MKJSON_BOOL, "direct_io", fi->direct_io,
+                                MKJSON_BOOL, "keep_cache", fi->keep_cache,
+                                MKJSON_BOOL, "flush", fi->flush,
+                                MKJSON_BOOL, "nonseekable", fi->nonseekable,
+                                MKJSON_BOOL, "flock_release", fi->flock_release,
+                                MKJSON_INT, "padding", fi->padding,
+                                MKJSON_LLINT, "fh", fi->fh,
+                                MKJSON_LLINT, "lock_owner", fi->lock_owner),
+                        MKJSON_INT, "mode", mode);
+
+    return json;
+}
+
+char *stringify_fusefileinfo_with_flock_cmd(struct fuse_file_info *fi, struct flock *lock, int cmd) {
+    char *json = mkjson(MKJSON_OBJ, 3,
+                        MKJSON_JSON, "fi", mkjson(MKJSON_OBJ, 10,
+                                MKJSON_INT, "flags", fi->flags,
+                                MKJSON_INT, "writepage", fi->writepage,
+                                MKJSON_BOOL, "direct_io", fi->direct_io,
+                                MKJSON_BOOL, "keep_cache", fi->keep_cache,
+                                MKJSON_BOOL, "flush", fi->flush,
+                                MKJSON_BOOL, "nonseekable", fi->nonseekable,
+                                MKJSON_BOOL, "flock_release", fi->flock_release,
+                                MKJSON_INT, "padding", fi->padding,
+                                MKJSON_LLINT, "fh", fi->fh,
+                                MKJSON_LLINT, "lock_owner", fi->lock_owner),
+                        MKJSON_JSON, "lock", mkjson(MKJSON_OBJ, 4,
+                                MKJSON_INT, "type", lock->l_type,
+                                MKJSON_INT, "whence", lock->l_whence,
+                                MKJSON_LLINT, "start", lock->l_start,
+                                MKJSON_LLINT, "len", lock->l_len,
+                                MKJSON_LLINT, "pid", lock->l_pid),
+                        MKJSON_INT, "cmd", cmd);
+
+    return json;
+}
+
+char *stringify_statvfs(struct statvfs *buf) {
+    char *json = mkjson(MKJSON_OBJ, 10,
+                        MKJSON_LLINT, "bsize", buf->f_bsize,
+                        MKJSON_LLINT, "frsize", buf->f_frsize,
+                        MKJSON_LLINT, "blocks", buf->f_blocks,
+                        MKJSON_LLINT, "bavail", buf->f_bavail,
+                        MKJSON_LLINT, "files", buf->f_files,
+                        MKJSON_LLINT, "ffree", buf->f_ffree,
+                        MKJSON_LLINT, "favail", buf->f_favail,
+                        MKJSON_LLINT, "fsid", buf->f_fsid,
+                        MKJSON_LLINT, "flag", buf->f_flag,
+                        MKJSON_LLINT, "namemax", buf->f_namemax);
+
+    return json;
+}
+
+char *stringify_fuseconninfo(struct fuse_conn_info *conn) {
+    char *json = mkjson(MKJSON_OBJ, 8,
+                        MKJSON_INT, "proto_major", conn->proto_major,
+                        MKJSON_INT, "proto_minor", conn->proto_minor,
+                        MKJSON_INT, "async_read", conn->async_read,
+                        MKJSON_INT, "max_write", conn->max_write,
+                        MKJSON_INT, "max_readahead", conn->max_readahead,
+                        MKJSON_INT, "capable", conn->capable,
+                        MKJSON_INT, "want", conn->want,
+                        MKJSON_INT, "congestion_threshold", conn->congestion_threshold);
+
+    return json;
+}
+
+char *stringify_tv(struct timespec tv[2]) {
+    char *json = mkjson(MKJSON_OBJ, 1,
+                        MKJSON_JSON_FREE, "object", mkjson(MKJSON_ARR, 2,
+                                MKJSON_JSON, mkjson(MKJSON_OBJ, 2,
+                                        MKJSON_LLINT, "sec", tv[0].tv_sec,
+                                        MKJSON_LLINT, "nsec", tv[0].tv_nsec),
+                                MKJSON_JSON, mkjson(MKJSON_OBJ, 2,
+                                        MKJSON_LLINT, "sec", tv[1].tv_sec,
+                                        MKJSON_LLINT, "nsec", tv[1].tv_nsec)));
+
+    return json;
+}
+
+
 
