@@ -1,7 +1,7 @@
 <!--Courtesy of https://github.com/shershen08/vue-terminal-ui (Modified)-->
 
 <template>
-    <div class="vue-terminal-wrapper">
+    <div class="vue-terminal-wrapper" style="margin-top: 10px">
         <div class="lds-css" v-if="this.waiting">
             <div style="width:100%;height:100%" class="lds-rolling">
                 <div>
@@ -301,7 +301,7 @@
 
     .content {
         height: auto !important;
-        margin-top: 10px;
+        /*margin-top: 10px;*/
     }
 
     ::-webkit-scrollbar {

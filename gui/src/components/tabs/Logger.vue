@@ -2,7 +2,7 @@
     <b-container class="bv-example-row" v-on:keydown.capture.prevent.stop>
         <b-row class="top card">
             <div class="title">
-                <span v-on:click="logMessage">Options.</span>
+                <span>Options.</span>
             </div>
             <b-form-group class="options">
                 <b-form-checkbox-group
@@ -19,7 +19,7 @@
                 <span>Output.</span>
             </div>
             <VueTerminal console-sign="$"
-                         height="395px"
+                         height="375px"
                          ref="terminal">
             </VueTerminal>
         </b-row>
@@ -81,7 +81,8 @@
                     this.logMessage('PATH: ' + json.file);
                 }
                 if (this.selected.includes('fileInfo')) {
-                    this.logMessage('INFO: ' + JSON.stringify(json.fileInfo));
+                    this.logMessage('INFO: ' + JSON.stringify(json.fileInfo, null, 4));
+                    // this.logMessage('INFO: ' + JSON.stringify(json.fileInfo, null, 4).replace(/,/g, ',<br>'));
                 }
             });
         }
