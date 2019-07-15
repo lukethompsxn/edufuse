@@ -28,6 +28,19 @@
 
 <script>
     import VueTerminal from '../../ext_components/VueTerminal'
+    import {messageBus} from '../../main.js';
+
+    const ignorePaths = [
+        '/',
+        './',
+        '.',
+        '.hidden',
+        '/.hidden',
+        '/.Trash',
+        '/.Trash-100',
+        '/.Trash-1000'
+    ];
+    let first = true;
 
     export default {
         name: "Logger",
@@ -36,18 +49,41 @@
         },
         data() {
             return {
-                selected: ['syscalls', 'file', 'file-info'],
+                selected: ['syscall', 'file', 'fileInfo'],
                 options: [
-                    {text: 'System Calls', value: 'syscalls'},
+                    {text: 'System Calls', value: 'syscall'},
                     {text: 'File/Directory', value: 'file'},
-                    {text: 'File/Directory Information', value: 'file-info'},
+                    {text: 'File/Directory Information', value: 'fileInfo'},
                 ]
             }
         },
         methods: {
-            logMessage() {
-                this.$refs.terminal.echo("$   testing");
+            logMessage(msg) {
+                this.$refs.terminal.echo("$ " + msg);
             },
+        },
+        created: function () {
+            messageBus.$on('LOG', (json) => {
+                if (ignorePaths.includes(json.file)) {
+                    return;
+                }
+
+                if (!first) {
+                    this.logMessage('');
+                } else {
+                    first = false;
+                }
+
+                if (this.selected.includes('syscall')) {
+                    this.logMessage('SYSCALL: ' + json.syscall);
+                }
+                if (this.selected.includes('file')) {
+                    this.logMessage('PATH: ' + json.file);
+                }
+                if (this.selected.includes('fileInfo')) {
+                    this.logMessage('INFO: ' + JSON.stringify(json.fileInfo));
+                }
+            });
         }
     }
 </script>

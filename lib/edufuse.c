@@ -13,7 +13,9 @@ int is_visualised;
 
 /** Get file attributes */
 static int edufuse_getattr(const char *path, struct stat *stbuf) {
-    send_data("test getattr called");
+    if (is_visualised) {
+        send_log("getattr", path, stringify_stat(stbuf));
+    }
     return registered_operations->getattr(path, stbuf);
 }
 

@@ -4,8 +4,11 @@ import {app, protocol, BrowserWindow, ipcMain} from 'electron';
 import {createProtocol, installVueDevtools} from 'vue-cli-plugin-electron-builder/lib';
 import walkdir from 'walkdir';
 import chokidar from 'chokidar';
+import * as net from 'net';
 
 const isDev = process.env.NODE_ENV !== 'production';
+const port = 8081;
+const host = '127.0.0.1';
 
 // Global reference so object is not garbage collected.
 let window;
@@ -88,7 +91,6 @@ if (dir.lastIndexOf('/') === dir.length - 1) {
 const index = dir.lastIndexOf('/');
 
 function scanDirectory() {
-    // window.webContents.send('clear-nodes');
     window.webContents.send('clear-nodes', null, null);
     walkdir(dir, {})
         .on('file', (fn, stat) => {
@@ -132,3 +134,18 @@ function destroyWatcher() {
     watcher.unwatch(dir);
     watcher.close();
 }
+
+let server = net.createServer(function(socket) {
+    socket.on('data', function (data) {
+        let str = data.toString();
+        try {
+            let json = JSON.parse(str);
+            window.webContents.send(json.type, json);
+        } catch (e) {
+            console.log('error str: ' + str);
+        }
+
+    });
+});
+
+server.listen(port, host);

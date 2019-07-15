@@ -91,6 +91,8 @@
     import {ipcRenderer} from 'electron';
     import FileBrowserTree from '../../ext_components/vue-file-tree';
 
+    console.log(messageBus);
+
     const blankNode = {
         data: {
             pathname: '',

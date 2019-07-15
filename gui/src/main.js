@@ -48,6 +48,9 @@ ipcRenderer.on('directory', (event, fn, stat) => {
 });
 
 ipcRenderer.on('clear-nodes', () => {
-    console.log('clear nodes called');
     messageBus.$emit('clear-nodes');
+});
+
+ipcRenderer.on('LOG', (event, json) => {
+    messageBus.$emit('LOG', json);
 });

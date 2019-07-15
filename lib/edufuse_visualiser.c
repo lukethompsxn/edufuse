@@ -7,6 +7,7 @@
 
 #include <netdb.h>
 #include <arpa/inet.h>
+#include <bits/stat.h>
 #include "../ext/mkjson/mkjson.h"
 
 #define HOST "127.0.0.1"
@@ -15,6 +16,14 @@
 int sockfd;
 struct sockaddr_in servaddr;
 int attempt = 1;
+
+/*
+ *
+ *
+ * Setup Methods
+ *
+ *
+ */
 
 void connect_to_socket() {
     if (connect(sockfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) != 0) {
@@ -69,3 +78,50 @@ int send_data(char *str) {
 
     return send(sockfd, json, strlen(json), 0);
 }
+
+/*
+ *
+ *
+ * Communication Methods
+ *
+ *
+ */
+
+int send_log(char *syscall, char *file, char *fileInfo) {
+    char *msg = mkjson( MKJSON_OBJ, 4,
+                         MKJSON_STRING, "type", "LOG",
+                         MKJSON_STRING, "syscall", syscall,
+                         MKJSON_STRING, "file", file,
+                         MKJSON_JSON, "fileInfo", fileInfo);
+
+    int result = send(sockfd, msg, strlen(msg), 0);
+    free(msg);
+    free(fileInfo);
+
+    return result;
+}
+
+/*
+ *
+ *
+ * Stringify Methods
+ *
+ *
+ */
+char *stringify_stat(struct stat *stbuf) {
+    char *json = mkjson(MKJSON_OBJ, 11,
+                        MKJSON_LLINT, "dev", stbuf->st_dev,
+                        MKJSON_LLINT, "ino", stbuf->st_ino,
+                        MKJSON_INT, "mode", stbuf->st_mode,
+                        MKJSON_LLINT, "nlink", stbuf->st_nlink,
+                        MKJSON_INT, "uid", stbuf->st_uid,
+                        MKJSON_INT, "gid", stbuf->st_gid,
+                        MKJSON_INT, "pad0", stbuf->__pad0,
+                        MKJSON_LLINT, "rdev", stbuf->st_rdev,
+                        MKJSON_LLINT, "size", stbuf->st_size,
+                        MKJSON_INT, "blksize", stbuf->st_blksize,
+                        MKJSON_LLINT, "blocks", stbuf->st_blocks);
+
+    return json;
+}
+
