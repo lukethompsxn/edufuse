@@ -41,7 +41,7 @@ void connect_to_socket() {
     }
 }
 
-int init_visualiser() {
+int init_visualiser(char *mount_point) {
 //    system("chmod +x ../../gui/launch.sh");
 //    int pid = fork();
 //    if (pid == 0) {
@@ -62,6 +62,7 @@ int init_visualiser() {
     servaddr.sin_port = htons(PORT);
 
     connect_to_socket();
+    send_mount_point(mount_point);
 
     return 0;
 }
@@ -97,6 +98,17 @@ int send_log(char *syscall, char *file, char *fileInfo) {
     int result = send(sockfd, msg, strlen(msg), 0);
     free(msg);
     free(fileInfo); //freeing this may cause seg fault if we call more send methods with it
+
+    return result;
+}
+
+int send_mount_point(char *mount_point) {
+    char *msg = mkjson( MKJSON_OBJ, 2,
+                        MKJSON_STRING, "type", "MOUNT",
+                        MKJSON_STRING, "dir", mount_point);
+
+    int result = send(sockfd, msg, strlen(msg), 0);
+    free(msg);
 
     return result;
 }

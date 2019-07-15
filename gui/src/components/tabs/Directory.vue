@@ -91,8 +91,6 @@
     import {ipcRenderer} from 'electron';
     import FileBrowserTree from '../../ext_components/vue-file-tree';
 
-    console.log(messageBus);
-
     const blankNode = {
         data: {
             pathname: '',
@@ -141,6 +139,11 @@
             },
         },
         created: function () {
+            messageBus.$on('MOUNT', (json) => {
+                if (json.dir !== null && json.dir !== '') {
+                    ipcRenderer.send('rescan-directory');
+                }
+            });
             messageBus.$on('file', (fn, stat) => {
                 this.$refs.filetree.addPathToTree(fn, stat, false);
             });

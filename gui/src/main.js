@@ -54,3 +54,7 @@ ipcRenderer.on('clear-nodes', () => {
 ipcRenderer.on('LOG', (event, json) => {
     messageBus.$emit('LOG', json);
 });
+
+ipcRenderer.on('MOUNT', (event, json) => {
+    messageBus.$emit('MOUNT', json);
+});

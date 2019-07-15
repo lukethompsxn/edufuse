@@ -7,6 +7,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 #include "../ext/mkjson/mkjson.h"
 
 static struct fuse_operations *registered_operations;
@@ -363,8 +364,17 @@ int edufuse_register(int argc, char *argv[], struct fuse_operations *edufuse_ope
     is_visualised = visualise;
 
     if (is_visualised) {
-        init_visualiser();
-        atexit(destroy_visualiser);
+        for (int i = 0; i < argc; i++) {
+            if (strncmp(argv[i], "-", 1) != 0) {
+                struct stat buf;
+                stat(argv[i], &buf);
+                if(S_ISDIR(buf.st_mode)) {
+                    init_visualiser(argv[i]);
+                    atexit(destroy_visualiser);
+                    break;
+                }
+            }
+        }
     }
 
     if (edufuse_operations->getattr != NULL) {

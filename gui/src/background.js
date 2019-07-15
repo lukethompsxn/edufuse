@@ -84,13 +84,15 @@ if (isDev) {
     }
 }
 
-let dir = '/tmp/test/';
-if (dir.lastIndexOf('/') === dir.length - 1) {
-    dir = dir.substring(0, dir.lastIndexOf('/'));
-}
-const index = dir.lastIndexOf('/');
-
+let mountPoint = '';
 function scanDirectory() {
+    let dir = mountPoint;
+    if (dir.lastIndexOf('/') === dir.length - 1) {
+        dir = dir.substring(0, dir.lastIndexOf('/'));
+    }
+    const index = dir.lastIndexOf('/');
+
+    console.log('scanning directory: ' + dir);
     window.webContents.send('clear-nodes', null, null);
     walkdir(dir, {})
         .on('file', (fn, stat) => {
@@ -105,30 +107,32 @@ function scanDirectory() {
 }
 
 ipcMain.on('rescan-directory', () => {
+    console.log('scan called');
     scanDirectory();
 });
 
-let watcher = chokidar.watch(dir, {ignored: /^\./, persistent: true});
-watcher
-    .on('add', function () {
-        scanDirectory();
-    })
-    .on('change', function () {
-        scanDirectory();
-    })
-    .on('unlink', function () {
-        scanDirectory();
-    })
-    .on('addDir', function () {
-        scanDirectory();
-    })
-    .on('unlinkDir', function () {
-        scanDirectory();
-    })
-    .on('error', function () {
-        scanDirectory();
-    });
-
+function configureWatcher(dir) {
+    let watcher = chokidar.watch(dir, {ignored: /^\./, persistent: true});
+    watcher
+        .on('add', function () {
+            scanDirectory();
+        })
+        .on('change', function () {
+            scanDirectory();
+        })
+        .on('unlink', function () {
+            scanDirectory();
+        })
+        .on('addDir', function () {
+            scanDirectory();
+        })
+        .on('unlinkDir', function () {
+            scanDirectory();
+        })
+        .on('error', function () {
+            scanDirectory();
+        });
+}
 
 function destroyWatcher() {
     watcher.unwatch(dir);
@@ -141,6 +145,12 @@ let server = net.createServer(function(socket) {
         try {
             let json = JSON.parse(str);
             window.webContents.send(json.type, json);
+
+            if (json.type === 'MOUNT') {
+                mountPoint = json.dir;
+                configureWatcher(mountPoint)
+            }
+
         } catch (e) {
             console.log('error str: ' + str);
         }

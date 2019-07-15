@@ -3,9 +3,10 @@
 
 #include <fuse.h>
 
-extern int init_visualiser();
+extern int init_visualiser(char *mount_point);
 extern void destroy_visualiser();
 extern int send_data(char *str);
+extern int send_mount_point(char *mount_point);
 extern int send_log(char *syscall, char *file, char *fileInfo);
 
 extern char *stringify_stat(struct stat *stbuf);

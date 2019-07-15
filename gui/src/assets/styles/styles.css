@@ -60,3 +60,8 @@
 .bv-example-row {
     height: 100%;
 }
+
+.error {
+    color: red;
+    font-family: 'Montserrat', sans-serif;
+}
