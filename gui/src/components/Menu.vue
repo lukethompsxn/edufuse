@@ -36,8 +36,7 @@
         name: 'Menu',
         methods: {
             selectTab(event, tab) {
-                console.log(tab);
-                var i, tablinks;
+                let i, tablinks;
                 tablinks = document.getElementsByClassName("tablinks");
                 for (i = 0; i < tablinks.length; i++) {
                     tablinks[i].className = tablinks[i].className.replace(" active", "");

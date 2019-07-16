@@ -85,8 +85,6 @@
 </template>
 
 <script>
-    const path = require('path');
-    const util = require('util');
     import {messageBus} from '../../main.js';
     import {ipcRenderer} from 'electron';
     import FileBrowserTree from '../../ext_components/vue-file-tree';
@@ -145,13 +143,16 @@
                 }
             });
             messageBus.$on('file', (fn, stat) => {
-                this.$refs.filetree.addPathToTree(fn, stat, false);
+                let filetree = this.$refs.filetree;
+                if (filetree !== undefined) filetree.addPathToTree(fn, stat, false);
             });
             messageBus.$on('directory', (fn, stat) => {
-                this.$refs.filetree.addPathToTree(fn, stat, true);
+                let filetree = this.$refs.filetree;
+                if (filetree !== undefined) filetree.addPathToTree(fn, stat, true);
             });
             messageBus.$on('clear-nodes', () => {
-                if (this.$refs.filetree) this.$refs.filetree.clearTree();
+                let filetree = this.$refs.filetree;
+                if (filetree !== undefined) filetree.clearTree();
             });
 
             this.nodes = [];

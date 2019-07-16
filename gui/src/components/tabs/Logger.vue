@@ -59,7 +59,8 @@
         },
         methods: {
             logMessage(msg) {
-                this.$refs.terminal.echo("$ " + msg);
+                let terminal = this.$refs.terminal;
+                if (msg !== undefined && terminal !== undefined) this.$refs.terminal.echo("$ " + msg);
             },
         },
         created: function () {
