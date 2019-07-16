@@ -29,7 +29,8 @@
     "bootstrap": "^4.3.1",
     "bootstrap-vue": "^2.0.0-rc.26",
     "parse-filepath": "^1.0.2",
-    "sl-vue-tree": "^1.8.4"
+    "sl-vue-tree": "^1.8.4",
+    "walkdir": "^0.4.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.8.0",
