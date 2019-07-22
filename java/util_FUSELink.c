@@ -483,7 +483,7 @@ static int jef_ioctl(const char *path, int cmd, void *arg, struct fuse_file_info
  *
  */
 
-JNIEXPORT jint JNICALL Java_util_FUSELink_registerOperations(JNIEnv *jniEnv, jobject this, jobject operations_map, jobjectArray args)
+JNIEXPORT jint JNICALL Java_util_FUSELink_registerOperations(JNIEnv *jniEnv, jobject this, jobject operations_map, jobjectArray args, jint isVisualised)
 {
     env = jniEnv;
     abstract_fs_c = (*env)->FindClass(env, "filesystem/AbstractFS");
@@ -661,6 +661,11 @@ JNIEXPORT jint JNICALL Java_util_FUSELink_registerOperations(JNIEnv *jniEnv, job
 //        (*env)->DeleteLocalRef(env, jarg);                    if we dont release them we may get memory leaks??
     }
 
+    int visualised = 0;
+    if (isVisualised == 1) {
+        visualised = 1;
+    }
+
     //todo remove hardcoded is visualised parameter
-    return edufuse_register(argc, argv, &jef_operations, 1);
+    return edufuse_register(argc, argv, &jef_operations, visualised);
 }

@@ -12,5 +12,5 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 find_package(FUSE REQUIRED)
 
 include_directories(${FUSE_INCLUDE_DIR} /usr/lib/jvm/java-8-openjdk-amd64/include /usr/lib/jvm/java-8-openjdk-amd64/include/linux)
-add_library(FUSELink SHARED ../lib/edufuse.c ../lib/edufuse.h util_FUSELink.c util_FUSELink.h)
+add_library(FUSELink SHARED ../lib/edufuse.c ../lib/edufuse.h util_FUSELink.c util_FUSELink.h ../ext/mkjson/mkjson.h ../ext/mkjson/mkjson.c ../lib/edufuse_visualiser.h ../lib/edufuse_visualiser.c)
 target_link_libraries(FUSELink ${FUSE_LIBRARIES})

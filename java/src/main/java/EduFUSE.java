@@ -21,6 +21,6 @@ public class EduFUSE {
         FUSELink link = new FUSELink();
         FunctionMap operations = new FunctionMap(new ExampleFS());
         operations.addAll(Arrays.asList(FUSEOperations.values()));
-        link.register(operations, args);
+        link.register(operations, true, args);
     }
 }
