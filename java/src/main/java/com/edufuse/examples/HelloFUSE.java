@@ -13,7 +13,6 @@ import java.util.Objects;
 
 /**
  * @author Sergey Tselovalnikov
- * @see <a href="http://fuse.sourceforge.net/helloworld.html">helloworld</a>
  * @since 31.05.15
  * Retrieved from https://github.com/SerCeMan/jnr-fuse
  * Modified by Luke Thompson
