@@ -2,16 +2,22 @@
     <div>
         <p>charts placeholder</p>
         <Throughput></Throughput>
+        <RnWThroughput></RnWThroughput>
+        <TimeLine></TimeLine>
     </div>
 </template>
 
 <script>
-    import Throughput from './charts/Throughput'
+    import Throughput from './charts/Throughput';
+    import RnWThroughput from "./charts/RnWThroughput";
+    import TimeLine from "./charts/TimeLine";
 
     export default {
         name: "Charts",
         components: {
-            Throughput
+            RnWThroughput,
+            Throughput,
+            TimeLine
         }
     }
 </script>

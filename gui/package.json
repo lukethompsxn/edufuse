@@ -31,6 +31,7 @@
     "vue-multiselect": "^2.1.6",
     "vue-router": "^3.0.7",
     "vue-terminal-ui": "^0.1.5",
+    "vue2-highcharts": "^1.2.5",
     "walkdir": "^0.4.0"
   },
   "devDependencies": {

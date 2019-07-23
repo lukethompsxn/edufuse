@@ -58,3 +58,7 @@ ipcRenderer.on('LOG', (event, json) => {
 ipcRenderer.on('MOUNT', (event, json) => {
     messageBus.$emit('MOUNT', json);
 });
+
+ipcRenderer.on('READ_WRITE', (event, json) => {
+    messageBus.$emit('READ_WRITE', json);
+});
