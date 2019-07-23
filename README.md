@@ -10,3 +10,5 @@ Part IV Honours Project by Luke Thompson and Joel Clarke. Supervised by Robert S
 - [ptty](https://gitlab.com/pachanka/ptty)
 - [vue-terminal-ui](https://github.com/shershen08/vue-terminal-ui)
 - [vue-file-tree](https://github.com/robogeek/vue-file-tree)
+- [jnr-fuse](https://github.com/SerCeMan/jnr-fuse)
+- [jnr-ffi](https://github.com/jnr/jnr-ffi)
