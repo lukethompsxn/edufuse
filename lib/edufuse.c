@@ -145,7 +145,14 @@ static int edufuse_read(const char *path, char *buf, size_t size, off_t off, str
     if (is_visualised) {
         send_log("read", path, stringify_fusefileinfo_with_buf_size_off(fi, buf, size, off));
     }
-    return registered_operations->read(path, buf, size, off, fi);
+
+    int out = registered_operations->read(path, buf, size, off, fi);
+    if (is_visualised) {
+        send_amount_read_write("read", &out);
+    }
+
+    return out;
+    // return registered_operations->read(path, buf, size, off, fi);
 }
 
 /** Write data to an open file */
@@ -153,7 +160,14 @@ static int edufuse_write(const char *path, const char *buf, size_t size, off_t o
     if (is_visualised) {
         send_log("write", path, stringify_fusefileinfo_with_buf_size_off(fi, buf, size, off));
     }
-    return registered_operations->write(path, buf, size, off, fi);
+
+    int out = registered_operations->read(path, buf, size, off, fi);
+    if (is_visualised) {
+        send_amount_read_write("read", &out);
+    }
+
+    // return registered_operations->write(path, buf, size, off, fi);
+    return out;
 }
 
 /** Get file system statistics */

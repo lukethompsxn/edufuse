@@ -113,6 +113,18 @@ int send_mount_point(char *mount_point) {
     return result;
 }
 
+int send_amount_read_write(char *syscall, int *amount) {
+    char *msg = mkjson( MKJSON_OBJ, 3,
+            MKJSON_STRING, "type", "READ_WRITE",
+            MKJSON_STRING, "syscall", syscall,
+            MKJSON_INT, "amount", amount);
+
+    int result = send(sockfd, msg, strlen(msg), 0);
+    free(msg);
+
+    return result;
+}
+
 /*
  *
  *
