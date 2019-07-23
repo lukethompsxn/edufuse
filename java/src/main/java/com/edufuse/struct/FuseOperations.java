@@ -5,7 +5,7 @@ import jnr.ffi.Runtime;
 import jnr.ffi.BaseStruct;
 import jnr.posix.util.Platform;
 
-import static com.edufuse.FuseCallbacks.*;
+import static com.edufuse.util.FuseCallbacks.*;
 
 /**
  * fuse_operations struct

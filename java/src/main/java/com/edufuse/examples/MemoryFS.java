@@ -1,13 +1,11 @@
 package com.edufuse.examples;
 
-
-import com.edufuse.ErrorCodes;
-import com.edufuse.FuseFillDir;
-import com.edufuse.FuseStubFS;
+import com.edufuse.filesystem.FileSystemStub;
 import com.edufuse.struct.FileStat;
 import com.edufuse.struct.FuseFileInfo;
 import com.edufuse.struct.Statvfs;
-import jnr.ffi.Platform;
+import com.edufuse.util.ErrorCodes;
+import com.edufuse.util.FuseFillDir;
 import jnr.ffi.Pointer;
 import jnr.ffi.types.mode_t;
 import jnr.ffi.types.off_t;
@@ -18,12 +16,11 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import static jnr.ffi.Platform.OS.WINDOWS;
-
 /**
  * Retrieved from https://github.com/SerCeMan/jnr-fuse
+ * Modified by Luke Thompson
  */
-public class MemoryFS extends FuseStubFS {
+public class MemoryFS extends FileSystemStub {
     private class MemoryDirectory extends MemoryPath {
         private List<MemoryPath> contents = new ArrayList<>();
 
@@ -35,7 +32,7 @@ public class MemoryFS extends FuseStubFS {
             super(name, parent);
         }
 
-        public synchronized void add(MemoryPath p) {
+        synchronized void add(MemoryPath p) {
             contents.add(p);
             p.parent = this;
         }
@@ -83,7 +80,7 @@ public class MemoryFS extends FuseStubFS {
             contents.add(new MemoryDirectory(lastComponent, this));
         }
 
-        public synchronized void mkfile(String lastComponent) {
+        synchronized void mkfile(String lastComponent) {
             contents.add(new MemoryFile(lastComponent, this));
         }
 
@@ -105,7 +102,7 @@ public class MemoryFS extends FuseStubFS {
             super(name, parent);
         }
 
-        public MemoryFile(String name, String text) {
+        MemoryFile(String name, String text) {
             super(name);
             try {
                 byte[] contentBytes = text.getBytes("UTF-8");
@@ -208,14 +205,6 @@ public class MemoryFS extends FuseStubFS {
     public static void main(String[] args) {
         MemoryFS memfs = new MemoryFS();
         try {
-//            String path;
-//            switch (Platform.getNativePlatform().getOS()) {
-//                case WINDOWS:
-//                    path = "J:\\";
-//                    break;
-//                default:
-//                    path = "/tmp/mntm";
-//            }
             memfs.mount(args, false);
         } finally {
             memfs.unmount();
@@ -224,7 +213,7 @@ public class MemoryFS extends FuseStubFS {
 
     private MemoryDirectory rootDirectory = new MemoryDirectory("");
 
-    public MemoryFS() {
+    private MemoryFS() {
         // Sprinkle some files around
         rootDirectory.add(new MemoryFile("Sample file.txt", "Hello there, feel free to look around.\n"));
         rootDirectory.add(new MemoryDirectory("Sample directory"));
@@ -324,17 +313,6 @@ public class MemoryFS extends FuseStubFS {
 
     @Override
     public int statfs(String path, Statvfs stbuf) {
-        if (Platform.getNativePlatform().getOS() == WINDOWS) {
-            // statfs needs to be implemented on Windows in order to allow for copying
-            // data from other devices because winfsp calculates the volume size based
-            // on the statvfs call.
-            // see https://github.com/billziss-gh/winfsp/blob/14e6b402fe3360fdebcc78868de8df27622b565f/src/dll/fuse/fuse_intf.c#L654
-            if ("/".equals(path)) {
-                stbuf.f_blocks.set(1024 * 1024); // total data blocks in file system
-                stbuf.f_frsize.set(1024);        // fs block size
-                stbuf.f_bfree.set(1024 * 1024);  // free blocks in fs
-            }
-        }
         return super.statfs(path, stbuf);
     }
 

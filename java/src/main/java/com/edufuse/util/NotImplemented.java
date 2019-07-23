@@ -1,4 +1,6 @@
-package com.edufuse;
+package com.edufuse.util;
+
+import com.edufuse.filesystem.FileSystemStub;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -9,7 +11,7 @@ import static java.lang.annotation.ElementType.METHOD;
 
 /**
  * If method marked this annotation it would'n be registered in FuseOperation struct.
- * All method in {@link com.edufuse.FuseStubFS} marked this annotation.
+ * All method in {@link FileSystemStub} marked this annotation.
  *
  * This annotation is not inheritable, so all overridden method would be registered in FuseOperation.
  *

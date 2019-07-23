@@ -1,5 +1,6 @@
-package com.edufuse;
+package com.edufuse.filesystem;
 
+import com.edufuse.util.FuseFillDir;
 import jnr.ffi.Pointer;
 import jnr.ffi.types.dev_t;
 import jnr.ffi.types.gid_t;
@@ -39,7 +40,7 @@ import com.edufuse.struct.Timespec;
  * @since 27.05.15
  * Retrieved from https://github.com/SerCeMan/jnr-fuse
  */
-public interface FuseFS {
+public interface FUSE {
     /**
      * Get file attributes.
      * <p>
@@ -471,7 +472,7 @@ public interface FuseFS {
      * <p>
      * IMPORTANT:
      * Is not enabled by default, for enabling use
-     * com.edufuse.AbstractFuseFS#isBufOperationsImplemented()
+     * com.edufuse.filesystem.AbstractFS#isBufOperationsImplemented()
      */
     int write_buf(String path, FuseBufvec buf, @off_t long off, FuseFileInfo fi);
 
@@ -492,7 +493,7 @@ public interface FuseFS {
      * <p>
      * IMPORTANT:
      * Is not enabled by default, for enabling use
-     * com.edufuse.AbstractFuseFS#isBufOperationsImplemented()
+     * com.edufuse.filesystem.AbstractFS#isBufOperationsImplemented()
      */
     int read_buf(String path, Pointer bufp, @size_t long size, @off_t long off, FuseFileInfo fi);
 

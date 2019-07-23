@@ -1,5 +1,8 @@
-package com.edufuse;
+package com.edufuse.filesystem;
 
+import com.edufuse.util.ErrorCodes;
+import com.edufuse.util.FuseFillDir;
+import com.edufuse.util.NotImplemented;
 import com.kenai.jffi.MemoryIO;
 import jnr.ffi.*;
 import jnr.ffi.Runtime;
@@ -23,7 +26,7 @@ import com.edufuse.struct.Timespec;
 /**
  * Retrieved from https://github.com/SerCeMan/jnr-fuse
  */
-public class FuseStubFS extends AbstractFuseFS {
+public class FileSystemStub extends AbstractFS {
     @Override
     @NotImplemented
     public int getattr(String path, FileStat stat) {
@@ -254,8 +257,6 @@ public class FuseStubFS extends AbstractFuseFS {
     @Override
     @NotImplemented
     public int write_buf(String path, FuseBufvec buf, @off_t long off, FuseFileInfo fi) {
-        // TODO.
-        // Some problem in implementation, but it not enabling by default
         int res;
         int size = (int) eduFUSE.fuse_buf_size(buf);
         FuseBuf flatbuf;
@@ -294,7 +295,6 @@ public class FuseStubFS extends AbstractFuseFS {
     @Override
     @NotImplemented
     public int read_buf(String path, Pointer bufp, @size_t long size, @off_t long off, FuseFileInfo fi) {
-        // should be implemented or null
         long vecmem = MemoryIO.getInstance().allocateMemory(Struct.size(new FuseBufvec(Runtime.getSystemRuntime())), false);
         if (vecmem == 0) {
             return -ErrorCodes.ENOMEM();

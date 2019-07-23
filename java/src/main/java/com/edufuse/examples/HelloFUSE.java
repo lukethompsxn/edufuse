@@ -1,8 +1,8 @@
 package com.edufuse.examples;
 
-import com.edufuse.ErrorCodes;
-import com.edufuse.FuseFillDir;
-import com.edufuse.FuseStubFS;
+import com.edufuse.util.ErrorCodes;
+import com.edufuse.util.FuseFillDir;
+import com.edufuse.filesystem.FileSystemStub;
 import com.edufuse.struct.FileStat;
 import com.edufuse.struct.FuseFileInfo;
 import jnr.ffi.Pointer;
@@ -16,11 +16,12 @@ import java.util.Objects;
  * @see <a href="http://fuse.sourceforge.net/helloworld.html">helloworld</a>
  * @since 31.05.15
  * Retrieved from https://github.com/SerCeMan/jnr-fuse
+ * Modified by Luke Thompson
  */
-public class HelloFuse extends FuseStubFS {
+public class HelloFUSE extends FileSystemStub {
 
-    public static final String HELLO_PATH = "/hello";
-    public static final String HELLO_STR = "Hello World!";
+    private static final String HELLO_PATH = "/hello";
+    private static final String HELLO_STR = "Hello World!";
 
     @Override
     public int getattr(String path, FileStat stat) {
@@ -78,19 +79,11 @@ public class HelloFuse extends FuseStubFS {
     }
 
     public static void main(String[] args) {
-        HelloFuse stub = new HelloFuse();
+        HelloFUSE fs = new HelloFUSE();
         try {
-//            String path;
-//            switch (Platform.getNativePlatform().getOS()) {
-//                case WINDOWS:
-//                    path = "J:\\";
-//                    break;
-//                default:
-//                    path = "/tmp/mnth";
-//            }
-            stub.mount(args, false);
+            fs.mount(args, false);
         } finally {
-            stub.unmount();
+            fs.unmount();
         }
     }
 }

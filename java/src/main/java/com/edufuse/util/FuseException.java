@@ -1,4 +1,4 @@
-package com.edufuse;
+package com.edufuse.util;
 
 /**
  * Retrieved from https://github.com/SerCeMan/jnr-fuse

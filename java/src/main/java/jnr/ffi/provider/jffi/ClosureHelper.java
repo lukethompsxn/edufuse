@@ -7,7 +7,7 @@ import jnr.ffi.mapper.DefaultSignatureType;
 import jnr.ffi.mapper.FromNativeContext;
 import jnr.ffi.mapper.FromNativeConverter;
 import jnr.ffi.provider.ClosureManager;
-import com.edufuse.FuseException;
+import com.edufuse.util.FuseException;
 
 import java.lang.reflect.Field;
 import java.util.Collections;

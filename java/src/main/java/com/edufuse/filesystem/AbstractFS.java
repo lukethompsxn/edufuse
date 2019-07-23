@@ -1,8 +1,10 @@
-package com.edufuse;
+package com.edufuse.filesystem;
 
 import com.edufuse.struct.*;
 import com.edufuse.util.FUSELink;
-import com.edufuse.utils.SecurityUtils;
+import com.edufuse.util.FuseException;
+import com.edufuse.util.FuseFillDir;
+import com.edufuse.util.NotImplemented;
 import jnr.ffi.LibraryLoader;
 import jnr.ffi.Pointer;
 import jnr.ffi.Runtime;
@@ -23,7 +25,7 @@ import java.util.stream.Collectors;
  * Retrieved from https://github.com/SerCeMan/jnr-fuse
  * Modified by Luke Thompson
  */
-public abstract class AbstractFuseFS implements FuseFS {
+public abstract class AbstractFS implements FUSE {
 
     private static final String LIBRARY = "./libFUSELink.so";
 
@@ -34,10 +36,9 @@ public abstract class AbstractFuseFS implements FuseFS {
     private Pointer fusePointer;
     private Path mountPoint;
 
-    public AbstractFuseFS() {
+    public AbstractFS() {
         LibraryLoader<FUSELink> loader = LibraryLoader.create(FUSELink.class).failImmediately();
         eduFUSE = loader.load(LIBRARY);
-
         Runtime runtime = Runtime.getSystemRuntime();
         fuseOperations = new FuseOperations(runtime);
         init(fuseOperations);
@@ -53,7 +54,7 @@ public abstract class AbstractFuseFS implements FuseFS {
                 .map(Method::getName)
                 .collect(Collectors.toSet());
 
-        AbstractFuseFS fuse = this;
+        AbstractFS fuse = this;
         if (isImplemented("getattr")) {
             fuseOperations.getattr.set((path, stbuf) -> fuse.getattr(path, FileStat.of(stbuf)));
         }
@@ -141,7 +142,7 @@ public abstract class AbstractFuseFS implements FuseFS {
             fuseOperations.fsyncdir.set((path, fi) -> fuse.fsyncdir(path, FuseFileInfo.of(fi)));
         }
         fuseOperations.init.set(conn -> {
-            AbstractFuseFS.this.fusePointer = eduFUSE.fuse_get_context().fuse.get();
+            AbstractFS.this.fusePointer = eduFUSE.fuse_get_context().fuse.get();
             if (isImplemented("init")) {
                 return fuse.init(conn);
             }
@@ -210,10 +211,6 @@ public abstract class AbstractFuseFS implements FuseFS {
         }
 
         try {
-            if (SecurityUtils.canHandleShutdownHooks()) {
-                java.lang.Runtime.getRuntime().addShutdownHook(new Thread(this::unmount));
-            }
-
             System.out.println("Filesystem running...");
             int res = eduFUSE.edufuse_register(argv.length, argv, fuseOperations, isVisualised ? 1 : 0);
 

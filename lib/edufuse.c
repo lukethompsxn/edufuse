@@ -15,6 +15,8 @@ int is_visualised;
 
 /** Get file attributes */
 static int edufuse_getattr(const char *path, struct stat *stbuf) {
+    printf("edufuse getattr called\n");
+
     if (is_visualised) {
         send_log("getattr", path, stringify_stat(stbuf));
     }
@@ -359,6 +361,7 @@ static int edufuse_poll(const char *path, struct fuse_file_info *fi, struct fuse
 
 /** Register implemented methods with eduFUSE */
 int edufuse_register(int argc, char *argv[], struct fuse_operations *edufuse_operations, int visualise) {
+    printf("edufuse register called\n");
     registered_operations = malloc(sizeof(struct fuse_operations));
     memcpy(registered_operations, edufuse_operations, sizeof(struct fuse_operations));
     is_visualised = visualise;

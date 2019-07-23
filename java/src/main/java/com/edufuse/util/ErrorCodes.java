@@ -1,4 +1,4 @@
-package com.edufuse;
+package com.edufuse.util;
 
 import jnr.constants.platform.Errno;
 
