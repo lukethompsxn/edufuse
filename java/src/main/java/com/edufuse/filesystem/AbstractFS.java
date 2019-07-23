@@ -1,10 +1,7 @@
 package com.edufuse.filesystem;
 
 import com.edufuse.struct.*;
-import com.edufuse.util.FUSELink;
-import com.edufuse.util.FuseException;
-import com.edufuse.util.FuseFillDir;
-import com.edufuse.util.NotImplemented;
+import com.edufuse.util.*;
 import jnr.ffi.LibraryLoader;
 import jnr.ffi.Pointer;
 import jnr.ffi.Runtime;
@@ -199,6 +196,10 @@ public abstract class AbstractFS implements FUSE {
     public void mount(String[] argv, boolean isVisualised) {
         if (!mounted.compareAndSet(false, true)) {
             throw new FuseException("Fuse fs already mounted!");
+        }
+
+        if (SecurityUtils.canHandleShutdownHooks()) {
+            java.lang.Runtime.getRuntime().addShutdownHook(new Thread(this::unmount));
         }
 
         for (String arg : argv) {
