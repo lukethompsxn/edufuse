@@ -19,16 +19,8 @@
     methods: {
       updateWindow(tab) {
         this.$router.push(tab);
-          console.log('tab pushed: ' + tab);
       }
     },
-      mounted() {
-          this.$router.options.routes.forEach(route => {
-              this.$router.push(route.path);
-              console.log('pre loaded: ' + route.path);
-          });
-          this.$router.push('/');
-      }
   }
 
 </script>
