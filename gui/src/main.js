@@ -32,7 +32,19 @@ const router = new VueRouter({
     routes: routes,
 });
 
+const ignorePaths = [
+    '/',
+    './',
+    '.',
+    '.hidden',
+    '/.hidden',
+    '/.Trash',
+    '/.Trash-100',
+    '/.Trash-1000'
+];
+Vue.prototype.logHistory = [];
 Vue.config.productionTip = false;
+
 
 new Vue({
     router: router,
@@ -52,7 +64,10 @@ ipcRenderer.on('clear-nodes', () => {
 });
 
 ipcRenderer.on('LOG', (event, json) => {
-    messageBus.$emit('LOG', json);
+    if (!ignorePaths.includes(json.file)) {
+        Vue.prototype.logHistory.push(json);
+        messageBus.$emit('LOG', json);
+    }
 });
 
 ipcRenderer.on('MOUNT', (event, json) => {

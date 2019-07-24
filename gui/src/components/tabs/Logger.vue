@@ -30,16 +30,6 @@
     import VueTerminal from '../../ext_components/VueTerminal'
     import {messageBus} from '../../main.js';
 
-    const ignorePaths = [
-        '/',
-        './',
-        '.',
-        '.hidden',
-        '/.hidden',
-        '/.Trash',
-        '/.Trash-100',
-        '/.Trash-1000'
-    ];
     let first = true;
 
     export default {
@@ -62,13 +52,7 @@
                 let terminal = this.$refs.terminal;
                 if (msg !== undefined && terminal !== undefined) this.$refs.terminal.echo("$ " + msg);
             },
-        },
-        created: function () {
-            messageBus.$on('LOG', (json) => {
-                if (ignorePaths.includes(json.file)) {
-                    return;
-                }
-
+            handleJSON(json) {
                 if (!first) {
                     this.logMessage('');
                 } else {
@@ -83,8 +67,17 @@
                 }
                 if (this.selected.includes('fileInfo')) {
                     this.logMessage('INFO: ' + JSON.stringify(json.fileInfo, null, 4));
-                    // this.logMessage('INFO: ' + JSON.stringify(json.fileInfo, null, 4).replace(/,/g, ',<br>'));
                 }
+            }
+        },
+        created: function () {
+            messageBus.$on('LOG', (json) => {
+                this.handleJSON(json);
+            });
+        },
+        mounted() {
+            this.logHistory.forEach((log) => {
+                this.handleJSON(log);
             });
         }
     }
