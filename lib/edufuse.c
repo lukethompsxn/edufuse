@@ -202,6 +202,32 @@ static int edufuse_fsync(const char *path, int datasync, struct fuse_file_info *
     return registered_operations->fsync(path, datasync, fi);
 }
 
+#ifdef __APPLE__
+/** Set extended attributes */
+static int edufuse_setxattr(const char *path, const char *name, const char *value, size_t size, int flags, uint32_t ext) {
+    if (is_visualised) {
+        char *info = mkjson(MKJSON_OBJ, 4,
+                            MKJSON_STRING, "name", name,
+                            MKJSON_STRING, "value", value,
+                            MKJSON_LLINT, "size", size,
+                            MKJSON_INT, "flags", flags);
+        send_log("setxattr", path, info);
+    }
+    return registered_operations->setxattr(path, name, value, size, flags, ext);
+}
+
+/** Get extended attributes */
+static int edufuse_getxattr(const char *path, const char *name, char *value, size_t size, u_int32_t ext) {
+    if (is_visualised) {
+        char *info = mkjson(MKJSON_OBJ, 3,
+                            MKJSON_STRING, "name", name,
+                            MKJSON_STRING, "value", value,
+                            MKJSON_LLINT, "size", size);
+        send_log("getxattr", path, info);
+    }
+    return registered_operations->getxattr(path, name, value, size, ext);
+}
+#else
 /** Set extended attributes */
 static int edufuse_setxattr(const char *path, const char *name, const char *value, size_t size, int flags) {
     if (is_visualised) {
@@ -226,6 +252,9 @@ static int edufuse_getxattr(const char *path, const char *name, char *value, siz
     }
     return registered_operations->getxattr(path, name, value, size);
 }
+#endif
+
+
 
 /** List extended attributes */
 static int edufuse_listxattr(const char *path, char *list, size_t size) {

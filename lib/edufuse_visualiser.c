@@ -7,7 +7,10 @@
 
 #include <netdb.h>
 #include <arpa/inet.h>
+
+#ifndef __APPLE__
 #include <bits/stat.h>
+#endif
 #include "../ext/mkjson/mkjson.h"
 
 #define HOST "127.0.0.1"
@@ -140,7 +143,11 @@ char *stringify_stat(struct stat *stbuf) {
                         MKJSON_LLINT, "nlink", stbuf->st_nlink,
                         MKJSON_INT, "uid", stbuf->st_uid,
                         MKJSON_INT, "gid", stbuf->st_gid,
+                        #ifdef __APPLE__
+                        MKJSON_INT, "pad0", 0,
+                        #else
                         MKJSON_INT, "pad0", stbuf->__pad0,
+                        #endif
                         MKJSON_LLINT, "rdev", stbuf->st_rdev,
                         MKJSON_LLINT, "size", stbuf->st_size,
                         MKJSON_INT, "blksize", stbuf->st_blksize,
