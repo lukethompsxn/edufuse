@@ -35,7 +35,7 @@ public static void main(String[] args) {
    	}
 }
 ```
-In order to run your file system implementation, simply execute the main method you implemented. Please not that you **must** pass the mount point as a parameter to the program. This is done on command line simply by specifying them after calling to run the program, or alternatively in an IDE you can edit the `Configuration` for the run in order to specify program arguments.   
+In order to run your file system implementation, simply execute the main method you implemented. Please note that you **must** pass the mount point as a parameter to the program. This is done on command line simply by specifying them after calling to run the program, or alternatively in an IDE you can edit the `Configuration` for the run in order to specify program arguments.   
 
 ### Methods
 ##### FileSystemStub 
