@@ -1,4 +1,5 @@
 # eduFUSE Java
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com/edufuse/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com/edufuse)
 
 ### Installation
 todo
