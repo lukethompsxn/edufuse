@@ -97,9 +97,11 @@ function scanDirectory() {
     window.webContents.send('clear-nodes', null, null);
     walkdir(dir, {})
         .on('file', (fn, stat) => {
+            console.log(fn);
             window.webContents.send('file', fn.slice(index), stat);
         })
         .on('directory', (fn, stat) => {
+            console.log(fn);
             window.webContents.send('directory', fn.slice(index), stat);
         })
         .on('error', (fn, err) => {
@@ -143,7 +145,7 @@ function destroyWatcher() {
 let server = net.createServer(function (socket) {
     socket.on('data', function (data) {
         let str = data.toString();
-        
+
         // Multiple messages may get combined in the stream, so we need to check for termination character '\e'
         str.split('\\e').forEach((msg) => {
             if (msg.length > 0) {

@@ -42,7 +42,8 @@ const ignorePaths = [
     '/.Trash-100',
     '/.Trash-1000',
     '/.localized',
-    '/.DS_STORE'
+    '/.DS_STORE',
+    '/.DS_Store'
 ];
 Vue.prototype.logHistory = [];
 Vue.config.productionTip = false;

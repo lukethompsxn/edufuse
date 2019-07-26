@@ -155,8 +155,7 @@
                 if (filetree !== undefined) filetree.clearTree();
             });
 
-            this.nodes = [];
-            ipcRenderer.send('rescan-directory');
+            this.rescan();
         }
     }
 </script>
