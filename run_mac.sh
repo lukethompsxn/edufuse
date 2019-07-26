@@ -3,10 +3,10 @@
 /Applications/CMake.app/Contents/bin/cmake -DCMAKE_BUILD_TYPE=Debug .
 make -j
 
-DIRECTORY=/Users/lukethompson/Downloads/fusetesting
+DIRECTORY=/Users/lukethompson/Downloads/fusetesting3
 
 if [ ! -d "$DIRECTORY" ]; then
-  mkdir /tmp/example
+  mkdir "$DIRECTORY"
 fi
 
-./bin/edufuse -d -s -f /Users/lukethompson/Downloads/fusetesting
+./bin/edufuse -d -s -f "$DIRECTORY"

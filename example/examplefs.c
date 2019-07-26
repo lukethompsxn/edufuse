@@ -76,5 +76,5 @@ static struct fuse_operations efs_operations = {
 int main(int argc, char *argv[])
 {
     //todo remove hardcoded is visualised parameter
-    return edufuse_register(argc, argv, &efs_operations, 0);
+    return edufuse_register(argc, argv, &efs_operations, 1);
 }

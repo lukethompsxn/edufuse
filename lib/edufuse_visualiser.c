@@ -74,13 +74,12 @@ void destroy_visualiser() {
 
 }
 
-//todo make methods properly, this was just for testing socket communication
-int send_data(char *str) {
-    char *json = mkjson( MKJSON_OBJ, 2,
-                         MKJSON_STRING,    "this",    "is really simple!",
-                         MKJSON_INT,       "myint",   42);
-
-    return send(sockfd, json, strlen(json), 0);
+char *terminateString(const char *s1) {
+    char *terminator = "\\e";
+    char *result = malloc(strlen(s1) + strlen(terminator) + 1);
+    strcpy(result, s1);
+    strcat(result, terminator);
+    return result;
 }
 
 /*
@@ -98,8 +97,10 @@ int send_log(char *syscall, char *file, char *fileInfo) {
                          MKJSON_STRING, "file", file,
                          MKJSON_JSON, "fileInfo", fileInfo);
 
-    int result = send(sockfd, msg, strlen(msg), 0);
+    char *terminatedMsg = terminateString(msg);
+    int result = send(sockfd, terminatedMsg, strlen(terminatedMsg), 0);
     free(msg);
+    free(terminatedMsg);
     free(fileInfo); //freeing this may cause seg fault if we call more send methods with it
 
     return result;
@@ -110,8 +111,10 @@ int send_mount_point(char *mount_point) {
                         MKJSON_STRING, "type", "MOUNT",
                         MKJSON_STRING, "dir", mount_point);
 
-    int result = send(sockfd, msg, strlen(msg), 0);
+    char *terminatedMsg = terminateString(msg);
+    int result = send(sockfd, terminatedMsg, strlen(terminatedMsg), 0);
     free(msg);
+    free(terminatedMsg);
 
     return result;
 }
@@ -122,8 +125,10 @@ int send_amount_read_write(char *syscall, int *amount) {
             MKJSON_STRING, "syscall", syscall,
             MKJSON_INT, "amount", amount);
 
-    int result = send(sockfd, msg, strlen(msg), 0);
+    char *terminatedMsg = terminateString(msg);
+    int result = send(sockfd, terminatedMsg, strlen(terminatedMsg), 0);
     free(msg);
+    free(terminatedMsg);
 
     return result;
 }
@@ -294,6 +299,3 @@ char *stringify_tv(struct timespec tv[2]) {
 
     return json;
 }
-
-
-

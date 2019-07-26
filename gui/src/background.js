@@ -85,6 +85,7 @@ if (isDev) {
 }
 
 let mountPoint = '';
+
 function scanDirectory() {
     let dir = mountPoint;
     if (dir.lastIndexOf('/') === dir.length - 1) {
@@ -139,22 +140,27 @@ function destroyWatcher() {
     watcher.close();
 }
 
-let server = net.createServer(function(socket) {
+let server = net.createServer(function (socket) {
     socket.on('data', function (data) {
         let str = data.toString();
-        try {
-            let json = JSON.parse(str);
-            window.webContents.send(json.type, json);
+        
+        // Multiple messages may get combined in the stream, so we need to check for termination character '\e'
+        str.split('\\e').forEach((msg) => {
+            if (msg.length > 0) {
+                try {
+                    let json = JSON.parse(msg);
+                    window.webContents.send(json.type, json);
 
-            if (json.type === 'MOUNT') {
-                mountPoint = json.dir;
-                configureWatcher(mountPoint)
+                    if (json.type === 'MOUNT') {
+                        mountPoint = json.dir;
+                        configureWatcher(mountPoint)
+                    }
+                } catch (e) {
+                    console.log('Unable to parse JSON received at socket: ' + msg);
+
+                }
             }
-
-        } catch (e) {
-            console.log('error str: ' + str);
-        }
-
+        });
     });
 });
 
