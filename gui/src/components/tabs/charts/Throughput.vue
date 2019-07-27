@@ -1,28 +1,28 @@
 <template>
-    <b-container class="bv-example-row" style="height: 100%">
-        <b-row style="height: 100%;">
-            <div>
-                <highcharts :options="chartOptions" :updateArgs="updateArgs" ref="chart"></highcharts>
-            </div>
-        </b-row>
-        <div id="app">
-            <multiselect
-                    v-model="value"
-                    :options="options"
-                    :multiple="true"
-                    track-by="syscall"
-                    :custom-label="customLabel"
-                    :close-on-select="false"
-                    :max="7"
-                    :max-height="300"
-                    @select="onSelect"
-                    @remove="onRemove"
-            >
-                <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length > 3 &amp;&amp; !isOpen">{{ values.length }} options selected</span></template>
-            </multiselect>
-            <!--<pre>{{ chartOptions.series[0].data }}</pre>-->
+    <div>
+        <div>
+            <highcharts :options="chartOptions" :updateArgs="updateArgs" ref="chart"></highcharts>
         </div>
-    </b-container>
+        <div>
+            <div id="app" style="padding: 0px;">
+                <multiselect
+                        v-model="value"
+                        :options="options"
+                        :multiple="true"
+                        track-by="syscall"
+                        :custom-label="customLabel"
+                        :close-on-select="false"
+                        :max="7"
+                        :max-height="300"
+                        @select="onSelect"
+                        @remove="onRemove"
+                >
+                    <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length > 3 &amp;&amp; !isOpen">{{ values.length }} options selected</span></template>
+                </multiselect>
+                <!--<pre>{{ chartOptions.series[0].data }}</pre>-->
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -43,6 +43,7 @@
                 points: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 chartType: 'Column',
                 seriesColor: '#6fcd98',
+                height: 200,
                 colorInputIsSupported: null,
                 animationDuration: 500,
                 updateArgs: [true, true, {duration: 1000}],
@@ -180,6 +181,7 @@
 
             });
         },
+
 
         watch: {
             points () {

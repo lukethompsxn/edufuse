@@ -1,12 +1,7 @@
 <template>
-    <b-container class="bv-example-row" style="height: 100%">
-        <b-row style="height: 100%;">
-            <div>
-                <highcharts :options="chartOptions" :updateArgs="updateArgs" ref="chart"></highcharts>
-            </div>
-        </b-row>
-        <pre>{{ chartOptions.series[0].data }}</pre>
-    </b-container>
+    <div>
+        <highcharts :options="chartOptions" :updateArgs="updateArgs" ref="chart"></highcharts>
+    </div>
 </template>
 
 <script>

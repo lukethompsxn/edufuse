@@ -1,10 +1,25 @@
 <template>
-    <div>
-        <p>charts placeholder</p>
-        <Throughput></Throughput>
-        <RnWThroughput></RnWThroughput>
-        <TimeLine></TimeLine>
-    </div>
+    <b-container height="100%">
+        <b-row class="">
+            <b-col class="charttop card">
+                <div class="">
+                    <Throughput></Throughput>
+                </div>
+            </b-col>
+        </b-row>
+        <b-row class="">
+            <b-col class="left card">
+                <div>
+                    <RnWThroughput></RnWThroughput>
+                </div>
+            </b-col>
+            <b-col class="right card">
+                <div>
+                    <TimeLine></TimeLine>
+                </div>
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 
 <script>
@@ -23,5 +38,7 @@
 </script>
 
 <style scoped>
-
+    .charttop {
+        margin: 16px 16px 0 16px;
+    }
 </style>
