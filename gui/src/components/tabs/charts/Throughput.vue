@@ -182,6 +182,11 @@
             });
         },
 
+        mounted() {
+            this.logHistory.forEach((log) => {
+                this.handleJSON(log);
+            });
+        },
 
         watch: {
             points () {
