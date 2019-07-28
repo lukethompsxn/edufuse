@@ -65,6 +65,7 @@
                         }
                     },
                     series: [{
+                        name: 'System Call',
                         data: [0, 0, 0, 0],
                         color: '#6fcd98',
                     }]
