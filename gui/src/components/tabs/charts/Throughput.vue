@@ -50,7 +50,8 @@
                 chartOptions: {
                     chart: {
                         type: 'column',
-                        backgroundColor: 'transparent'
+                        backgroundColor: 'transparent',
+                        height: 180
                     },
                     title: {
                         text: null

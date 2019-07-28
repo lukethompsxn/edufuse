@@ -44,7 +44,9 @@
                                     series[1].addPoint([x, y2], true, true);
                                 }, 2500);
                             }
-                        }
+                        },
+                        height: 216
+
                     },
                     title: {
                         text: null

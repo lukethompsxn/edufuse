@@ -1,17 +1,7 @@
 <template>
     <b-container height="100%">
-        <b-row class="">
-            <b-col class="charttop card">
-                <div class="title">
-                    <span>System Calls.</span>
-                </div>
-                <div class="content">
-                    <Throughput></Throughput>
-                </div>
-            </b-col>
-        </b-row>
-        <b-row class="">
-            <b-col class="left card">
+        <b-row>
+            <b-col class="left card top">
                 <div class="title">
                     <span>Total Bytes Read/Written.</span>
                 </div>
@@ -19,12 +9,22 @@
                     <RnWThroughput></RnWThroughput>
                 </div>
             </b-col>
-            <b-col class="right card">
+            <b-col class="right card top">
                 <div class="title">
                     <span>Read/Writes Per Second.</span>
                 </div>
                 <div class="content">
                     <TimeLine></TimeLine>
+                </div>
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col class="lower card bottom">
+                <div class="title">
+                    <span>System Calls.</span>
+                </div>
+                <div class="content">
+                    <Throughput></Throughput>
                 </div>
             </b-col>
         </b-row>
@@ -47,12 +47,19 @@
 </script>
 
 <style scoped>
-    .charttop {
-        margin: 16px 16px 0 16px;
+    .lower {
+        margin: 0 16px 16px 16px;
     }
 
     .content {
         margin-top: 10px;
-        margin-bottom: 10px;
+    }
+
+    .top {
+        height: 254px
+    }
+
+    .bottom {
+        height: 276px;
     }
 </style>
