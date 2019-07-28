@@ -7,11 +7,7 @@
     <div class="tab">
         <img class="logo" src="../assets/logo.png">
         <div class="tabs">
-            <div id="default" class="tablinks active" v-on:click="selectTab($event, 'Overview')">
-                <i class="material-icons icons">dashboard</i>
-                <i class="text">OVERVIEW</i>
-            </div>
-            <div class="tablinks" v-on:click="selectTab($event, 'Charts')">
+            <div class="tablinks active" v-on:click="selectTab($event, 'Charts')">
                 <i class="material-icons icons">show_chart</i>
                 <i class="text">CHARTS</i>
             </div>
@@ -23,10 +19,6 @@
                 <i class="material-icons icons">developer_mode</i>
                 <i class="text">LOGGER</i>
             </div>
-        </div>
-        <div class="tablinks settings" v-on:click="selectTab($event, 'Settings')">
-            <i class="material-icons icons">settings</i>
-            <i class="text">SETTINGS</i>
         </div>
     </div>
 </template>

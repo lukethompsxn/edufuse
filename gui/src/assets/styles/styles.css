@@ -1,5 +1,5 @@
 .tabs {
-    margin-top: 50%;
+    margin-top: 61px;
 }
 
 .tab div {
@@ -32,7 +32,7 @@
 }
 
 .logo {
-    padding-top: 30px;
+    margin: 30px;
     height: 40px;
     width: 40px;
 }
