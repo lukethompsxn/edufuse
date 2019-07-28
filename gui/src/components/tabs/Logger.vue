@@ -71,7 +71,7 @@
             }
         },
         created: function () {
-            messageBus.$on('LOG', (json) => {
+            messageBus.$on('CALL_INFO', (json) => {
                 this.handleJSON(json);
             });
         },

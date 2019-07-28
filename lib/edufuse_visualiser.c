@@ -90,9 +90,9 @@ char *terminateString(const char *s1) {
  *
  */
 
-int send_log(char *syscall, char *file, char *fileInfo) {
+int send_fs_call_info(char *syscall, char *file, char *fileInfo) {
     char *msg = mkjson( MKJSON_OBJ, 4,
-                         MKJSON_STRING, "type", "LOG",
+                         MKJSON_STRING, "type", "CALL_INFO",
                          MKJSON_STRING, "syscall", syscall,
                          MKJSON_STRING, "file", file,
                          MKJSON_JSON, "fileInfo", fileInfo);

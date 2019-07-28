@@ -66,10 +66,10 @@ ipcRenderer.on('clear-nodes', () => {
     messageBus.$emit('clear-nodes');
 });
 
-ipcRenderer.on('LOG', (event, json) => {
+ipcRenderer.on('CALL_INFO', (event, json) => {
     if (!ignorePaths.includes(json.file)) {
         Vue.prototype.logHistory.push(json);
-        messageBus.$emit('LOG', json);
+        messageBus.$emit('CALL_INFO', json);
     }
 });
 

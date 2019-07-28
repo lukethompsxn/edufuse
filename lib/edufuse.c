@@ -16,7 +16,7 @@ int is_visualised;
 /** Get file attributes */
 static int edufuse_getattr(const char *path, struct stat *stbuf) {
     if (is_visualised) {
-        send_log("getattr", path, stringify_stat(stbuf));
+        send_fs_call_info("getattr", path, stringify_stat(stbuf));
     }
     return registered_operations->getattr(path, stbuf);
 }
@@ -27,7 +27,7 @@ static int edufuse_readlink(const char *path, char *buf, size_t len) {
         char *info = mkjson(MKJSON_OBJ, 2,
                             MKJSON_STRING, "buf", buf,
                             MKJSON_LLINT, "len", len);
-        send_log("readlink", path, info);
+        send_fs_call_info("readlink", path, info);
     }
     return registered_operations->readlink(path, buf, len);
 }
@@ -38,7 +38,7 @@ static int edufuse_mknod(const char *path, mode_t mode, dev_t rdev) {
         char *info = mkjson(MKJSON_OBJ, 2,
                             MKJSON_INT, "mode", mode,
                             MKJSON_LLINT, "rdev", rdev);
-        send_log("mknod", path, info);
+        send_fs_call_info("mknod", path, info);
     }
     return registered_operations->mknod(path, mode, rdev);
 }
@@ -48,7 +48,7 @@ static int edufuse_mkdir(const char *path, mode_t mode) {
     if (is_visualised) {
         char *info = mkjson(MKJSON_OBJ, 1,
                             MKJSON_INT, "mode", mode);
-        send_log("mkdir", path, info);
+        send_fs_call_info("mkdir", path, info);
     }
     return registered_operations->mkdir(path, mode);
 }
@@ -56,7 +56,7 @@ static int edufuse_mkdir(const char *path, mode_t mode) {
 /** Remove a file */
 static int edufuse_unlink(const char *path) {
     if (is_visualised) {
-        send_log("unlink", path, ""); //todo ensure this doesn't error (or cause seg fault)
+        send_fs_call_info("unlink", path, ""); //todo ensure this doesn't error (or cause seg fault)
     }
     return registered_operations->unlink(path);
 }
@@ -64,7 +64,7 @@ static int edufuse_unlink(const char *path) {
 /** Remove a directory */
 static int edufuse_rmdir(const char *path) {
     if (is_visualised) {
-        send_log("rmdir", path, ""); //todo ensure this doesn't error (or cause seg fault)
+        send_fs_call_info("rmdir", path, ""); //todo ensure this doesn't error (or cause seg fault)
     }
     return registered_operations->rmdir(path);
 }
@@ -74,7 +74,7 @@ static int edufuse_symlink(const char *linkname, const char *path) {
     if (is_visualised) {
         char *info = mkjson(MKJSON_OBJ, 1,
                             MKJSON_STRING, "linkname", linkname);
-        send_log("symlink", path, info);
+        send_fs_call_info("symlink", path, info);
     }
     return registered_operations->symlink(linkname, path);
 }
@@ -85,7 +85,7 @@ static int edufuse_rename(const char *oldpath, const char *newpath) {
         char *info = mkjson(MKJSON_OBJ, 2,
                             MKJSON_STRING, "oldpath", oldpath,
                             MKJSON_STRING, "newpath", newpath);
-        send_log("rename", oldpath, info);
+        send_fs_call_info("rename", oldpath, info);
     }
     return registered_operations->rename(oldpath, newpath);
 }
@@ -96,7 +96,7 @@ static int edufuse_link(const char *oldpath, const char *newpath) {
         char *info = mkjson(MKJSON_OBJ, 2,
                             MKJSON_STRING, "oldpath", oldpath,
                             MKJSON_STRING, "newpath", newpath);
-        send_log("link", oldpath, info);
+        send_fs_call_info("link", oldpath, info);
     }
     return registered_operations->link(oldpath, newpath);
 }
@@ -106,7 +106,7 @@ static int edufuse_chmod(const char *path, mode_t mode) {
     if (is_visualised) {
         char *info = mkjson(MKJSON_OBJ, 1,
                             MKJSON_INT, "mode", mode);
-        send_log("chmod", path, info);
+        send_fs_call_info("chmod", path, info);
     }
     return registered_operations->chmod(path, mode);
 }
@@ -117,7 +117,7 @@ static int edufuse_chown(const char *path, uid_t uid, gid_t gid) {
         char *info = mkjson(MKJSON_OBJ, 2,
                             MKJSON_INT, "uid", uid,
                             MKJSON_INT, "gid", gid);
-        send_log("chown", path, info);
+        send_fs_call_info("chown", path, info);
     }
     return registered_operations->chown(path, uid, gid);
 }
@@ -127,7 +127,7 @@ static int edufuse_truncate(const char *path, off_t size) {
     if (is_visualised) {
         char *info = mkjson(MKJSON_OBJ, 1,
                             MKJSON_LLINT, "size", size);
-        send_log("truncate", path, info);
+        send_fs_call_info("truncate", path, info);
     }
     return registered_operations->truncate(path, size);
 }
@@ -135,7 +135,7 @@ static int edufuse_truncate(const char *path, off_t size) {
 /** File open operation */
 static int edufuse_open(const char *path, struct fuse_file_info *fi) {
     if (is_visualised) {
-        send_log("open", path, stringify_fusefileinfo(fi));
+        send_fs_call_info("open", path, stringify_fusefileinfo(fi));
     }
     return registered_operations->open(path, fi);
 }
@@ -143,7 +143,7 @@ static int edufuse_open(const char *path, struct fuse_file_info *fi) {
 /** Read data from an open file */
 static int edufuse_read(const char *path, char *buf, size_t size, off_t off, struct fuse_file_info *fi) {
     if (is_visualised) {
-        send_log("read", path, stringify_fusefileinfo_with_buf_size_off(fi, buf, size, off));
+        send_fs_call_info("read", path, stringify_fusefileinfo_with_buf_size_off(fi, buf, size, off));
     }
 
     int out = registered_operations->read(path, buf, size, off, fi);
@@ -158,7 +158,7 @@ static int edufuse_read(const char *path, char *buf, size_t size, off_t off, str
 /** Write data to an open file */
 static int edufuse_write(const char *path, const char *buf, size_t size, off_t off, struct fuse_file_info *fi) {
     if (is_visualised) {
-        send_log("write", path, stringify_fusefileinfo_with_buf_size_off(fi, buf, size, off));
+        send_fs_call_info("write", path, stringify_fusefileinfo_with_buf_size_off(fi, buf, size, off));
     }
 
     int out = registered_operations->read(path, buf, size, off, fi);
@@ -173,7 +173,7 @@ static int edufuse_write(const char *path, const char *buf, size_t size, off_t o
 /** Get file system statistics */
 static int edufuse_statfs(const char *path, struct statvfs *buf) {
     if (is_visualised) {
-        send_log("statfs", path, stringify_statvfs(buf));
+        send_fs_call_info("statfs", path, stringify_statvfs(buf));
     }
     return registered_operations->statfs(path, buf);
 }
@@ -181,7 +181,7 @@ static int edufuse_statfs(const char *path, struct statvfs *buf) {
 /** Possibly flush cached data */
 static int edufuse_flush(const char *path, struct fuse_file_info *fi) {
     if (is_visualised) {
-        send_log("flush", path, stringify_fusefileinfo(fi));
+        send_fs_call_info("flush", path, stringify_fusefileinfo(fi));
     }
     return registered_operations->flush(path, fi);
 }
@@ -189,7 +189,7 @@ static int edufuse_flush(const char *path, struct fuse_file_info *fi) {
 /** Release an open file */
 static int edufuse_release(const char *path, struct fuse_file_info *fi) {
     if (is_visualised) {
-        send_log("release", path, stringify_fusefileinfo(fi));
+        send_fs_call_info("release", path, stringify_fusefileinfo(fi));
     }
     return registered_operations->release(path, fi);
 }
@@ -197,7 +197,7 @@ static int edufuse_release(const char *path, struct fuse_file_info *fi) {
 /** Synchronize file contents */
 static int edufuse_fsync(const char *path, int datasync, struct fuse_file_info *fi) {
     if (is_visualised) {
-        send_log("fsync", path, stringify_fusefileinfo_with_datasync(fi, datasync));
+        send_fs_call_info("fsync", path, stringify_fusefileinfo_with_datasync(fi, datasync));
     }
     return registered_operations->fsync(path, datasync, fi);
 }
@@ -211,7 +211,7 @@ static int edufuse_setxattr(const char *path, const char *name, const char *valu
                             MKJSON_STRING, "value", value,
                             MKJSON_LLINT, "size", size,
                             MKJSON_INT, "flags", flags);
-        send_log("setxattr", path, info);
+        send_fs_call_info("setxattr", path, info);
     }
     return registered_operations->setxattr(path, name, value, size, flags, ext);
 }
@@ -223,7 +223,7 @@ static int edufuse_getxattr(const char *path, const char *name, char *value, siz
                             MKJSON_STRING, "name", name,
                             MKJSON_STRING, "value", value,
                             MKJSON_LLINT, "size", size);
-        send_log("getxattr", path, info);
+        send_fs_call_info("getxattr", path, info);
     }
     return registered_operations->getxattr(path, name, value, size, ext);
 }
@@ -236,7 +236,7 @@ static int edufuse_setxattr(const char *path, const char *name, const char *valu
                             MKJSON_STRING, "value", value,
                             MKJSON_LLINT, "size", size,
                             MKJSON_INT, "flags", flags);
-        send_log("setxattr", path, info);
+        send_fs_call_info("setxattr", path, info);
     }
     return registered_operations->setxattr(path, name, value, size, flags);
 }
@@ -248,7 +248,7 @@ static int edufuse_getxattr(const char *path, const char *name, char *value, siz
                             MKJSON_STRING, "name", name,
                             MKJSON_STRING, "value", value,
                             MKJSON_LLINT, "size", size);
-        send_log("getxattr", path, info);
+        send_fs_call_info("getxattr", path, info);
     }
     return registered_operations->getxattr(path, name, value, size);
 }
@@ -262,7 +262,7 @@ static int edufuse_listxattr(const char *path, char *list, size_t size) {
         char *info = mkjson(MKJSON_OBJ, 2,
                             MKJSON_STRING, "list", list,
                             MKJSON_LLINT, "size", size);
-        send_log("listxattr", path, info);
+        send_fs_call_info("listxattr", path, info);
     }
     return registered_operations->listxattr(path, list, size);
 }
@@ -272,7 +272,7 @@ static int edufuse_removexattr(const char *path, const char *name) {
     if (is_visualised) {
         char *info = mkjson(MKJSON_OBJ, 1,
                             MKJSON_STRING, "name", name);
-        send_log("removexattr", path, info);
+        send_fs_call_info("removexattr", path, info);
     }
     return registered_operations->removexattr(path, name);
 }
@@ -280,7 +280,7 @@ static int edufuse_removexattr(const char *path, const char *name) {
 /** Open directory */
 static int edufuse_opendir(const char *path, struct fuse_file_info *fi) {
     if (is_visualised) {
-        send_log("opendir", path, stringify_fusefileinfo(fi));
+        send_fs_call_info("opendir", path, stringify_fusefileinfo(fi));
     }
     return registered_operations->opendir(path, fi);
 }
@@ -288,7 +288,7 @@ static int edufuse_opendir(const char *path, struct fuse_file_info *fi) {
 /** Read directory */
 static int edufuse_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t off, struct fuse_file_info *fi) {
     if (is_visualised) {
-        send_log("readdir", path, stringify_fusefileinfo_with_buf_size_off(fi,"", -1, off));
+        send_fs_call_info("readdir", path, stringify_fusefileinfo_with_buf_size_off(fi,"", -1, off));
     }
     return registered_operations->readdir(path, buf, filler, off, fi);
 }
@@ -296,7 +296,7 @@ static int edufuse_readdir(const char *path, void *buf, fuse_fill_dir_t filler, 
 /** Release directory */
 static int edufuse_releasedir(const char *path, struct fuse_file_info *fi) {
     if (is_visualised) {
-        send_log("releasedir", path, stringify_fusefileinfo(fi));
+        send_fs_call_info("releasedir", path, stringify_fusefileinfo(fi));
     }
     return registered_operations->releasedir(path, fi);
 }
@@ -304,7 +304,7 @@ static int edufuse_releasedir(const char *path, struct fuse_file_info *fi) {
 /** Synchronize directory contents */
 static int edufuse_fsyncdir(const char *path, int datasync, struct fuse_file_info *fi) {
     if (is_visualised) {
-        send_log("fsyncdir", path, stringify_fusefileinfo_with_datasync(fi, datasync));
+        send_fs_call_info("fsyncdir", path, stringify_fusefileinfo_with_datasync(fi, datasync));
     }
     return registered_operations->fsyncdir(path, datasync, fi);
 }
@@ -312,7 +312,7 @@ static int edufuse_fsyncdir(const char *path, int datasync, struct fuse_file_inf
 /** Initialize filesystem */
 static void *edufuse_init(struct fuse_conn_info *conn) {
     if (is_visualised) {
-        send_log("init", "", stringify_fuseconninfo(conn));
+        send_fs_call_info("init", "", stringify_fuseconninfo(conn));
     }
     return registered_operations->init(conn);
 }
@@ -321,7 +321,7 @@ static void *edufuse_init(struct fuse_conn_info *conn) {
  * Clean up filesystem */
 static void edufuse_destroy(void *data) {
     if (is_visualised) {
-        send_log("destroy", "", "");
+        send_fs_call_info("destroy", "", "");
     }
     registered_operations->destroy(data);
 }
@@ -331,7 +331,7 @@ static int edufuse_access(const char *path, int mask) {
     if (is_visualised) {
         char *info = mkjson(MKJSON_OBJ, 1,
                             MKJSON_INT, "mask", mask);
-        send_log("access", path, info);
+        send_fs_call_info("access", path, info);
     }
     return registered_operations->access(path, mask);
 }
@@ -340,7 +340,7 @@ static int edufuse_access(const char *path, int mask) {
  * Create and open a file */
 static int edufuse_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
     if (is_visualised) {
-        send_log("create", path, stringify_fusefileinfo_with_mode(fi, mode));
+        send_fs_call_info("create", path, stringify_fusefileinfo_with_mode(fi, mode));
     }
     return registered_operations->create(path, mode, fi);
 }
@@ -348,7 +348,7 @@ static int edufuse_create(const char *path, mode_t mode, struct fuse_file_info *
 /** Change the size of an open file */
 static int edufuse_ftruncate(const char *path, off_t size, struct fuse_file_info *fi) {
     if (is_visualised) {
-        send_log("ftruncate", path, stringify_fusefileinfo_with_buf_size_off(fi, "", -1, size));
+        send_fs_call_info("ftruncate", path, stringify_fusefileinfo_with_buf_size_off(fi, "", -1, size));
     }
     return registered_operations->ftruncate(path, size, fi);
 }
@@ -356,7 +356,7 @@ static int edufuse_ftruncate(const char *path, off_t size, struct fuse_file_info
 /** Get attributes from an open file */
 static int edufuse_fgetattr(const char *path, struct stat *buf, struct fuse_file_info *fi) {
     if (is_visualised) {
-        send_log("create", path, stringify_fusefileinfo_with_buf_size_off(fi, buf, -1, -1));
+        send_fs_call_info("create", path, stringify_fusefileinfo_with_buf_size_off(fi, buf, -1, -1));
     }
     return registered_operations->fgetattr(path, buf, fi);
 }
@@ -364,7 +364,7 @@ static int edufuse_fgetattr(const char *path, struct stat *buf, struct fuse_file
 /** Perform POSIX file locking operation */
 static int edufuse_lock(const char *path, struct fuse_file_info *fi, int cmd, struct flock *lock) {
     if (is_visualised) {
-        send_log("lock", path, stringify_fusefileinfo_with_flock_cmd(fi, lock, cmd));
+        send_fs_call_info("lock", path, stringify_fusefileinfo_with_flock_cmd(fi, lock, cmd));
     }
     return registered_operations->lock(path, fi, cmd, lock);
 }
@@ -372,7 +372,7 @@ static int edufuse_lock(const char *path, struct fuse_file_info *fi, int cmd, st
 /** Change the access and modification times of a file with */
 static int edufuse_utimens(const char *path, const struct timespec tv[2]) {
     if (is_visualised) {
-        send_log("utimens", path, stringify_tv(tv));
+        send_fs_call_info("utimens", path, stringify_tv(tv));
     }
     return registered_operations->utimens(path, tv);
 }
@@ -383,7 +383,7 @@ static int edufuse_bmap(const char *path, size_t blocksize, uint64_t *idx) {
         char *info = mkjson(MKJSON_OBJ, 2,
                             MKJSON_LLINT, "blocksize", blocksize,
                             MKJSON_LLINT, "idx", idx);
-        send_log("bmap", path, info);
+        send_fs_call_info("bmap", path, info);
     }
     return registered_operations->bmap(path, blocksize, idx);
 }
