@@ -136,12 +136,12 @@
 
                 }
 
-                this.updateSeries(this.points);
+                this.updateSeries();
 
             },
             updateSeries(newValue) {
-                this.chartOptions.series[0].data = newValue;
-                this.points.push();
+                // this.chartOptions.series[0].data = newValue;
+                // this.points.push();
             },
         },
 
@@ -154,7 +154,7 @@
 
         mounted() {
             this.logHistory.forEach((log) => {
-                this.handleJSON(log);
+                this.updateValues(log.syscall);
             });
         },
     };

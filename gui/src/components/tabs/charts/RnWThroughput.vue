@@ -80,7 +80,7 @@
 
         mounted() {
             this.logHistory.forEach((log) => {
-                this.handleJSON(log);
+                this.updateValues(log.syscall);
             });
         },
     }
