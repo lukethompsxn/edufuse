@@ -47,7 +47,7 @@
                         }
                     },
                     title: {
-                        text: 'Reads/Writes per Second'
+                        text: null
                     },
                     credits: false,
                     tooltip: {

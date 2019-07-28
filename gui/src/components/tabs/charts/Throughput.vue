@@ -1,27 +1,21 @@
 <template>
     <div>
-        <div>
-            <highcharts :options="chartOptions" :updateArgs="updateArgs" ref="chart"></highcharts>
-        </div>
-        <div>
-            <div id="app" style="padding: 0px;">
-                <multiselect
-                        v-model="value"
-                        :options="options"
-                        :multiple="true"
-                        track-by="syscall"
-                        :custom-label="customLabel"
-                        :close-on-select="false"
-                        :max="7"
-                        :max-height="300"
-                        @select="onSelect"
-                        @remove="onRemove"
-                >
-                    <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length > 3 &amp;&amp; !isOpen">{{ values.length }} options selected</span></template>
-                </multiselect>
-                <!--<pre>{{ chartOptions.series[0].data }}</pre>-->
-            </div>
-        </div>
+        <highcharts :options="chartOptions" :updateArgs="updateArgs" ref="chart"></highcharts>
+        <multiselect
+                style="font-size: 10px"
+                v-model="value"
+                :options="options"
+                :multiple="true"
+                track-by="syscall"
+                :custom-label="customLabel"
+                :close-on-select="false"
+                :max="7"
+                :max-height="300"
+                @select="onSelect"
+                @remove="onRemove"
+                :option-height="10">
+            <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length > 3 &amp;&amp; !isOpen">{{ values.length }} options selected</span></template>
+        </multiselect>
     </div>
 </template>
 
@@ -59,7 +53,7 @@
                         backgroundColor: 'transparent'
                     },
                     title: {
-                        text: 'Count of System Calls'
+                        text: null
                     },
                     credits: false,
                     xAxis: {

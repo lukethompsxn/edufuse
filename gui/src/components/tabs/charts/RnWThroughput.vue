@@ -32,7 +32,7 @@
                         // inverted: true,
                     },
                     title: {
-                        text: 'Total Amount Read/Written'
+                        text: null
                     },
                     credits: false,
                     xAxis: {
