@@ -51,7 +51,9 @@
                     chart: {
                         type: 'column',
                         backgroundColor: 'transparent',
-                        height: 180
+                        height: 180,
+                        margin: [20, 0, 30, 60],
+
                     },
                     title: {
                         text: null
@@ -65,7 +67,16 @@
                             text: 'Number of Calls'
                         }
                     },
+                    legend: {
+                        enabled: false,
+                        itemStyle: {
+                            fontSize: '10px'
+                        }
+                    },
                     series: [{
+                        style: {
+                            font: '2000pt',
+                        },
                         name: 'System Call',
                         data: [0, 0, 0, 0],
                         color: '#6fcd98',

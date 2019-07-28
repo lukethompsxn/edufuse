@@ -24,6 +24,7 @@
                         animation: Highcharts.svg, // don't animate in old IE
                         marginRight: 10,
                         backgroundColor: 'transparent',
+                        margin: [20, 0, 60, 51],
 
                         // Need to enter real data in this function
                         events: {
@@ -70,7 +71,7 @@
                     },
                     yAxis: {
                         title: {
-                            text: "Value"
+                            text: "Bytes"
                         },
                         softMax: 1,
                         min: 0,
@@ -81,6 +82,11 @@
                                 color: "#808080"
                             }
                         ]
+                    },
+                    legend: {
+                        itemStyle: {
+                            fontSize: '10px'
+                        }
                     },
                     // Will start empty
                     series: [
@@ -141,7 +147,7 @@
                 this.updateSeries();
 
             },
-            updateSeries(newValue) {
+            updateSeries() {
                 // this.chartOptions.series[0].data = newValue;
                 // this.points.push();
             },

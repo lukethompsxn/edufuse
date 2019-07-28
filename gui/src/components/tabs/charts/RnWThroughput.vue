@@ -29,7 +29,8 @@
                     chart: {
                         type: 'column',
                         backgroundColor: 'transparent',
-                        height: 216
+                        height: 216,
+                        margin: [20, 0, 50, 60],
                         // inverted: true,
                     },
                     title: {
@@ -43,7 +44,15 @@
                     },
                     yAxis: {
                         title: {
-                            text: "Bytes Read/Written"
+                            minPadding: 0,
+                            maxPadding: 0,
+                            text: "Bytes"
+                        }
+                    },
+                    legend: {
+                        enabled: false,
+                        itemStyle: {
+                            fontSize: '10px'
                         }
                     },
                     series: [{
