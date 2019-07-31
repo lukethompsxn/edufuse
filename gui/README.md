@@ -49,9 +49,55 @@ int main(int argc, char *argv[])
 
 ### Tabs
 ##### Charts
+//todo screenshot
+
 //todo @joel
 
 ##### Directory
+//todo screenshot
 
+The directory tab has two main components. On the left, we have a live representation of the mounted directory. This automatically updates when files change. You can click on a file or directory (excluding the mount point) and the information about the file/directory will be displayed on the right. 
+
+**File/Directory Properties.**
+
+| Property           	| `stat` Property 	| Description                                                                                                                                                                                                                                                                                                                                                                        	|
+|--------------------	|-----------------	|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
+| Filename           	| N/A             	| The given pathname of the file                                                                                                                                                                                                                                                                                                                                                     	|
+| Created            	| `st_ctime`      	| The time of creation                                                                                                                                                                                                                                                                                                                                                               	|
+| Access             	| `st_atime`      	| The time of last access                                                                                                                                                                                                                                                                                                                                                            	|
+| Modified           	| `st_mtime`      	| The time of last modification                                                                                                                                                                                                                                                                                                                                                      	|
+| File Mode          	| `st_mode`       	| Specifies the mode of the file. *See table below*                                                                                                                                                                                                                                                                                                                                  	|
+| Size               	| `st_size`       	| The size of the file in bytes                                                                                                                                                                                                                                                                                                                                                      	|
+| Optimal Block Size 	| `st_blksize`    	| A filesystem-specific preferred I/O block size for this object. In some filesystem types, this may vary from file to file                                                                                                                                                                                                                                                          	|
+| # Blocks Allocated 	| `st_blocks`     	| This is the amount of disk space that the file occupies, measured in units of 512-byte blocks. The number of disk blocks is not strictly proportional to the size of the file, for two reasons: the file system may use some blocks for internal record keeping; and the file may be sparse—it may have “holes” which contain zeros but do not actually take up space on the disk. 	|
+| File Serial Number 	| `st_ino`        	| The file serial number (inode number), which distinguishes this file from all other files on the same device.                                                                                                                                                                                                                                                                      	|
+| Device             	| `st_dev`        	| Identifies the device containing the file                                                                                                                                                                                                                                                                                                                                          
+| Owner ID           	| `st_uid`        	| The user ID of the file’s owner                                                                                                                                                                                                                                                                                                                                                    	|
+| Group ID           	| `st_gid`        	| The group ID of the file                                                                                                                                                                                                                                                                                                                                                           	|
+| Link Count         	| `st_nlink`      	| The number of hard links to the file. This count keeps track of how many directories have entries for this file. If the count is ever decremented to zero, then the file itself is discarded as soon as no process still holds it open. Symbolic links are not counted in the total.                                                                                               	|
+
+
+**File Modes.**
+
+|Name|Numeric Value|Description|
+|--- |--- |--- |
+|S_IRWXU|0700|Read, write, execute/search by owner.|
+|S_IRUSR|0400|Read permission, owner.|
+|S_IWUSR|0200|Write permission, owner.|
+|S_IXUSR|0100|Execute/search permission, owner.|
+|S_IRWXG|070|Read, write, execute/search by group.|
+|S_IRGRP|040|Read permission, group.|
+|S_IWGRP|020|Write permission, group.|
+|S_IXGRP|010|Execute/search permission, group.|
+|S_IRWXO|07|Read, write, execute/search by others.|
+|S_IROTH|04|Read permission, others.|
+|S_IWOTH|02|Write permission, others.|
+|S_IXOTH|01|Execute/search permission, others.|
+|S_ISUID|04000|Set-user-ID on execution.|
+|S_ISGID|02000|Set-group-ID on execution.|
+|[XSI]  S_ISVTX|01000|On directories, restricted deletion flag.|
 
 ##### Logger 
+//todo screenshot
+
+//todo @luke
