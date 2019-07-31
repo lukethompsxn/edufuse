@@ -28,7 +28,7 @@ After installation, all you need to do is create a class extending `FileSystemSt
 
 First you need to create a class extending `FileSystemStub`.
 
-```
+```java
 import com.edufuse.filesystem.FileSystemStub;
 
 public class HelloFUSE extends FileSystemStub { 
@@ -37,7 +37,7 @@ public class HelloFUSE extends FileSystemStub {
 
 Then create a main method (either inside your file system class or elsewhere), create an instance of your file system class, then call `mount()` to mount (start) your file system. As all FUSE file systems must be unmounted, it is good practice to do this in a `try, catch, finally` where you call `unmount()` in the finally block. The `mount()` method takes two parameters, `args` which are command line arguments (including the mount point), and a `boolean` specifying whether to launch the front end GUI.
 
-```
+```java
 public static void main(String[] args) {
 	HelloFUSE fs = new HelloFUSE();
  	try {
