@@ -24,7 +24,11 @@ Example file system implementations can be found [here](https://github.com/luket
 //todo
 
 ### Getting Started
+<<<<<<< HEAD
 After installation, all you need to do is create a class extending `FileSystemStub`. Then, simply implement override the methods you wish to install. It is important to note that although there is no requirement for any methods to be implemented, a basic set of methods is required for any functioning file system. More information can be found about this [here](https://github.com/libfuse/libfuse). 
+=======
+After installation, all you need to do is create a class extending `FileSystemStub`. Then, simply implement override the methods you wish to install. It is important to note that although there is no requirement for any methods to be implemented, a basic set of methods is required for any functioning file system. More information can be found about this [here](https://github.com/libfuse/libfuse). Full example implementations can be found [here](https://github.com/lukethompsxn/edufuse/tree/master/java/src/main/java/com/edufuse/examples).
+>>>>>>> 396e2eb646d976ade51978232ec37a575e518b7e
 
 First you need to create a class extending `FileSystemStub`.
 
@@ -56,13 +60,3 @@ In order to run your file system implementation, simply execute the main method 
 `mount(String[], boolean)` | `String[]` is arguments passed from command line. **This must include the mount path.** `boolean` is the parameter for selecting whether to launch the GUI. This GUI can help with visualising the underlying commands and help to debug your file system implementation. The `mount()` function is used to mount (start) your file system. This method registers your file systems functions with the underlying VFS. 
 | `unmount()` | This function is used to unmount your specified mount point from the underlying VFS. By calling this in your file system, it will save you from having to run `fusermount -u mountPoint` where `mountPoint` is your specified mount point after each run of your file system. It is good practice to mount your file system in a `try, catch, finally` block in order to ensure unmounting occurs (assuming no segmentation fault).
 | `getContext()` | This function returns an object of `FuseContext` which exposes the `fuse` pointer, `uid`, `gid`, `pid,` `private_data` of the file system, and `unmask`. 
-
-
-
-
-
-
-
-
-
-
