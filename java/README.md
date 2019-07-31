@@ -24,11 +24,7 @@ Example file system implementations can be found [here](https://github.com/luket
 //todo
 
 ### Getting Started
-<<<<<<< HEAD
-After installation, all you need to do is create a class extending `FileSystemStub`. Then, simply implement override the methods you wish to install. It is important to note that although there is no requirement for any methods to be implemented, a basic set of methods is required for any functioning file system. More information can be found about this [here](https://github.com/libfuse/libfuse). 
-=======
 After installation, all you need to do is create a class extending `FileSystemStub`. Then, simply implement override the methods you wish to install. It is important to note that although there is no requirement for any methods to be implemented, a basic set of methods is required for any functioning file system. More information can be found about this [here](https://github.com/libfuse/libfuse). Full example implementations can be found [here](https://github.com/lukethompsxn/edufuse/tree/master/java/src/main/java/com/edufuse/examples).
->>>>>>> 396e2eb646d976ade51978232ec37a575e518b7e
 
 First you need to create a class extending `FileSystemStub`.
 
