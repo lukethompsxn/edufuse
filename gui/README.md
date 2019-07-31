@@ -5,6 +5,7 @@ eduFUSE GUI is a front end interface for your backend file system. The main purp
 The eduFUSE GUI comes pre-packaged with eduFUSE. All you need to do is specify the parameter when registering your file system, more detailed usage information provided in subsequent sections.
 
 ### Getting Started
+<<<<<<< HEAD
 All of the underlying communication and data collection is completely within eduFUSE. All you need to do is specify whether or not you wish to visualise your file system when calling `edufuse_register()` (in the C version) or `mount()` in the Java version. 
 
 **Java**
@@ -55,16 +56,3 @@ int main(int argc, char *argv[])
 
 
 ##### Logger 
-
-
-
-
-
-
-
-
-
-
-
-
-
