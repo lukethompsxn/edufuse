@@ -12,8 +12,19 @@ todo
 - `FuseException` is an exception class which is used for raising various exceptions you may wish to throw in your file system implementation.
 - `AccessConstants`, `FuseBufFlags`, `IoctlFlags`, and `XAttrConstants` are flag classes. Please refer to JavaDoc documentation in the classes for more information.
 
+### Running an Example
+Example file system implementations can be found [here](https://github.com/lukethompsxn/edufuse/tree/master/java/examples/). You can run these examples either from and IDE or command line, but first you need to install eduFUSE.
+
+**From an IDE** *(recommended)*
+
+- Simply open the example which you wish to run. Then since the examples have a `public static void main(String[])` method, you should be able to click the run arrow next to the method in the class of the example file system you wish to run. 
+- **NOTE** the first time you run the file system like this you will recieve an error, this is because you need to pass the mount point as a parameter to the main method. In order to do this, simply modify the Run Configuration settings to add your mount point as a `Program Argument`. Guides for adding program parameters can be found here for [IntelliJ](https://stackoverflow.com/questions/2066307/how-do-you-input-commandline-argument-in-intellij-idea) and [Eclipse](https://www.cs.colostate.edu/helpdocs/eclipseCommLineArgs.html). For example, if I was using Linux, I could pass `/tmp/example` as a program argument for my mount point (assuming this directory exists). 
+
+**From the Command Line**
+//todo
+
 ### Getting Started
-After installation, all you need to do is create a class extending `FileSystemStub`. Then, simply implement override the methods you wish to install. It is important to note that although there is no requirement for any methods to be implemented, a basic set of methods is required for any functioning file system. More information can be found about this [here](https://github.com/libfuse/libfuse). Full example implementations can be found [here](https://github.com/lukethompsxn/edufuse/tree/master/java/examples/).
+After installation, all you need to do is create a class extending `FileSystemStub`. Then, simply implement override the methods you wish to install. It is important to note that although there is no requirement for any methods to be implemented, a basic set of methods is required for any functioning file system. More information can be found about this [here](https://github.com/libfuse/libfuse). 
 
 First you need to create a class extending `FileSystemStub`.
 
