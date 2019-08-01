@@ -7,6 +7,8 @@ The eduFUSE GUI comes pre-packaged with eduFUSE. All you need to do is specify t
 ### Getting Started
 All of the underlying communication and data collection is completely within eduFUSE. All you need to do is specify whether or not you wish to visualise your file system when calling `edufuse_register()` (in the C version) or `mount()` in the Java version. 
 
+Please note that some paths have been ignored for the visualisation. By ignoring these paths it helps to reduce the amount of information being displayed, thus making it easier to see the useful information. Currently, the ignored paths include `/`, `./`, `.`, `.hidden`, `/.hidden`, `/.Trash`, `/.Trash-100`, `/.Trash-1000`, `/.localized`, `/.DS_STORE`, and `/.DS_Store`.
+
 **Java**
 
 The second parameter of the `mount()` method determines whether the GUI is launched. Simply supply `true` to mount and launch the GUI, or `false` to mount without launching the GUI.
