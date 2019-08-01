@@ -48,19 +48,33 @@ int main(int argc, char *argv[])
 ```
 
 ### Tabs
+<<<<<<< HEAD
 **Charts**
+=======
+##### Charts
+>>>>>>> 419bcf00c5397c5812a859ec6cd8c621e0ac4a27
 //todo screenshot
 
 //todo @joel
 
+<<<<<<< HEAD
 **Directory**
+=======
+##### Directory
+>>>>>>> 419bcf00c5397c5812a859ec6cd8c621e0ac4a27
 //todo screenshot
 
 The directory tab has two main components. On the left, we have a live representation of the mounted directory. This automatically updates when files change. You can click on a file or directory (excluding the mount point) and the information about the file/directory will be displayed on the right. 
 
+<<<<<<< HEAD
 *File/Directory Properties.*
 
 | Property           	| `stat` variable 	| Description                                                                                                                                                                                                                                                                                                                                                                        	|
+=======
+**File/Directory Properties.**
+
+| Property           	| `stat` Property 	| Description                                                                                                                                                                                                                                                                                                                                                                        	|
+>>>>>>> 419bcf00c5397c5812a859ec6cd8c621e0ac4a27
 |--------------------	|-----------------	|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
 | Filename           	| N/A             	| The given pathname of the file                                                                                                                                                                                                                                                                                                                                                     	|
 | Created            	| `st_ctime`      	| The time of creation                                                                                                                                                                                                                                                                                                                                                               	|
@@ -77,7 +91,11 @@ The directory tab has two main components. On the left, we have a live represent
 | Link Count         	| `st_nlink`      	| The number of hard links to the file. This count keeps track of how many directories have entries for this file. If the count is ever decremented to zero, then the file itself is discarded as soon as no process still holds it open. Symbolic links are not counted in the total.                                                                                               	|
 
 
+<<<<<<< HEAD
 *File Modes.*
+=======
+**File Modes.**
+>>>>>>> 419bcf00c5397c5812a859ec6cd8c621e0ac4a27
 
 |Name|Numeric Value|Description|
 |--- |--- |--- |
@@ -96,6 +114,7 @@ The directory tab has two main components. On the left, we have a live represent
 |S_ISUID|04000|Set-user-ID on execution.|
 |S_ISGID|02000|Set-group-ID on execution.|
 |[XSI]  S_ISVTX|01000|On directories, restricted deletion flag.|
+<<<<<<< HEAD
 
 **Logger** 
 //todo screenshot
@@ -121,5 +140,13 @@ The logger provides customisable output based on your specified selection. When 
 
 
 
+=======
+>>>>>>> 419bcf00c5397c5812a859ec6cd8c621e0ac4a27
 
+##### Logger 
+//todo screenshot
 
+<<<<<<< HEAD
+=======
+//todo @luke
+>>>>>>> 419bcf00c5397c5812a859ec6cd8c621e0ac4a27
