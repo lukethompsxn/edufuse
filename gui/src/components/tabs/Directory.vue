@@ -62,10 +62,6 @@
                             <td>{{node.data.stat.dev}}</td>
                         </tr>
                         <tr>
-                            <th>Device Number:</th>
-                            <td>{{node.data.stat.rdev}}</td>
-                        </tr>
-                        <tr>
                             <th>Owner ID:</th>
                             <td>{{node.data.stat.uid}}</td>
                         </tr>
@@ -186,7 +182,6 @@
         align-content: flex-end;
         float: right;
         background-color: #ffffff;
-        /*margin-left: 10px;*/
         padding-top: 10px;
     }
 

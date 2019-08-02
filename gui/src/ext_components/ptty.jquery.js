@@ -278,6 +278,22 @@ import jQuery from 'jquery'
             }
 
             /**
+             * @method : clear
+             * @desc   : Clears screen
+             **/
+            _public.clear = function () {
+                el.find('.content').html('');
+            };
+
+            /**
+             * @method : scroll
+             * @desc   : Takes a string and
+             **/
+            _public.echo = function () {
+                scroll_to_bottom();
+            };
+
+            /**
              * @method : ptty_change_settings
              * @desc   : Edits a property from the settings (not all settings are editable)
              **/
