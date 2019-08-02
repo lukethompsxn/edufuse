@@ -55,7 +55,6 @@
                 if (msg !== undefined && terminal !== undefined) this.$refs.terminal.echo("$ " + msg);
             },
             handleJSON(json) {
-                console.log(json)
                 if (!first) {
                     this.logMessage('');
                 } else {

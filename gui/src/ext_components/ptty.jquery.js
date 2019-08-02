@@ -283,15 +283,15 @@ import jQuery from 'jquery'
              **/
             _public.clear = function () {
                 el.find('.content').html('');
-            };
+            }
 
             /**
              * @method : scroll
              * @desc   : Takes a string and
              **/
-            _public.echo = function () {
+            _public.scroll = function () {
                 scroll_to_bottom();
-            };
+            }
 
             /**
              * @method : ptty_change_settings
