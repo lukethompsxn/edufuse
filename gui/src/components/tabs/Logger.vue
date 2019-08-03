@@ -6,12 +6,14 @@
             </div>
             <b-form-group class="options">
                 <b-form-checkbox-group
+                        class="radios"
                         id="checkbox-group-1"
                         v-model="selected"
                         :options="options"
                         name="flavour-1"
                         switches
                 ></b-form-checkbox-group>
+                <b-button class="button" size="sm" pill variant="outline-primary" v-on:click="clear">Clear</b-button>
             </b-form-group>
         </b-row>
         <b-row class="bottom card">
@@ -68,6 +70,12 @@
                 if (this.selected.includes('fileInfo')) {
                     this.logMessage('INFO: ' + JSON.stringify(json.fileInfo, null, 4));
                 }
+            },
+            clear() {
+                this.$refs.terminal.clear();
+            },
+            scroll() {
+                this.$refs.terminal.scroll();
             }
         },
         created: function () {
@@ -105,11 +113,22 @@
         font-family: 'Montserrat', sans-serif;
         line-height: 24px;
         vertical-align: middle;
-        padding-top: 9px;
     }
 
     .form-group {
         margin-bottom: 0 !important;
+    }
+
+    .radios {
+        display: inline;
+        float: left;
+        padding-top: 11px;
+    }
+
+    .button {
+        float: right;
+        display: inline;
+        margin-top: 8px;
     }
 
 </style>

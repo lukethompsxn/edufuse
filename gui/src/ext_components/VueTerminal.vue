@@ -53,6 +53,12 @@
         methods: {
             echo(msg) {
                 this.ptty.echo(msg, false);
+            },
+            clear() {
+                this.ptty.clear();
+            },
+            scroll() {
+                this.ptty.scroll();
             }
         },
         mounted() {
