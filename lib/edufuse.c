@@ -148,7 +148,7 @@ static int edufuse_read(const char *path, char *buf, size_t size, off_t off, str
 
     int out = registered_operations->read(path, buf, size, off, fi);
     if (is_visualised) {
-        send_amount_read_write("read", &out);
+        send_amount_read_write("read", &out, path);
     }
 
     return out;
@@ -163,7 +163,7 @@ static int edufuse_write(const char *path, const char *buf, size_t size, off_t o
 
     int out = registered_operations->read(path, buf, size, off, fi);
     if (is_visualised) {
-        send_amount_read_write("read", &out);
+        send_amount_read_write("read", &out, path);
     }
 
     // return registered_operations->write(path, buf, size, off, fi);

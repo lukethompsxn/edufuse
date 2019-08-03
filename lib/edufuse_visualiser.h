@@ -8,7 +8,7 @@ extern void destroy_visualiser();
 extern int send_data(char *str);
 extern int send_mount_point(char *mount_point);
 extern int send_fs_call_info(char *syscall, char *file, char *fileInfo);
-extern int send_amount_read_write(char *syscall, int *amount);
+extern int send_amount_read_write(char *syscall, int *amount, char *file);
 
 extern char *stringify_stat(struct stat *stbuf);
 extern char *stringify_fusefileinfo(struct fuse_file_info *fi);
