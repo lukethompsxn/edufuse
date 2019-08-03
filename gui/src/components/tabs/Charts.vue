@@ -2,11 +2,12 @@
     <b-container height="100%">
         <b-row>
             <b-col class="left card top">
-                <div class="title">
+                <div style="position: relative;" class="title">
                     <span>Total Bytes Read/Written.</span>
+                    <button type="button" @click="buttonClicked" class="resButton btn btn-outline-secondary btn-sm" style="">Clear</button>
                 </div>
                 <div class="content">
-                    <RnWThroughput></RnWThroughput>
+                    <RnWThroughput ref="rnwThroughput"></RnWThroughput>
                 </div>
             </b-col>
             <b-col class="right card top">
@@ -22,9 +23,10 @@
             <b-col class="lower card bottom">
                 <div class="title">
                     <span>System Calls.</span>
+                    <button type="button" @click="throughputReset" class="resButton btn btn-outline-secondary btn-sm" style="">Clear</button>
                 </div>
                 <div class="content">
-                    <Throughput></Throughput>
+                    <Throughput ref="throughput"></Throughput>
                 </div>
             </b-col>
         </b-row>
@@ -42,6 +44,15 @@
             RnWThroughput,
             Throughput,
             TimeLine
+        },
+
+        methods: {
+            buttonClicked: function () {
+                this.$refs.rnwThroughput.reset();
+            },
+            throughputReset: function () {
+                this.$refs.throughput.reset();
+            }
         }
     }
 </script>
@@ -61,5 +72,12 @@
 
     .bottom {
         height: 276px;
+    }
+
+    .resButton {
+        float: right;
+        margin-left: -50%;
+        margin-top: 2px;
+        margin-right: 0em;
     }
 </style>

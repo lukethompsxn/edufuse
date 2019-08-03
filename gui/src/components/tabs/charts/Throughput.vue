@@ -180,6 +180,10 @@
 
                 this.updateValues();
             },
+            reset: function () {
+                this.points = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                this.updateValues();
+            }
         },
 
         created: function () {

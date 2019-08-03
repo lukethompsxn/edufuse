@@ -9,7 +9,7 @@
     import {messageBus} from '../../../main.js';
     import fs from 'fs';
 
-    let mount = '';
+    // let mount = '';
 
     export default {
         name: "RnWThroughput",
@@ -84,6 +84,10 @@
                 this.chartOptions.series[0].data = newValue;
                 this.points.push();
             },
+            reset: function () {
+                this.points = [0, 0];
+                this.updateSeries(this.points);
+            }
         },
 
         created: function () {
@@ -93,7 +97,7 @@
             });
             messageBus.$on('MOUNT', (json) => {
                 if (json.dir !== null && json.dir !== '') {
-                    mount = json.dir;
+                    // mount = json.dir;
                 }
             });
         },
