@@ -9,6 +9,8 @@
     import {messageBus} from '../../../main.js';
     import fs from 'fs';
 
+    let mount = '';
+
     export default {
         name: "RnWThroughput",
         components: {
@@ -65,12 +67,15 @@
         },
 
         methods: {
-            updateValues(msg) {
-                let stats = fs.statSync('/tmp/example/file');
+            updateValues(call, path) {
+                let stats;
+                if (path !== undefined) {
+                    stats = fs.statSync('/tmp/example' + path);
+                }
 
                 // Temp solution
-                if (msg !== undefined && msg === 'read') this.points[0]+= stats.size;
-                else if (msg !== undefined && msg === 'write') this.points[1]+= stats.size;
+                if (call !== undefined && call === 'read') this.points[0]+= stats.size;
+                else if (call !== undefined && call === 'write') this.points[1]+= stats.size;
 
                 this.updateSeries(this.points);
 
@@ -84,7 +89,12 @@
         created: function () {
             messageBus.$on('READ_WRITE', (json) => {
                 //this.updateValues(json.amount);
-                this.updateValues(json.syscall);
+                this.updateValues(json.syscall, json.file);
+            });
+            messageBus.$on('MOUNT', (json) => {
+                if (json.dir !== null && json.dir !== '') {
+                    mount = json.dir;
+                }
             });
         },
 
