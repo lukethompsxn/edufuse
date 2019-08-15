@@ -4,6 +4,7 @@
         <multiselect
                 style="font-size: 10px"
                 v-model="value"
+                :tabindex="-1"
                 :options="options"
                 :multiple="true"
                 track-by="syscall"
