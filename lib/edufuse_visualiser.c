@@ -119,11 +119,10 @@ int send_mount_point(char *mount_point) {
     return result;
 }
 
-int send_amount_read_write(char *syscall, int *amount, char *file) {
-    char *msg = mkjson( MKJSON_OBJ, 4,
+int send_amount_read_write(char *syscall, char *file) {
+    char *msg = mkjson( MKJSON_OBJ, 3,
             MKJSON_STRING, "type", "READ_WRITE",
             MKJSON_STRING, "syscall", syscall,
-            MKJSON_INT, "amount", amount,
             MKJSON_STRING, "file", file);
 
     char *terminatedMsg = terminateString(msg);

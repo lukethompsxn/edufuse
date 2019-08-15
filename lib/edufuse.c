@@ -146,13 +146,11 @@ static int edufuse_read(const char *path, char *buf, size_t size, off_t off, str
         send_fs_call_info("read", path, stringify_fusefileinfo_with_buf_size_off(fi, buf, size, off));
     }
 
-    int out = registered_operations->read(path, buf, size, off, fi);
     if (is_visualised) {
-        send_amount_read_write("read", &out, path);
+        send_amount_read_write("read", path);
     }
 
-    return out;
-    // return registered_operations->read(path, buf, size, off, fi);
+    return registered_operations->read(path, buf, size, off, fi);
 }
 
 /** Write data to an open file */
@@ -161,13 +159,11 @@ static int edufuse_write(const char *path, const char *buf, size_t size, off_t o
         send_fs_call_info("write", path, stringify_fusefileinfo_with_buf_size_off(fi, buf, size, off));
     }
 
-    int out = registered_operations->read(path, buf, size, off, fi);
     if (is_visualised) {
-        send_amount_read_write("read", &out, path);
+        send_amount_read_write("read", path);
     }
 
-    // return registered_operations->write(path, buf, size, off, fi);
-    return out;
+    return registered_operations->write(path, buf, size, off, fi);
 }
 
 /** Get file system statistics */
