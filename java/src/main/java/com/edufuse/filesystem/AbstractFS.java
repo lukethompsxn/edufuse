@@ -31,7 +31,7 @@ public abstract class AbstractFS implements FUSE {
     private final FuseOperations fuseOperations;
     private final AtomicBoolean mounted = new AtomicBoolean();
     private Pointer fusePointer;
-    private Path mountPoint;
+    protected Path mountPoint;
 
     public AbstractFS() {
         LibraryLoader<FUSELink> loader = LibraryLoader.create(FUSELink.class).failImmediately();
