@@ -12,6 +12,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 find_package(FUSE REQUIRED)
 
 include_directories(${FUSE_INCLUDE_DIR})
-add_executable(edufuse lib/edufuse.c lib/edufuse.h example/passthrough/passthrough_fh.c ext/mkjson/mkjson.h ext/mkjson/mkjson.c lib/edufuse_visualiser.h lib/edufuse_visualiser.c)
+add_executable(edufuse lib/edufuse.c lib/edufuse.h example/examplefs.c ext/mkjson/mkjson.h ext/mkjson/mkjson.c lib/edufuse_visualiser.h lib/edufuse_visualiser.c)
 
 target_link_libraries(edufuse ${FUSE_LIBRARIES})
