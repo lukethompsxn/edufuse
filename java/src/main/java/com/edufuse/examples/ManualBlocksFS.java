@@ -6,15 +6,15 @@ import com.edufuse.util.ErrorCodes;
 import com.edufuse.util.FuseFillDir;
 import jnr.ffi.Pointer;
 import jnr.ffi.Runtime;
-import jnr.ffi.Struct;
-import jnr.ffi.Struct.NumberField;
-import jnr.ffi.annotations.In;
 import jnr.ffi.types.dev_t;
 import jnr.ffi.types.mode_t;
 import jnr.ffi.types.off_t;
 import jnr.ffi.types.size_t;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class ManualBlocksFS extends FileSystemStub {
     private static File blockFile = null;
 //    private static File inode = null;
     private HashMap<String, INode> inodeTable = new HashMap<>();
-    private int blockIndex = 1; //todo this is terrible lmao fix it by encapsulating the inode table into object, will also make json easier
+    private int blockIndex = 0; //todo this is terrible lmao fix it by encapsulating the inode table into object, will also make json easier
 
     @Override
     public Pointer init(Pointer conn) {
@@ -58,15 +58,17 @@ public class ManualBlocksFS extends FileSystemStub {
             e.printStackTrace();
         }
 
+
+        // setup an example file for testing purposes
         INode iNode = new INode();
         FileStat stat = new FileStat(Runtime.getSystemRuntime());
-        stat.st_mode.set(FileStat.S_IFREG | 0444);
+        stat.st_mode.set(FileStat.S_IFREG | 0444 | 0222);
         stat.st_size.set(HELLO_STR.getBytes().length);
         stat.st_nlink.set(1);
         iNode.setStat(stat);
         inodeTable.put(HELLO_PATH, iNode);
         List<Integer> blocks = new ArrayList<>();
-        blocks.add(0);
+        blocks.add(getNextBlockIndex());
         iNode.addBlocks(blocks);
 
         try (FileOutputStream stream = new FileOutputStream(blockFile)){
@@ -74,7 +76,6 @@ public class ManualBlocksFS extends FileSystemStub {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        blockIndex++;
 
         return conn;
     }
@@ -86,8 +87,9 @@ public class ManualBlocksFS extends FileSystemStub {
             stat.st_mode.set(FileStat.S_IFDIR | 0755);
             stat.st_nlink.set(2);
         } else if (inodeTable.containsKey(path)) {
-            stat.st_mode.set(FileStat.S_IFREG | 0444);
-            stat.st_nlink.set(1);
+            FileStat savedStat = inodeTable.get(path).getStat();
+            stat.st_mode.set(savedStat.st_mode.intValue());
+            stat.st_nlink.set(savedStat.st_nlink.intValue());
             stat.st_size.set(inodeTable.get(path).getStat().st_size.intValue());
         } else {
             res = -ErrorCodes.ENOENT();
@@ -182,7 +184,7 @@ public class ManualBlocksFS extends FileSystemStub {
 
                 // write new blocks if needed
                 while (bufPointer < size) {
-                    blocks.add(blockPointer + 1, blockIndex);
+                    blocks.add(blockPointer + 1, getNextBlockIndex());
                     bufPointer += write(channel, blocks, buf, size, blockPointer, bufPointer);
                     blockPointer++;
                 }
@@ -242,7 +244,7 @@ public class ManualBlocksFS extends FileSystemStub {
     }
 
     @Override
-    public int truncate(String path, long size) {
+    public int truncate(String path, @size_t long size) {
         return super.truncate(path, size);
     }
 
@@ -257,17 +259,17 @@ public class ManualBlocksFS extends FileSystemStub {
     }
 
     @Override
-    public int setxattr(String path, String name, Pointer value, long size, int flags) {
+    public int setxattr(String path, String name, Pointer value, @size_t long size, int flags) {
         return super.setxattr(path, name, value, size, flags);
     }
 
     @Override
-    public int getxattr(String path, String name, Pointer value, long size) {
+    public int getxattr(String path, String name, Pointer value, @size_t long size) {
         return super.getxattr(path, name, value, size);
     }
 
     @Override
-    public int listxattr(String path, Pointer list, long size) {
+    public int listxattr(String path, Pointer list, @size_t long size) {
         return super.listxattr(path, list, size);
     }
 
@@ -302,7 +304,7 @@ public class ManualBlocksFS extends FileSystemStub {
     }
 
     @Override
-    public int ftruncate(String path, long size, FuseFileInfo fi) {
+    public int ftruncate(String path, @size_t long size, FuseFileInfo fi) {
         return super.ftruncate(path, size, fi);
     }
 
@@ -322,7 +324,7 @@ public class ManualBlocksFS extends FileSystemStub {
     }
 
     @Override
-    public int fallocate(String path, int mode, long off, long length, FuseFileInfo fi) {
+    public int fallocate(String path, int mode, @off_t long off , long length, FuseFileInfo fi) {
         return super.fallocate(path, mode, off, length, fi);
     }
 
@@ -335,7 +337,7 @@ public class ManualBlocksFS extends FileSystemStub {
         }
     }
 
-    private int write(FileChannel channel, List<Integer> blocks, Pointer buf, long size, int blockPointer, int bufPointer) throws IOException {
+    private int write(FileChannel channel, List<Integer> blocks, Pointer buf, @size_t long size, int blockPointer, int bufPointer) throws IOException {
         int numBytes = Math.min(BLOCK_SIZE, (int) size - bufPointer);
         byte[] bytes = new byte[numBytes];
         buf.get(bufPointer, bytes, 0, numBytes);
@@ -343,6 +345,12 @@ public class ManualBlocksFS extends FileSystemStub {
         ByteBuffer buffer = ByteBuffer.wrap(bytes);
         channel.write(buffer);
         return numBytes;
+    }
+
+    private int getNextBlockIndex() {
+        int ret = blockIndex;
+        blockIndex++;
+        return ret;
     }
 
     class INode {
