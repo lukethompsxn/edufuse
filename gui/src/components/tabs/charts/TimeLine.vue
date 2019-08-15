@@ -30,19 +30,20 @@
                         events: {
                             load: function() {
                                 // set up the updating of the chart each second
-                                let series = this.series;
+                                // let series = this.series;
+                                let chart = this;
 
-                                setInterval(function() {
-                                    let x = new Date().getTime(), // current time
-                                        y = Math.random(), // replace
-                                        y2 = Math.random(); // replace
-                                    // y = this.dataReadCurrent;
-                                    // y2 = this.dataWrittenCurrent;
-                                    // this.dataReadCurrent = 0;
-                                    // this.dataWrittenCurrent = 0;
+                                    setInterval(function() {
+                                        let x = new Date().getTime();
+                                        let y = 0;
+                                        let y2 = 0;
+                                        // let y = chart.dataReadCurrent;
+                                        // let y2 = chart.dataWrittenCurrent;
+                                        // this.dataReadCurrent = 0;
+                                        // this.dataWrittenCurrent = 0;
 
-                                    series[0].addPoint([x, y], false, true);
-                                    series[1].addPoint([x, y2], true, true);
+                                        chart.series[0].addPoint([x, y], false, true);
+                                        chart.series[1].addPoint([x, y2], true, true);
                                 }, 2500);
                             }
                         },
@@ -130,33 +131,32 @@
         },
 
         methods: {
-            updateValues(msg) {
-                let stats = fs.statSync('/tmp/example/file');
+            updateValues(call, path) {
+                let stats;
+                if (path !== undefined) {
+                    stats = fs.statSync('/tmp/example' + path);
+                }
+
 
                 // Temp solution
-                if (msg !== undefined && msg === 'read') {
-                    //increase current
-                    this.dataReadCurrent += stats.size;
-                }
-                else if (msg !== undefined && msg === 'write') {
-                    //increase current
-                    this.dataWrittenCurrent += stats.size;
+                if (call !== undefined && call === 'read') this.dataReadCurrent += stats.size;
+                else if (call !== undefined && call === 'write') this.dataWrittenCurrent += stats.size;
 
-                }
-
-                this.updateSeries();
+                // this.updateSeries();
 
             },
             updateSeries() {
                 // this.chartOptions.series[0].data = newValue;
                 // this.points.push();
             },
+            test() {
+            }
         },
 
         created: function () {
             messageBus.$on('READ_WRITE', (json) => {
                 // Maybe need threads for these?
-                this.updateValues(json.syscall);
+                this.updateValues(json.syscall, json.file);
             });
         },
 
