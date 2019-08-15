@@ -8,6 +8,7 @@ import jnr.ffi.Pointer;
 import jnr.ffi.Runtime;
 import jnr.ffi.Struct;
 import jnr.ffi.Struct.NumberField;
+import jnr.ffi.annotations.In;
 import jnr.ffi.types.dev_t;
 import jnr.ffi.types.mode_t;
 import jnr.ffi.types.off_t;
@@ -64,6 +65,9 @@ public class ManualBlocksFS extends FileSystemStub {
         stat.st_nlink.set(1);
         iNode.setStat(stat);
         inodeTable.put(HELLO_PATH, iNode);
+        List<Integer> blocks = new ArrayList<>();
+        blocks.add(0);
+        iNode.addBlocks(blocks);
 
         try (FileOutputStream stream = new FileOutputStream(blockFile)){
             stream.write(HELLO_STR.getBytes());
