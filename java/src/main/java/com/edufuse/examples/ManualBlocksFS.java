@@ -229,22 +229,22 @@ public class ManualBlocksFS extends FileSystemStub {
 
     @Override
     public int mkdir(String path, long mode) {
-        return super.mkdir(path, mode);
+        return 0;
     }
 
     @Override
     public int rmdir(String path) {
-        return super.rmdir(path);
+        return 0;
     }
 
     @Override
     public int rename(String oldpath, String newpath) {
-        return super.rename(oldpath, newpath);
+        return 0;
     }
 
     @Override
     public int truncate(String path, @size_t long size) {
-        return super.truncate(path, size);
+        return 0;
     }
 
     @Override
@@ -254,55 +254,52 @@ public class ManualBlocksFS extends FileSystemStub {
 
     @Override
     public int fsync(String path, int isdatasync, FuseFileInfo fi) {
-        return super.fsync(path, isdatasync, fi);
+        return 0;
     }
 
     @Override
     public int setxattr(String path, String name, Pointer value, @size_t long size, int flags) {
-        return super.setxattr(path, name, value, size, flags);
+        return 0;
     }
 
     @Override
     public int getxattr(String path, String name, Pointer value, @size_t long size) {
-        return super.getxattr(path, name, value, size);
+        return 0;
     }
 
     @Override
     public int listxattr(String path, Pointer list, @size_t long size) {
-        return super.listxattr(path, list, size);
+        return 0;
     }
 
     @Override
     public int removexattr(String path, String name) {
-        return super.removexattr(path, name);
+        return 0;
     }
 
     @Override
     public int opendir(String path, FuseFileInfo fi) {
-        return super.opendir(path, fi);
+        return 0;
     }
 
     @Override
     public int releasedir(String path, FuseFileInfo fi) {
-        return super.releasedir(path, fi);
+        return 0;
     }
 
     @Override
     public void destroy(Pointer initResult) {
-        super.destroy(initResult);
     }
 
     @Override
     public int access(String path, int mask) {
-        return super.access(path, mask);
+        return 0;
     }
 
     @Override
     public int lock(String path, FuseFileInfo fi, int cmd, Flock flock) {
-        return super.lock(path, fi, cmd, flock);
+        return 0;
     }
-
-
 
     public static void main(String[] args) {
         ManualBlocksFS fs = new ManualBlocksFS();
