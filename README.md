@@ -10,7 +10,7 @@ Part IV Honours Project by Luke Thompson and Joel Clarke. Supervised by Robert S
 ## Getting Started
 Firstly, you will need to install fuse, this can be done on linux using `sudo apt-get install libfuse-dev`. Then, below you will find the general eduFUSE user guide. Guides for [Java](https://github.com/lukethompsxn/edufuse/tree/master/java/) and [GUI](https://github.com/lukethompsxn/edufuse/tree/master/gui/) can be found at the respective links.
 
-When running your file system, make sure you pass `-d -f <mount-point>` where <mount-point> is your mount point as program arguments. 
+When running your file system, make sure you pass `-d -f <mount-point>` where `<mount-point>` is your mount point as program arguments. 
 
 ### Linux
 In order to use eduFUSE on a linux system, all you need to do is download the latest release [here](https://github.com/lukethompsxn/edufuse/releases).
