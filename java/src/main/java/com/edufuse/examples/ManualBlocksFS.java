@@ -11,10 +11,7 @@ import jnr.ffi.types.mode_t;
 import jnr.ffi.types.off_t;
 import jnr.ffi.types.size_t;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
@@ -133,13 +130,12 @@ public class ManualBlocksFS extends FileSystemStub {
             int fileSize = iNode.getStat().st_size.intValue();
 
             int buffOffset = 0;
-            try (FileInputStream inputStream = new FileInputStream(blockFile)) {
-                FileChannel channel = inputStream.getChannel();
+            try (RandomAccessFile raf = new RandomAccessFile(blockFile, "r")) {
                 for (Integer block : iNode.getBlocks()) {
-                    channel.position(block * BLOCK_SIZE);
-                    ByteBuffer buffer = ByteBuffer.allocate(BLOCK_SIZE);
-                    channel.read(buffer);
-                    buf.put(buffOffset * BLOCK_SIZE, buffer.array(), 0, BLOCK_SIZE);
+                    raf.seek(block * BLOCK_SIZE);
+                    byte[] bytes = new byte[(int) size];
+                    raf.read(bytes);
+                    buf.put(buffOffset * BLOCK_SIZE, bytes, 0, BLOCK_SIZE);
                     buffOffset++;
                 }
             } catch (IOException e) {
@@ -161,33 +157,35 @@ public class ManualBlocksFS extends FileSystemStub {
 
             int blockPointer = (int) Math.floorDiv(offset, (long) BLOCK_SIZE);
             int blockOffset = (int) offset % BLOCK_SIZE;
+            int bufPointer = blockOffset;
 
-            try (FileOutputStream outputStream = new FileOutputStream(blockFile)){
-                FileChannel channel = outputStream.getChannel();
+            try (RandomAccessFile raf = new RandomAccessFile(blockFile, "rw")){
 
+                // write remaining bytes in the initial block
                 if (blockPointer < blocks.size()) {
-                    // write remaining bytes in the initial block
                     byte[] bytes = new byte[BLOCK_SIZE - blockOffset];
                     buf.get(0, bytes, 0, BLOCK_SIZE - blockOffset);
-                    channel.position((blocks.get(blockPointer) * BLOCK_SIZE) + blockOffset);
-                    ByteBuffer buffer = ByteBuffer.wrap(bytes);
-                    channel.write(buffer);
+                    raf.seek((blocks.get(blockPointer) * BLOCK_SIZE) + blockOffset);
+                    raf.write(bytes);
+                    blockPointer++;
+                    bufPointer += BLOCK_SIZE - blockOffset;
                 }
 
                 // write remaining blocks
-                blockPointer++;
-                int bufPointer = BLOCK_SIZE - blockOffset;
                 while (blockPointer < blocks.size() && bufPointer < size) {
-                    bufPointer += write(channel, blocks, buf, size, blockPointer, bufPointer);
+                    bufPointer += write(raf, blocks, buf, size, blockPointer, bufPointer);
                     blockPointer++;
                 }
 
                 // write new blocks if needed
                 while (bufPointer < size) {
-                    blocks.add(blockPointer + 1, getNextBlockIndex());
-                    bufPointer += write(channel, blocks, buf, size, blockPointer, bufPointer);
+                    blocks.add(getNextBlockIndex());
+                    bufPointer += write(raf, blocks, buf, size, blockPointer, bufPointer);
                     blockPointer++;
                 }
+
+                FileStat stat = inodeTable.get(path).getStat();
+                stat.st_size.set(size);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -337,13 +335,12 @@ public class ManualBlocksFS extends FileSystemStub {
         }
     }
 
-    private int write(FileChannel channel, List<Integer> blocks, Pointer buf, @size_t long size, int blockPointer, int bufPointer) throws IOException {
+    private int write(RandomAccessFile raf, List<Integer> blocks, Pointer buf, @size_t long size, int blockPointer, int bufPointer) throws IOException {
         int numBytes = Math.min(BLOCK_SIZE, (int) size - bufPointer);
         byte[] bytes = new byte[numBytes];
         buf.get(bufPointer, bytes, 0, numBytes);
-        channel.position((blocks.get(blockPointer) * BLOCK_SIZE));
-        ByteBuffer buffer = ByteBuffer.wrap(bytes);
-        channel.write(buffer);
+        raf.seek((blocks.get(blockPointer) * BLOCK_SIZE));
+        raf.write(bytes);
         return numBytes;
     }
 

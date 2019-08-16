@@ -229,7 +229,7 @@ public abstract class AbstractFS implements FUSE {
     }
 
     public void unmount() {
-        if (!mounted.get()) {
+        if (!mounted.get() || mountPoint == null) {
             return;
         }
 
