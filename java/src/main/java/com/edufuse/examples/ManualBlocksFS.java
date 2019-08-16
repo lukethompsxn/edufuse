@@ -4,6 +4,8 @@ import com.edufuse.filesystem.FileSystemStub;
 import com.edufuse.struct.*;
 import com.edufuse.util.ErrorCodes;
 import com.edufuse.util.FuseFillDir;
+import com.edufuse.util.INode;
+import com.edufuse.util.INodeTable;
 import jnr.ffi.Pointer;
 import jnr.ffi.Runtime;
 import jnr.ffi.types.dev_t;
@@ -34,8 +36,8 @@ public class ManualBlocksFS extends FileSystemStub {
 
     private static File blockFile = null;
 //    private static File inode = null;
-    private HashMap<String, INode> inodeTable = new HashMap<>();
-    private int blockIndex = 0; //todo this is terrible lmao fix it by encapsulating the inode table into object, will also make json easier
+
+    private INodeTable iNodeTable = null;
 
     @Override
     public Pointer init(Pointer conn) {
@@ -63,9 +65,10 @@ public class ManualBlocksFS extends FileSystemStub {
         stat.st_size.set(HELLO_STR.getBytes().length);
         stat.st_nlink.set(1);
         iNode.setStat(stat);
-        inodeTable.put(HELLO_PATH, iNode);
+        iNodeTable = new INodeTable();
+        iNodeTable.updateINode(HELLO_PATH, iNode);
         List<Integer> blocks = new ArrayList<>();
-        blocks.add(getNextBlockIndex());
+        blocks.add(iNodeTable.nextFreeBlock());
         iNode.addBlocks(blocks);
 
         try (FileOutputStream stream = new FileOutputStream(blockFile)){
@@ -83,11 +86,11 @@ public class ManualBlocksFS extends FileSystemStub {
         if (Objects.equals(path, "/")) {
             stat.st_mode.set(FileStat.S_IFDIR | 0755);
             stat.st_nlink.set(2);
-        } else if (inodeTable.containsKey(path)) {
-            FileStat savedStat = inodeTable.get(path).getStat();
+        } else if (iNodeTable.containsINode(path)) {
+            FileStat savedStat = iNodeTable.getINode(path).getStat();
             stat.st_mode.set(savedStat.st_mode.intValue());
             stat.st_nlink.set(savedStat.st_nlink.intValue());
-            stat.st_size.set(inodeTable.get(path).getStat().st_size.intValue());
+            stat.st_size.set(iNodeTable.getINode(path).getStat().st_size.intValue());
         } else {
             res = -ErrorCodes.ENOENT();
         }
@@ -99,8 +102,8 @@ public class ManualBlocksFS extends FileSystemStub {
         filler.apply(buf, ".", null, 0);
         filler.apply(buf, "..", null, 0);
 
-        for (String file : inodeTable.keySet()) {
-            filler.apply(buf, file.substring(1), inodeTable.get(file).getStat(), 0);
+        for (String file : iNodeTable.entires()) {
+            filler.apply(buf, file.substring(1), iNodeTable.getINode(file).getStat(), 0);
         }
         return 0;
     }
@@ -108,7 +111,7 @@ public class ManualBlocksFS extends FileSystemStub {
     @Override
     public int open(String path, FuseFileInfo fi) {
         //todo this may need re-directing through the dedicated file but i think we fine to just return 0
-        if (!inodeTable.containsKey(path)) {
+        if (!iNodeTable.containsINode(path)) {
             mknod(path, FileStat.S_IFREG, 0);
         }
         return 0;
@@ -121,12 +124,12 @@ public class ManualBlocksFS extends FileSystemStub {
 
     @Override
     public int read(String path, Pointer buf, @size_t long size, @off_t long offset, FuseFileInfo fi) {
-        if (!inodeTable.containsKey(path)) {
+        if (!iNodeTable.containsINode(path)) {
             return -ErrorCodes.ENONET();
         }
 
         synchronized (this) {
-            INode iNode = inodeTable.get(path);
+            INode iNode = iNodeTable.getINode(path);
             int fileSize = iNode.getStat().st_size.intValue();
 
             int buffOffset = 0;
@@ -147,12 +150,12 @@ public class ManualBlocksFS extends FileSystemStub {
 
     @Override
     public int write(String path, Pointer buf, @size_t long size, @off_t long offset, FuseFileInfo fi) {
-        if (!inodeTable.containsKey(path)) {
+        if (!iNodeTable.containsINode(path)) {
             return -ErrorCodes.ENONET();
         }
 
         synchronized (this) {
-            INode iNode = inodeTable.get(path);
+            INode iNode = iNodeTable.getINode(path);
             List<Integer> blocks = iNode.getBlocks();
 
             int blockPointer = (int) Math.floorDiv(offset, (long) BLOCK_SIZE);
@@ -180,12 +183,12 @@ public class ManualBlocksFS extends FileSystemStub {
 
                 // write new blocks if needed
                 while (bufPointer < size) {
-                    blocks.add(getNextBlockIndex());
+                    blocks.add(iNodeTable.nextFreeBlock());
                     bufPointer += write(raf, blocks, buf, size, blockPointer, bufPointer);
                     blockPointer++;
                 }
 
-                FileStat stat = inodeTable.get(path).getStat();
+                FileStat stat = iNodeTable.getINode(path).getStat();
                 stat.st_size.set(size + offset);
 
             } catch (IOException e) {
@@ -199,7 +202,7 @@ public class ManualBlocksFS extends FileSystemStub {
 
     @Override
     public int mknod(String path, @mode_t long mode, @dev_t long rdev) {
-        if (inodeTable.containsKey(path)) {
+        if (iNodeTable.containsINode(path)) {
             return -ErrorCodes.EEXIST();
         }
 
@@ -208,7 +211,7 @@ public class ManualBlocksFS extends FileSystemStub {
         stat.st_mode.set(mode);
         stat.st_rdev.set(rdev);
         iNode.setStat(stat);
-        inodeTable.put(path, iNode);
+        iNodeTable.updateINode(path, iNode);
 
         return 0;
     }
@@ -317,32 +320,5 @@ public class ManualBlocksFS extends FileSystemStub {
         raf.seek((blocks.get(blockPointer) * BLOCK_SIZE));
         raf.write(bytes);
         return numBytes;
-    }
-
-    private int getNextBlockIndex() {
-        int ret = blockIndex;
-        blockIndex++;
-        return ret;
-    }
-
-    class INode {
-        private FileStat stat;
-        private List<Integer> blocks = new ArrayList<>();
-
-        public FileStat getStat() {
-            return stat;
-        }
-
-        public void setStat(FileStat stat) {
-            this.stat = stat;
-        }
-
-        public void addBlocks(List<Integer> offsets) {
-            blocks.addAll(offsets);
-        }
-
-        public List<Integer> getBlocks() {
-            return blocks;
-        }
     }
 }
