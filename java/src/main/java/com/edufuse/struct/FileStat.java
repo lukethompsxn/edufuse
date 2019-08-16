@@ -4,6 +4,8 @@ import jnr.ffi.Runtime;
 import jnr.ffi.Struct;
 import jnr.posix.util.Platform;
 
+import java.io.Serializable;
+
 import static jnr.posix.util.Platform.IS_32_BIT;
 import static jnr.posix.util.Platform.IS_64_BIT;
 
@@ -14,7 +16,7 @@ import static jnr.posix.util.Platform.IS_64_BIT;
  * @since 31.05.15
  * Retrieved from https://github.com/SerCeMan/jnr-fuse
  */
-public class FileStat extends Struct {
+public class FileStat extends Struct implements Serializable {
     public static final int S_IFIFO = 0010000;  // named pipe (fifo)
     public static final int S_IFCHR = 0020000;  // character special
     public static final int S_IFDIR = 0040000;  // directory

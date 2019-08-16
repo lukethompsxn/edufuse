@@ -29,50 +29,54 @@ public class ManualBlocksFS extends FileSystemStub {
 
     private static final int BLOCK_SIZE = 32; //bytes
     private static final String BLOCK_FILE_LOCATION = "/tmp/.blockfile"; //todo remove hardcode
-    //    private static final String INODE_LOCATION = "/tmp/.inode"; //todo remove hardcode
+    private static final String INODE_LOCATION = "/tmp/.inodetable"; //todo remove hardcode
 
     private static final String HELLO_PATH = "/hello";
     private static final String HELLO_STR = "Hello World!";
 
     private static File blockFile = null;
-//    private static File inode = null;
+    private static File iNodeFile = null;
 
     private INodeTable iNodeTable = null;
 
     @Override
     public Pointer init(Pointer conn) {
         blockFile = new File(BLOCK_FILE_LOCATION);
-//        inode = new File(INODE_LOCATION);
+        iNodeFile = new File(INODE_LOCATION);
 
-        //todo implement persistence
         try {
-//            if (!inode.exists()) {
-//                inode.createNewFile();
-//            }
-//
+            if (!iNodeFile.exists()) {
+                iNodeFile.createNewFile();
+                iNodeTable = new INodeTable();
+
+                // setup an example file for testing purposes
+                INode iNode = new INode();
+                FileStat stat = new FileStat(Runtime.getSystemRuntime());
+                stat.st_mode.set(FileStat.S_IFREG | 0444 | 0222);
+                stat.st_size.set(HELLO_STR.getBytes().length);
+                stat.st_nlink.set(1);
+                iNode.setStat(stat);
+                iNodeTable.updateINode(HELLO_PATH, iNode);
+                List<Integer> blocks = new ArrayList<>();
+                blocks.add(iNodeTable.nextFreeBlock());
+                iNode.addBlocks(blocks);
+
+                try (FileOutputStream stream = new FileOutputStream(blockFile)){
+                    stream.write(HELLO_STR.getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                iNodeTable = INodeTable.deserialise(iNodeFile);
+            }
+
+            if (iNodeTable == null) {
+                iNodeTable = new INodeTable();
+            }
+
             if (!blockFile.exists()) {
                 blockFile.createNewFile();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        // setup an example file for testing purposes
-        INode iNode = new INode();
-        FileStat stat = new FileStat(Runtime.getSystemRuntime());
-        stat.st_mode.set(FileStat.S_IFREG | 0444 | 0222);
-        stat.st_size.set(HELLO_STR.getBytes().length);
-        stat.st_nlink.set(1);
-        iNode.setStat(stat);
-        iNodeTable = new INodeTable();
-        iNodeTable.updateINode(HELLO_PATH, iNode);
-        List<Integer> blocks = new ArrayList<>();
-        blocks.add(iNodeTable.nextFreeBlock());
-        iNode.addBlocks(blocks);
-
-        try (FileOutputStream stream = new FileOutputStream(blockFile)){
-            stream.write(HELLO_STR.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -110,7 +114,6 @@ public class ManualBlocksFS extends FileSystemStub {
 
     @Override
     public int open(String path, FuseFileInfo fi) {
-        //todo this may need re-directing through the dedicated file but i think we fine to just return 0
         if (!iNodeTable.containsINode(path)) {
             mknod(path, FileStat.S_IFREG, 0);
         }
@@ -190,11 +193,11 @@ public class ManualBlocksFS extends FileSystemStub {
 
                 FileStat stat = iNodeTable.getINode(path).getStat();
                 stat.st_size.set(size + offset);
+                INodeTable.serialise(iNodeFile, iNodeTable);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
 
         return (int) size;

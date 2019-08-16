@@ -2,10 +2,12 @@ package jnr.ffi;
 
 import jnr.posix.util.Platform;
 
+import java.io.Serializable;
+
 /**
  * Retrieved from https://github.com/SerCeMan/jnr-fuse
  */
-public abstract class BaseStruct extends Struct {
+public abstract class BaseStruct extends Struct implements Serializable {
     protected BaseStruct(Runtime runtime) {
         super(runtime);
     }
