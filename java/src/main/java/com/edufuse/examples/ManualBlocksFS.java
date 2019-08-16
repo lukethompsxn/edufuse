@@ -163,8 +163,9 @@ public class ManualBlocksFS extends FileSystemStub {
 
                 // write remaining bytes in the initial block
                 if (blockPointer < blocks.size()) {
-                    byte[] bytes = new byte[BLOCK_SIZE - blockOffset];
-                    buf.get(0, bytes, 0, BLOCK_SIZE - blockOffset);
+                    int numBytes = (int) Math.min(BLOCK_SIZE, size);
+                    byte[] bytes = new byte[numBytes];
+                    buf.get(0, bytes, 0, numBytes);
                     raf.seek((blocks.get(blockPointer) * BLOCK_SIZE) + blockOffset);
                     raf.write(bytes);
                     blockPointer++;
@@ -185,7 +186,7 @@ public class ManualBlocksFS extends FileSystemStub {
                 }
 
                 FileStat stat = inodeTable.get(path).getStat();
-                stat.st_size.set(size);
+                stat.st_size.set(size + offset);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -193,7 +194,7 @@ public class ManualBlocksFS extends FileSystemStub {
 
         }
 
-        return (int) ((int) size-offset);
+        return (int) size;
     }
 
     @Override
@@ -287,11 +288,6 @@ public class ManualBlocksFS extends FileSystemStub {
     }
 
     @Override
-    public int fsyncdir(String path, FuseFileInfo fi) {
-        return super.fsyncdir(path, fi);
-    }
-
-    @Override
     public void destroy(Pointer initResult) {
         super.destroy(initResult);
     }
@@ -302,29 +298,11 @@ public class ManualBlocksFS extends FileSystemStub {
     }
 
     @Override
-    public int ftruncate(String path, @size_t long size, FuseFileInfo fi) {
-        return super.ftruncate(path, size, fi);
-    }
-
-    @Override
-    public int fgetattr(String path, FileStat stbuf, FuseFileInfo fi) {
-        return super.fgetattr(path, stbuf, fi);
-    }
-
-    @Override
     public int lock(String path, FuseFileInfo fi, int cmd, Flock flock) {
         return super.lock(path, fi, cmd, flock);
     }
 
-    @Override
-    public int flock(String path, FuseFileInfo fi, int op) {
-        return super.flock(path, fi, op);
-    }
 
-    @Override
-    public int fallocate(String path, int mode, @off_t long off , long length, FuseFileInfo fi) {
-        return super.fallocate(path, mode, off, length, fi);
-    }
 
     public static void main(String[] args) {
         ManualBlocksFS fs = new ManualBlocksFS();
