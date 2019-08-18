@@ -2,10 +2,7 @@ package com.edufuse.examples;
 
 import com.edufuse.filesystem.FileSystemStub;
 import com.edufuse.struct.*;
-import com.edufuse.util.ErrorCodes;
-import com.edufuse.util.FuseFillDir;
-import com.edufuse.util.INode;
-import com.edufuse.util.INodeTable;
+import com.edufuse.util.*;
 import jnr.ffi.Pointer;
 import jnr.ffi.Runtime;
 import jnr.ffi.types.dev_t;
@@ -27,7 +24,7 @@ import java.util.Objects;
  */
 public class ManualBlocksFS extends FileSystemStub {
 
-    private static final int BLOCK_SIZE = 32; //bytes
+    public static final int BLOCK_SIZE = 32; //bytes
     private static final String BLOCK_FILE_LOCATION = "/tmp/.blockfile"; //todo remove hardcode
     private static final String INODE_LOCATION = "/tmp/.inodetable"; //todo remove hardcode
 
@@ -38,6 +35,8 @@ public class ManualBlocksFS extends FileSystemStub {
     private static File iNodeFile = null;
 
     private INodeTable iNodeTable = null;
+
+    private Visualiser visualiser;
 
     @Override
     public Pointer init(Pointer conn) {
@@ -79,6 +78,10 @@ public class ManualBlocksFS extends FileSystemStub {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        if (isVisualised()) {
+            visualiser = new Visualiser();
         }
 
         return conn;
@@ -195,6 +198,10 @@ public class ManualBlocksFS extends FileSystemStub {
                 stat.st_size.set(size + offset);
                 INodeTable.serialise(iNodeFile, iNodeTable);
 
+                if (isVisualised()) {
+                    visualiser.sendINodeTable(iNodeTable);
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -295,6 +302,13 @@ public class ManualBlocksFS extends FileSystemStub {
 
     @Override
     public void destroy(Pointer initResult) {
+        if (isVisualised()) {
+            try {
+                visualiser.stopConnection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -310,7 +324,7 @@ public class ManualBlocksFS extends FileSystemStub {
     public static void main(String[] args) {
         ManualBlocksFS fs = new ManualBlocksFS();
         try {
-            fs.mount(args, false);
+            fs.mount(args, true);
         } finally {
             fs.unmount();
         }

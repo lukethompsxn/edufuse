@@ -6,11 +6,15 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Buefy from 'buefy';
+import TreeView from 'vue-json-tree-view'
+
 
 import Charts from './components/tabs/Charts'
 import Logger from './components/tabs/Logger'
 import Directory from './components/tabs/Directory'
+import INodes from './components/tabs/INodes'
 
+Vue.use(TreeView);
 Vue.use(VueRouter);
 Vue.use(Buefy);
 Vue.use(BootstrapVue);
@@ -21,6 +25,7 @@ const routes = [
     {path: '/Charts', component: Charts},
     {path: '/Logger', component: Logger},
     {path: '/Directory', component: Directory},
+    {path: '/INodes', component: INodes},
     {path: '/', redirect: '/Charts'}
 ];
 
@@ -42,6 +47,7 @@ const ignorePaths = [
     '/.DS_Store'
 ];
 Vue.prototype.logHistory = [];
+Vue.prototype.iNodes = ['File System not running, or no iNode Table'];
 Vue.config.productionTip = false;
 
 
@@ -75,4 +81,9 @@ ipcRenderer.on('MOUNT', (event, json) => {
 
 ipcRenderer.on('READ_WRITE', (event, json) => {
     messageBus.$emit('READ_WRITE', json);
+});
+
+ipcRenderer.on('INODE_TABLE', (event, json) => {
+    Vue.prototype.iNodes = json;
+    messageBus.$emit('INODE_TABLE', json);
 });

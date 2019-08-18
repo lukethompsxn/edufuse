@@ -68,6 +68,10 @@ public class INodeTable implements Serializable {
         return ret;
     }
 
+    int peekNextFreeBlock() {
+        return blockIndex;
+    }
+
     public boolean containsINode(String path) {
         return table.containsKey(path);
     }
