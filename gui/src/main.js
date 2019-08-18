@@ -47,6 +47,7 @@ const ignorePaths = [
     '/.DS_Store'
 ];
 Vue.prototype.logHistory = [];
+Vue.prototype.iNodes = ['File System not running, or no iNode Table'];
 Vue.config.productionTip = false;
 
 
@@ -80,4 +81,9 @@ ipcRenderer.on('MOUNT', (event, json) => {
 
 ipcRenderer.on('READ_WRITE', (event, json) => {
     messageBus.$emit('READ_WRITE', json);
+});
+
+ipcRenderer.on('INODE_TABLE', (event, json) => {
+    Vue.prototype.iNodes = json;
+    messageBus.$emit('INODE_TABLE', json);
 });
