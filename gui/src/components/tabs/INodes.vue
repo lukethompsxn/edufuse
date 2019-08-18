@@ -1,7 +1,5 @@
 <template>
-<!--    <div>-->
-
-        <b-container class="bv-example-row">
+     <b-container class="bv-example-row">
             <div>
                 <b-modal id="beta" title="Warning">
                     <p class="my-4">This feature is only in beta.</p>
@@ -12,7 +10,7 @@
                     <span>INode Table.</span>
                 </div>
                 <div>
-                    <tree-view class="tree" :data="iNodeTable" max-depth="7"></tree-view>
+                    <tree-view style="max-height: 200px" class="tree" :data="iNodeTable"></tree-view>
                 </div>
             </b-row>
             <b-row class="bottom card">
@@ -21,14 +19,17 @@
                 </div>
             </b-row>
         </b-container>
-<!--    </div>-->
 </template>
 
 <script>
+    import vuescroll from 'vuescroll';
     import {messageBus} from '../../main.js';
 
     export default {
         name: "INodes",
+        components: {
+            vuescroll
+        },
         data() {
             return {
                 iNodeTable: ['File System not running, or no iNode Table'],
@@ -41,12 +42,13 @@
         },
         created: function () {
             messageBus.$on('INODE_TABLE', (json) => {
-                this.prototype.iNodeTable = json;
+                this.iNodeTable = json;
+                this.updateBlockFile();
             });
         },
         mounted: function () {
            this.$bvModal.show('beta');
-           this.updateBlockFile();
+           this.iNodeTable = this.iNodes;
         }
     }
 </script>
@@ -55,13 +57,13 @@
     .top {
         margin: 16px 16px 16px 16px;
         padding: 0 15px 0 15px;
-        height: 254px
+        height: 252px
     }
 
     .bottom {
         margin: 8px 16px 16px 16px;
         padding: 0 15px 0 15px;
-        height: 276px;
+        height: 274px;
     }
 
     .bv-example-row {
@@ -69,8 +71,9 @@
     }
 
     .tree {
-        padding-top: 10px;
+        margin-top: 10px;
         color: #232931 !important;
+        text-align: left;
     }
 </style>
 <style src="../../assets/styles/styles.css"></style>

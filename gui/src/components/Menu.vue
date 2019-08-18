@@ -20,7 +20,7 @@
                 <i class="text">LOGGER</i>
             </div>
             <div class="tablinks" v-on:click="selectTab($event, 'INodes')">
-                <i class="material-icons icons">developer_mode</i>
+                <i class="material-icons icons">apps</i>
                 <i class="text">INODES</i>
             </div>
         </div>

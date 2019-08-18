@@ -42,13 +42,15 @@ public class Visualiser {
             INode iNode = iNodeTable.getINode(entry);
             node.put("size", String.valueOf(iNode.size));
             node.put("mode", String.valueOf(iNode.mode));
-            node.put("stat", iNode.getStat().toString());
             node.put("blocks", JSONArray.toJSONString(iNode.getBlocks()));
             inodes.put(entry, JSONObject.toJSONString(node));
         }
 
         table.put("iNodes", JSONObject.toJSONString(inodes));
-        out.println(JSONObject.toJSONString(table) + "\\e");
+        out.println(JSONObject.toJSONString(table)
+                .replaceAll("\\\\", "")
+                .replaceAll("\"\\{", "\\{")
+                .replaceAll("\\}\"", "\\}") + "\\e");
     }
 
     public void stopConnection() throws IOException {
