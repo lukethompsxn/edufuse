@@ -32,6 +32,7 @@ public abstract class AbstractFS implements FUSE {
     private final AtomicBoolean mounted = new AtomicBoolean();
     private Pointer fusePointer;
     protected Path mountPoint;
+    private boolean isVisualised = false;
 
     public AbstractFS() {
         LibraryLoader<FUSELink> loader = LibraryLoader.create(FUSELink.class).failImmediately();
@@ -198,6 +199,8 @@ public abstract class AbstractFS implements FUSE {
             throw new FuseException("Fuse fs already mounted!");
         }
 
+        this.isVisualised = isVisualised;
+
         if (SecurityUtils.canHandleShutdownHooks()) {
             java.lang.Runtime.getRuntime().addShutdownHook(new Thread(this::unmount));
         }
@@ -241,5 +244,9 @@ public abstract class AbstractFS implements FUSE {
 
         }
         mounted.set(false);
+    }
+
+    protected boolean isVisualised() {
+        return isVisualised;
     }
 }
