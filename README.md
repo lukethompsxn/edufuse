@@ -16,6 +16,8 @@ When running your file system, make sure you pass `-d -f <mount-point>` where `<
 In order to use eduFUSE on a linux system, all you need to do is download the latest release [here](https://github.com/lukethompsxn/edufuse/releases).
 
 ### macOS
+*Please note this is only a beta version so there may be a few hiccups.*
+
 In order to use eduFUSE on a macOS system, you first need to install [osxfuse](https://osxfuse.github.io/). Then download the latest eduFUSE release [here](https://github.com/lukethompsxn/edufuse/releases).
 
 If you get the error `error On Darwin API version 25 or greater must be used` (or similar), then you will need to modify the `fuse.h` header file located at `/usr/local/include/osxfuse/fuse/fuse.h`. On line 28, modify to `FUSE_USE_VERSION` to be same as the `FUSE_USE_VERSION` defined on line 1 of `edufuse.c` (currently this is 31).
