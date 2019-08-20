@@ -20,9 +20,6 @@ Example file system implementations can be found [here](https://github.com/luket
 - Simply open the example which you wish to run. Then since the examples have a `public static void main(String[])` method, you should be able to click the run arrow next to the method in the class of the example file system you wish to run. 
 - **NOTE** the first time you run the file system like this you will recieve an error, this is because you need to pass the mount point as a parameter to the main method. In order to do this, simply modify the Run Configuration settings to add your mount point as a `Program Argument`. Guides for adding program parameters can be found here for [IntelliJ](https://stackoverflow.com/questions/2066307/how-do-you-input-commandline-argument-in-intellij-idea) and [Eclipse](https://www.cs.colostate.edu/helpdocs/eclipseCommLineArgs.html). For example, if I was using Linux, I could pass `/tmp/example` as a program argument for my mount point (assuming this directory exists). 
 
-**From the Command Line**
-//todo
-
 ### Getting Started
 After installation, all you need to do is create a class extending `FileSystemStub`. Then, simply implement override the methods you wish to install. It is important to note that although there is no requirement for any methods to be implemented, a basic set of methods is required for any functioning file system. More information can be found about this [here](https://github.com/libfuse/libfuse). Full example implementations can be found [here](https://github.com/lukethompsxn/edufuse/tree/master/java/src/main/java/com/edufuse/examples).
 
