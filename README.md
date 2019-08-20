@@ -1,5 +1,5 @@
 # eduFUSE
-[![Build Status](https://travis-ci.com/lukethompsxn/edufuse.svg?token=gDeffs2syumfbfyPNXfM&branch=master)](https://travis-ci.com/lukethompsxn/edufuse) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com/edufuse/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com/edufuse)
+ [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com/edufuse/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com/edufuse)
  [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.png?v=103)](https://opensource.org/licenses/mit-license.php)
 
 
