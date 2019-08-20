@@ -52,9 +52,16 @@ int main(int argc, char *argv[])
 ### Tabs
 
 **Charts**
-//todo screenshot
 
-//todo @joel
+The Charts tab presents three visualisations of what’s happening behind the scenes of the currently mounted edufuse file system. 
+![Screenshot_2](https://user-images.githubusercontent.com/31730723/63314823-03860380-c35d-11e9-9735-0406b3de8ede.png)
+
+The top left chart “Total Bytes Read/Written” represents the total amount of data in bytes that has been read and written to the file system. This accumulates over the life of the file system and so it can be reset with the clear button.
+
+The next chart on the top right-hand side “Read/Writes Per Second” is the number of read and writes that are occurring every three seconds to the file system. The small circle to the left of the Reads/Writes series name allows you to toggle the display of each series.
+
+The final chart at the bottom “System Calls” displays the total number of file system calls that have been made. Again, this chart can be reset with the clear button. The chart also initially displays only four calls gettattr, readdir, open and read. This can be changed by opening the drop-down box below the chart, which will display all the potential file system calls. From this you can add (max of 7) and remove the calls you would like displayed.
+
 
 **Directory**
 //todo screenshot
