@@ -46,3 +46,6 @@ todo
 - [jnr-ffi](https://github.com/jnr/jnr-ffi)
 - [json-simple](https://github.com/fangyidong/json-simple)
 - [vue-json-tree-view](https://github.com/michaelfitzhavey/vue-json-tree-view)
+- [vue-multiselect](https://github.com/shentao/vue-multiselect)
+- [highcharts-vue](https://github.com/highcharts/highcharts-vue)
+
