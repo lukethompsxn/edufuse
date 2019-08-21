@@ -8,32 +8,16 @@ module.exports = {
         directories: {
           output: "build"
         },
-        // dmg: {
-        //   contents: [
-        //     {
-        //       x: 855,
-        //       y: 600,
-        //       type: "link",
-        //       path: "/Applications"
-        //     },
-        //     {
-        //       x: 130,
-        //       y: 150,
-        //       type: "file"
-        //     }
-        //   ]
-        // },
         mac: {
-          target: "pkg",
-          icon: "build/icons/icon.icns"
+          icon: "build/icons/icon.icns",
         },
         win: {
-          icon: "build/icons/icon.ico"
+          icon: "build/icons/icon.ico",
         },
         linux: {
-          icon: "build/icons"
+          icon: "build/icons/icon.icns",
         }
-      },
       }
     }
+  }
 };
