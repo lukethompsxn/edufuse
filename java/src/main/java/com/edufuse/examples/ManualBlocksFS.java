@@ -324,7 +324,7 @@ public class ManualBlocksFS extends FileSystemStub {
     public static void main(String[] args) {
         ManualBlocksFS fs = new ManualBlocksFS();
         try {
-            fs.mount(args, true);
+            fs.mount(args, false);
         } finally {
             fs.unmount();
         }

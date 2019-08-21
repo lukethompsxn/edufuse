@@ -24,10 +24,12 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractFS implements FUSE {
 
-    private static final String LIBRARY = "./libFUSELink.so";
+    private static final String LINUX_LIBRARY = "./libFUSELink.so";
+    private static final String MAC_LIBRARY = "./libFUSELink.dylib";
+    private static final String WIN_LIBRARY = "./libFUSELink.dll";
 
     private Set<String> notImplementedMethods;
-    protected final FUSELink eduFUSE;
+    protected FUSELink eduFUSE;
     private final FuseOperations fuseOperations;
     private final AtomicBoolean mounted = new AtomicBoolean();
     private Pointer fusePointer;
@@ -36,7 +38,18 @@ public abstract class AbstractFS implements FUSE {
 
     public AbstractFS() {
         LibraryLoader<FUSELink> loader = LibraryLoader.create(FUSELink.class).failImmediately();
-        eduFUSE = loader.load(LIBRARY);
+
+        String library;
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("linux") || os.contains("ubuntu")) {
+            library = LINUX_LIBRARY;
+        } else if (os.contains("debian") || os.contains("mac")) {
+            library = MAC_LIBRARY;
+        } else {
+            library = WIN_LIBRARY;
+        }
+        eduFUSE = loader.load(library);
+
         Runtime runtime = Runtime.getSystemRuntime();
         fuseOperations = new FuseOperations(runtime);
         init(fuseOperations);
