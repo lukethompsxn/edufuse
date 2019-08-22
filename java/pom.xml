@@ -126,22 +126,15 @@
             <artifactId>jnr-ffi</artifactId>
             <version>2.1.7</version>
         </dependency>
-
         <dependency>
             <groupId>com.github.jnr</groupId>
             <artifactId>jnr-posix</artifactId>
             <version>3.0.44</version>
         </dependency>
-
         <dependency>
             <groupId>com.github.jnr</groupId>
             <artifactId>jnr-constants</artifactId>
             <version>0.9.9</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.jnr</groupId>
-            <artifactId>jnr-ffi</artifactId>
-            <version>2.1.7</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
