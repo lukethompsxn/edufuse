@@ -26,7 +26,7 @@ After installation, all you need to do is create a class extending `FileSystemSt
 First you need to create a class extending `FileSystemStub`.
 
 ```java
-import com.edufuse.filesystem.FileSystemStub;
+import FileSystemStub;
 
 public class HelloFUSE extends FileSystemStub { 
 }
