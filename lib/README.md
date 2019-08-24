@@ -1,7 +1,9 @@
 # eduFUSE C
 
 ### Installation
-todo
+1. Make sure you have edufuse downloaded
+2. From command line run ```fusermount -V``` to check whether base libfuse is installed
+3. If not installed run ```sudo apt-get update -y``` followed by ```sudo apt-get install -y libfuse-dev```
 
 ### Important Files
 - `fuse.h:` This header file is necessary when creating any fuse file system in C as it contains all the required definitions. This includes
