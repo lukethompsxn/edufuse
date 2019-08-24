@@ -26,7 +26,7 @@ If you get the error `error On Darwin API version 25 or greater must be used` (o
 Currently not supported :'(
 
 ## C User Guide
-@joel todo
+Find the C User Guide [here](https://github.com/lukethompsxn/edufuse/blob/master/lib/).
 
 ## Java User Guide
 Find the Java User Guide [here](https://github.com/lukethompsxn/edufuse/tree/master/java/).
