@@ -48,6 +48,7 @@ const ignorePaths = [
 ];
 Vue.prototype.logHistory = [];
 Vue.prototype.iNodes = ['File System not running, or no iNode Table'];
+Vue.prototype.blockFile = ['File System not running, or no block file'];
 Vue.config.productionTip = false;
 
 
@@ -86,4 +87,9 @@ ipcRenderer.on('READ_WRITE', (event, json) => {
 ipcRenderer.on('INODE_TABLE', (event, json) => {
     Vue.prototype.iNodes = json;
     messageBus.$emit('INODE_TABLE', json);
+});
+
+ipcRenderer.on('BLOCK_FILE', (event, json) => {
+    Vue.prototype.blockFile = json;
+    messageBus.$emit('BLOCK_FILE', json);
 });

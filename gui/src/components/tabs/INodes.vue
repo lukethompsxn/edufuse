@@ -17,6 +17,9 @@
                 <div class="title">
                     <span>Block File.</span>
                 </div>
+                <div>
+                    <tree-view style="max-height: 200px" class="tree" :data="blockFileView" :options="{maxDepth: 2}"></tree-view>
+                </div>
             </b-row>
         </b-container>
 </template>
@@ -33,6 +36,7 @@
         data() {
             return {
                 iNodeTable: ['File System not running, or no iNode Table'],
+                blockFileView: ['File System not running, or no block file'],
             }
         },
         methods: {
@@ -45,10 +49,15 @@
                 this.iNodeTable = json;
                 this.updateBlockFile();
             });
+            messageBus.$on('BLOCK_FILE', (json) => {
+                this.blockFileView = json;
+                this.updateBlockFile();
+            });
         },
         mounted: function () {
            this.$bvModal.show('beta');
            this.iNodeTable = this.iNodes;
+           this.blockFileView = this.blockFile;
         }
     }
 </script>
