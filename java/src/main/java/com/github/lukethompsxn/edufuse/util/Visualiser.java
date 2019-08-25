@@ -79,8 +79,9 @@ public class Visualiser {
                     }
                 }
             }
-            entryMap.put("Contents", entries[i]);
-            blocks.put("Block: " + i, JSONObject.toJSONString(entryMap));
+            entryMap.put("File", entries[i]);
+            entryMap.put("Contents", "");
+            blocks.put("Block " + i, JSONObject.toJSONString(entryMap));
         }
 
         blockFile.put("Blocks", JSONObject.toJSONString(blocks));
