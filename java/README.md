@@ -2,7 +2,8 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com/edufuse/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com/edufuse)
 
 ### Installation
-todo
+- Download and install [jdk-11](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html) (or newer).
+- Add edufuse as a dependency in your project either by downloading the latest [release](https://github.com/lukethompsxn/edufuse/releases) or using [maven, gradle or similar](https://mvnrepository.com/artifact/com.github.lukethompsxn/edufuse).
 
 ### Important Classes
 - `FileSystemStub` is the stub class which your file system implementations must extend. This stub class has method signatures for all of the supported FUSE functions. 
