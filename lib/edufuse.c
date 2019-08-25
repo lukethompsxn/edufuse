@@ -160,7 +160,7 @@ static int edufuse_write(const char *path, const char *buf, size_t size, off_t o
     }
 
     if (is_visualised) {
-        send_amount_read_write("read", path);
+        send_amount_read_write("write", path);
     }
 
     return registered_operations->write(path, buf, size, off, fi);

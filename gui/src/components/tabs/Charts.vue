@@ -3,7 +3,7 @@
         <b-row>
             <b-col class="left card top">
                 <div style="position: relative;" class="title">
-                    <span>Total Bytes Read/Written.</span>
+                    <span>Total Bytes Read/Written</span>
                     <button type="button" @click="buttonClicked" onclick="this.blur();" tabindex="-1" class="resButton btn btn-outline-secondary btn-sm" style="">Clear</button>
                 </div>
                 <div class="content">
@@ -12,7 +12,7 @@
             </b-col>
             <b-col class="right card top">
                 <div class="title">
-                    <span>Read/Writes Per Second.</span>
+                    <span>Bytes Read/Written Per Second</span>
                 </div>
                 <div class="content">
                     <TimeLine></TimeLine>
@@ -22,7 +22,7 @@
         <b-row>
             <b-col class="lower card bottom">
                 <div class="title">
-                    <span>System Calls.</span>
+                    <span>System Calls</span>
                     <button type="button" @click="throughputReset" onclick="this.blur();" tabindex="-1" class="resButton btn btn-outline-secondary btn-sm" style="">Clear</button>
                 </div>
                 <div class="content">

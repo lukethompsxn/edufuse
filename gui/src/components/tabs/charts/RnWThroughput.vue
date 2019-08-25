@@ -75,7 +75,9 @@
 
                 // Temp solution
                 if (call !== undefined && call === 'read') this.points[0]+= stats.size;
-                else if (call !== undefined && call === 'write') this.points[1]+= stats.size;
+                else if (call !== undefined && call === 'write') {
+                    this.points[1]+= stats.size;
+                }
 
                 this.updateSeries(this.points);
 

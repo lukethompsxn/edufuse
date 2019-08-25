@@ -33,18 +33,28 @@
                                 // let series = this.series;
                                 let chart = this;
 
-                                    setInterval(function() {
-                                        let x = new Date().getTime();
-                                        let y = 0;
-                                        let y2 = 0;
-                                        // let y = chart.dataReadCurrent;
-                                        // let y2 = chart.dataWrittenCurrent;
-                                        // this.dataReadCurrent = 0;
-                                        // this.dataWrittenCurrent = 0;
+                                setInterval(function() {
+                                    let x = new Date().getTime();
+                                    let y = 0;
+                                    let y2 = 0;
 
+                                    let data = fs.readFileSync("/tmp/.readwrites.json");
+                                    if (data !== undefined) {
+                                        let parsedData = JSON.parse(data);
+                                        chart.series[0].addPoint([x, parsedData["read"]], false, true);
+                                        chart.series[1].addPoint([x, parsedData["write"]], true, true);
+
+                                        let obj = {};
+                                        obj.read = 0;
+                                        obj.write = 0;
+
+                                        let jsonString = JSON.stringify(obj);
+                                        fs.writeFileSync("/tmp/.readwrites.json", jsonString);
+                                    } else {
                                         chart.series[0].addPoint([x, y], false, true);
                                         chart.series[1].addPoint([x, y2], true, true);
-                                }, 2500);
+                                    }
+                                }, 5000);
                             }
                         },
                         height: 216
@@ -118,7 +128,7 @@
 
                                 for (i = -19; i <= 0; i += 1) {
                                     data1.push({
-                                        x: time + i * 2500,
+                                        x: time + i * 5000,
                                         y: 0
                                     });
                                 }
@@ -137,10 +147,24 @@
                     stats = fs.statSync('/tmp/example' + path);
                 }
 
+                let data = fs.readFileSync("/tmp/.readwrites.json");
+                if (data !== undefined) {
+                    let parsedData = JSON.parse(data);
+                    this.dataReadCurrent = parsedData["read"];
+                    this.dataWrittenCurrent = parsedData["write"];
+                }
 
                 // Temp solution
                 if (call !== undefined && call === 'read') this.dataReadCurrent += stats.size;
                 else if (call !== undefined && call === 'write') this.dataWrittenCurrent += stats.size;
+                else return;
+
+                let obj = {};
+                obj.read = this.dataReadCurrent;
+                obj.write = this.dataWrittenCurrent;
+
+                let jsonString = JSON.stringify(obj);
+                fs.writeFileSync("/tmp/.readwrites.json", jsonString);
 
                 // this.updateSeries();
 
@@ -158,6 +182,12 @@
                 // Maybe need threads for these?
                 this.updateValues(json.syscall, json.file);
             });
+            let obj = {};
+            obj.read = this.dataReadCurrent;
+            obj.write = this.dataWrittenCurrent;
+
+            let jsonString = JSON.stringify(obj);
+            fs.writeFileSync("/tmp/.readwrites.json", jsonString);
         },
 
         mounted() {

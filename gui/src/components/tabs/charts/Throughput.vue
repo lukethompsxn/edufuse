@@ -61,7 +61,7 @@
                     },
                     credits: false,
                     xAxis: {
-                        categories: ['getattr', 'readdir', 'open', 'read']
+                        categories: ['getattr', 'read', 'write', 'open']
                     },
                     yAxis: {
                         title: {
@@ -86,13 +86,13 @@
 
                 value: [
                     { syscall: 'getattr', display: true },
-                    { syscall: 'readdir', display: true },
-                    { syscall: 'open', display: true },
                     { syscall: 'read', display: true },
+                    { syscall: 'write', display: true },
+                    { syscall: 'open', display: true },
                 ],
                 options: [
                     { syscall: 'getattr', display: true },
-                    { syscall: 'readdir', display: true },
+                    { syscall: 'readdir', display: false },
                     { syscall: 'open', display: true },
                     { syscall: 'read', display: true },
                     { syscall: 'rename', display: false },
@@ -101,7 +101,7 @@
                     { syscall: 'symlink', display: false },
                     { syscall: 'link', display: false },
                     { syscall: 'release', display: false },
-                    { syscall: 'write', display: false },
+                    { syscall: 'write', display: true },
                     { syscall: 'fsync', display: false },
                     { syscall: 'flush', display: false },
                     { syscall: 'statfs', display: false },
@@ -189,6 +189,11 @@
 
         created: function () {
             messageBus.$on('CALL_INFO', (json) => {
+                if (json.syscall !== "read" || json.syscall !== "write") {
+                    this.updateValues(json.syscall);
+                }
+            });
+            messageBus.$on('READ_WRITE', (json) => {
                 this.updateValues(json.syscall);
 
             });
