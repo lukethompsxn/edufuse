@@ -64,7 +64,8 @@ The final chart at the bottom “System Calls” displays the total number of fi
 
 
 **Directory**
-//todo screenshot
+
+![image](https://user-images.githubusercontent.com/31237267/63645019-b97c9380-c749-11e9-8341-5c3886c68042.png)
 
 The directory tab has two main components. On the left, we have a live representation of the mounted directory. This automatically updates when files change. You can click on a file or directory (excluding the mount point) and the information about the file/directory will be displayed on the right. 
 
@@ -108,7 +109,8 @@ The directory tab has two main components. On the left, we have a live represent
 
 
 **Logger** 
-//todo screenshot
+
+![image](https://user-images.githubusercontent.com/31237267/63645031-e466e780-c749-11e9-9d94-9139cb96b36f.png)
 
 The logger provides customisable output based on your specified selection. When each of your file system methods is called, data is sent through to the visualiser. This information is displayed in the logger. Three different information selections are available, when enabled the related information will be printed to the logger with each invocation of your file system function.
 
@@ -117,3 +119,11 @@ The logger provides customisable output based on your specified selection. When 
 | System Calls | Enables printing of the file system function which was invoked.|
 | File/Directory | Enables printing of the File/Directory path which the function is invoked for/on. |
 | File/Directory Information | Enables printing of the various struct elements accesible in the file system function. |
+
+**INodes** *(beta)*
+
+![image](https://user-images.githubusercontent.com/31237267/63645056-81298500-c74a-11e9-82b1-5ea482a3b1a3.png)
+
+This tab only works for custom iNode and blockfile implementations in Java. It was designed for a part 3 software engineering and computer science assignment, hence is not fully implemented. 
+
+The INode table section displays information from the currently held iNode table. It is important to note that this is only updated when items are written to the file system.
