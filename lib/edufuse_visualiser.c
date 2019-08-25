@@ -45,10 +45,10 @@ void connect_to_socket() {
 }
 
 int init_visualiser(char *mount_point) {
-    system("chmod +x ../gui/build/eduFUSE-0.1.0.AppImage");
+    system("chmod +x /tmp/.eduFUSE.AppImage");
     int pid = fork();
     if (pid == 0) {
-        system("../gui/build/eduFUSE-0.1.0.AppImage");
+        system("/tmp/.eduFUSE.AppImage");
         exit(0);
     }
 

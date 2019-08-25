@@ -10,6 +10,7 @@ import jnr.ffi.mapper.FromNativeConverter;
 import jnr.ffi.provider.jffi.ClosureHelper;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
@@ -24,9 +25,10 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractFS implements FUSE {
 
-    private static final String LINUX_LIBRARY = "./libFUSELink.so";
-    private static final String MAC_LIBRARY = "./libFUSELink.dylib";
-    private static final String WIN_LIBRARY = "./libFUSELink.dll";
+    private static final String LINUX_LIBRARY = "libFUSELink.so";
+    private static final String MAC_LIBRARY = "libFUSELink.dylib";
+    private static final String WIN_LIBRARY = "libFUSELink.dll";
+    private static final String VISUALISER = "eduFUSE.AppImage";
 
     private Set<String> notImplementedMethods;
     protected FUSELink eduFUSE;
@@ -48,7 +50,27 @@ public abstract class AbstractFS implements FUSE {
         } else {
             library = WIN_LIBRARY;
         }
-        eduFUSE = loader.load(library);
+
+        File lib = new File("/tmp/." + library);
+        try (FileOutputStream fos = new FileOutputStream(lib)){
+            lib.createNewFile();
+            lib.deleteOnExit();
+            fos.write(this.getClass().getResourceAsStream(library).readAllBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        File visualiser = new File("/tmp/.eduFUSE.AppImage");
+        if (!visualiser.exists()) {
+            try (FileOutputStream fos = new FileOutputStream(visualiser)) {
+                lib.createNewFile();
+                fos.write(this.getClass().getResourceAsStream(VISUALISER).readAllBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        eduFUSE = loader.load(lib.getAbsolutePath());
 
         Runtime runtime = Runtime.getSystemRuntime();
         fuseOperations = new FuseOperations(runtime);
