@@ -43,20 +43,11 @@
         },
         methods: {
             updateBlockFile(json) {
-                console.log(typeof json);
-                console.log(Object.values(json));
-                console.log(json["Blocks"]);
-
                 let key;
                 for(key in json["Blocks"]) {
                     if(json["Blocks"].hasOwnProperty(key)) {
                         let value = json["Blocks"][key];
-                        console.log(key);
-                        //do something with value;
-                        console.log(this.mount + value["File"]);
-                        let buffer = fs.readFileSync(this.mount + value["File"]);
-                        console.log(buffer.toString());
-                        value["Contents"] = buffer;
+                        value["Contents"] = fs.readFileSync(this.mount + value["File"]);
                     }
                 }
             }
@@ -64,7 +55,6 @@
         created: function () {
             messageBus.$on('INODE_TABLE', (json) => {
                 this.iNodeTable = json;
-                // this.updateBlockFile();
             });
             messageBus.$on('BLOCK_FILE', (json) => {
                 this.blockFileView = json;
