@@ -2,11 +2,11 @@ package com.github.lukethompsxn.edufuse.util;
 
 import jnr.constants.platform.Errno;
 
-/**
+/*
  * Retrieved from https://github.com/SerCeMan/jnr-fuse
  */
 public class ErrorCodes {
-    /**
+    /*
      * Argument list too long
      */
     public static int E2BIG() {
@@ -14,7 +14,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Permission denied
      */
     public static int EACCES() {
@@ -22,7 +22,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Address already in use
      */
     public static int EADDRINUSE() {
@@ -30,7 +30,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Cannot assign requested address
      */
     public static int EADDRNOTAVAIL() {
@@ -38,7 +38,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Advertise error
      */
     public static int EADV() {
@@ -46,7 +46,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Address family not supported by protocol
      */
     public static int EAFNOSUPPORT() {
@@ -54,7 +54,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Try again
      */
     public static int EAGAIN() {
@@ -62,7 +62,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Operation already in progress
      */
     public static int EALREADY() {
@@ -70,7 +70,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Invalid exchange
      */
     public static int EBADE() {
@@ -78,7 +78,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Bad file number
      */
     public static int EBADF() {
@@ -86,7 +86,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * File descriptor in bad state
      */
     public static int EBADFD() {
@@ -94,7 +94,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Not a data message
      */
     public static int EBADMSG() {
@@ -102,7 +102,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Invalid request descriptor
      */
     public static int EBADR() {
@@ -110,7 +110,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Invalid request code
      */
     public static int EBADRQC() {
@@ -118,7 +118,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Invalid slot
      */
     public static int EBADSLT() {
@@ -126,7 +126,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Bad font file format
      */
     public static int EBFONT() {
@@ -134,7 +134,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Device or resource busy
      */
     public static int EBUSY() {
@@ -142,7 +142,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Operation Canceled
      */
     public static int ECANCELED() {
@@ -150,7 +150,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * No child processes
      */
     public static int ECHILD() {
@@ -158,7 +158,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Channel number out of range
      */
     public static int ECHRNG() {
@@ -166,7 +166,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Communication error on send
      */
     public static int ECOMM() {
@@ -174,7 +174,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Software caused connection abort
      */
     public static int ECONNABORTED() {
@@ -182,7 +182,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Connection refused
      */
     public static int ECONNREFUSED() {
@@ -190,7 +190,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Connection reset by peer
      */
     public static int ECONNRESET() {
@@ -198,7 +198,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Resource deadlock would occur
      */
     public static int EDEADLK() {
@@ -211,7 +211,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Destination address required
      */
     public static int EDESTADDRREQ() {
@@ -219,7 +219,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Math argument out of domain of func
      */
     public static int EDOM() {
@@ -227,7 +227,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * RFS specific error
      */
     public static int EDOTDOT() {
@@ -235,7 +235,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Quota exceeded
      */
     public static int EDQUOT() {
@@ -243,7 +243,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * File exists
      */
     public static int EEXIST() {
@@ -251,7 +251,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Bad address
      */
     public static int EFAULT() {
@@ -259,7 +259,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * File too large
      */
     public static int EFBIG() {
@@ -267,7 +267,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Host is down
      */
     public static int EHOSTDOWN() {
@@ -275,7 +275,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * No route to host
      */
     public static int EHOSTUNREACH() {
@@ -283,7 +283,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Identifier removed
      */
     public static int EIDRM() {
@@ -291,7 +291,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Illegal byte sequence
      */
     public static int EILSEQ() {
@@ -299,7 +299,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Operation now in progress
      */
     public static int EINPROGRESS() {
@@ -307,7 +307,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Interrupted system call
      */
     public static int EINTR() {
@@ -315,7 +315,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Invalid argument
      */
     public static int EINVAL() {
@@ -323,7 +323,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * I/O error
      */
     public static int EIO() {
@@ -331,7 +331,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Transport endpoint is already connected
      */
     public static int EISCONN() {
@@ -339,7 +339,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Is a directory
      */
     public static int EISDIR() {
@@ -347,7 +347,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Is a named type file
      */
     public static int EISNAM() {
@@ -355,7 +355,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Key has expired
      */
     public static int EKEYEXPIRED() {
@@ -363,7 +363,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Key was rejected by service
      */
     public static int EKEYREJECTED() {
@@ -371,7 +371,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Key has been revoked
      */
     public static int EKEYREVOKED() {
@@ -379,7 +379,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Level 2 halted
      */
     public static int EL2HLT() {
@@ -387,7 +387,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Level 2 not synchronized
      */
     public static int EL2NSYNC() {
@@ -395,7 +395,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Level 3 halted
      */
     public static int EL3HLT() {
@@ -403,7 +403,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Level 3 reset
      */
     public static int EL3RST() {
@@ -411,7 +411,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Can not access a needed shared library
      */
     public static int ELIBACC() {
@@ -419,7 +419,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Accessing a corrupted shared library
      */
     public static int ELIBBAD() {
@@ -427,7 +427,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Cannot exec a shared library directly
      */
     public static int ELIBEXEC() {
@@ -435,7 +435,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Attempting to link in too many shared libraries
      */
     public static int ELIBMAX() {
@@ -443,7 +443,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * .lib section in a.out corrupted
      */
     public static int ELIBSCN() {
@@ -451,7 +451,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Link number out of range
      */
     public static int ELNRNG() {
@@ -459,7 +459,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Too many symbolic links encountered
      */
     public static int ELOOP() {
@@ -467,7 +467,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Wrong medium type
      */
     public static int EMEDIUMTYPE() {
@@ -475,7 +475,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Too many open files
      */
     public static int EMFILE() {
@@ -483,7 +483,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Too many links
      */
     public static int EMLINK() {
@@ -491,7 +491,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Message too long
      */
     public static int EMSGSIZE() {
@@ -499,7 +499,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Multihop attempted
      */
     public static int EMULTIHOP() {
@@ -507,7 +507,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * File name too long
      */
     public static int ENAMETOOLONG() {
@@ -515,7 +515,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * No XENIX semaphores available
      */
     public static int ENAVAIL() {
@@ -523,7 +523,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Network is down
      */
     public static int ENETDOWN() {
@@ -531,7 +531,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Network dropped connection because of reset
      */
     public static int ENETRESET() {
@@ -539,7 +539,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Network is unreachable
      */
     public static int ENETUNREACH() {
@@ -547,7 +547,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * File table overflow
      */
     public static int ENFILE() {
@@ -555,7 +555,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * No anode
      */
     public static int ENOANO() {
@@ -563,7 +563,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * No buffer space available
      */
     public static int ENOBUFS() {
@@ -571,7 +571,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * No CSI structure available
      */
     public static int ENOCSI() {
@@ -579,7 +579,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * No data available
      */
     public static int ENODATA() {
@@ -587,7 +587,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * No such device
      */
     public static int ENODEV() {
@@ -595,7 +595,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * No such file or directory
      */
     public static int ENOENT() {
@@ -603,7 +603,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Exec format error
      */
     public static int ENOEXEC() {
@@ -611,7 +611,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Required key not available
      */
     public static int ENOKEY() {
@@ -619,7 +619,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * No record locks available
      */
     public static int ENOLCK() {
@@ -627,7 +627,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Link has been severed
      */
     public static int ENOLINK() {
@@ -635,7 +635,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * No medium found
      */
     public static int ENOMEDIUM() {
@@ -643,7 +643,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Out of memory
      */
     public static int ENOMEM() {
@@ -651,7 +651,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * No message of desired type
      */
     public static int ENOMSG() {
@@ -659,7 +659,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Machine is not on the network
      */
     public static int ENONET() {
@@ -667,7 +667,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Package not installed
      */
     public static int ENOPKG() {
@@ -675,7 +675,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Protocol not available
      */
     public static int ENOPROTOOPT() {
@@ -683,7 +683,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * No space left on device
      */
     public static int ENOSPC() {
@@ -691,7 +691,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Out of streams resources
      */
     public static int ENOSR() {
@@ -699,7 +699,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Device not a stream
      */
     public static int ENOSTR() {
@@ -707,7 +707,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Function not implemented
      */
     public static int ENOSYS() {
@@ -715,7 +715,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Block device required
      */
     public static int ENOTBLK() {
@@ -723,7 +723,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Transport endpoint is not connected
      */
     public static int ENOTCONN() {
@@ -731,7 +731,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Not a directory
      */
     public static int ENOTDIR() {
@@ -739,7 +739,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Directory not empty
      */
     public static int ENOTEMPTY() {
@@ -747,7 +747,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Not a XENIX named type file
      */
     public static int ENOTNAM() {
@@ -755,7 +755,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * State not recoverable
      */
     public static int ENOTRECOVERABLE() {
@@ -763,7 +763,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Socket operation on non-socket
      */
     public static int ENOTSOCK() {
@@ -771,7 +771,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Not a typewriter
      */
     public static int ENOTTY() {
@@ -779,7 +779,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Name not unique on network
      */
     public static int ENOTUNIQ() {
@@ -787,7 +787,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * No such device or address
      */
     public static int ENXIO() {
@@ -795,7 +795,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Operation not supported on transport endpoint
      */
     public static int EOPNOTSUPP() {
@@ -803,7 +803,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Value too large for defined data type
      */
     public static int EOVERFLOW() {
@@ -811,17 +811,17 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Owner died
      */
     public static int EOWNERDEAD() {
         return 130;
     }
 
-    /**
+    /*
      * Operation not permitted
      */
-    /**
+    /*
      * Operation not permitted
      */
     public static int EPERM() {
@@ -829,7 +829,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Protocol family not supported
      */
     public static int EPFNOSUPPORT() {
@@ -837,7 +837,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Broken pipe
      */
     public static int EPIPE() {
@@ -845,7 +845,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Protocol error
      */
     public static int EPROTO() {
@@ -853,7 +853,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Protocol not supported
      */
     public static int EPROTONOSUPPORT() {
@@ -861,7 +861,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Protocol wrong type for socket
      */
     public static int EPROTOTYPE() {
@@ -869,7 +869,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Math result not representable
      */
     public static int ERANGE() {
@@ -877,7 +877,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Remote address changed
      */
     public static int EREMCHG() {
@@ -885,7 +885,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Object is remote
      */
     public static int EREMOTE() {
@@ -893,7 +893,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Remote I/O error
      */
     public static int EREMOTEIO() {
@@ -901,7 +901,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Interrupted system call should be restarted
      */
     public static int ERESTART() {
@@ -909,7 +909,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Read-only file system
      */
     public static int EROFS() {
@@ -917,7 +917,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Cannot send after transport endpoint shutdown
      */
     public static int ESHUTDOWN() {
@@ -925,7 +925,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Socket type not supported
      */
     public static int ESOCKTNOSUPPORT() {
@@ -933,7 +933,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Illegal seek
      */
     public static int ESPIPE() {
@@ -941,7 +941,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * No such process
      */
     public static int ESRCH() {
@@ -949,7 +949,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Srmount error
      */
     public static int ESRMNT() {
@@ -957,7 +957,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Stale file handle
      */
     public static int ESTALE() {
@@ -965,7 +965,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Streams pipe error
      */
     public static int ESTRPIPE() {
@@ -973,7 +973,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Timer expired
      */
     public static int ETIME() {
@@ -981,7 +981,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Connection timed out
      */
     public static int ETIMEDOUT() {
@@ -989,7 +989,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Too many references: cannot splice
      */
     public static int ETOOMANYREFS() {
@@ -997,7 +997,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Text file busy
      */
     public static int ETXTBSY() {
@@ -1005,7 +1005,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Structure needs cleaning
      */
     public static int EUCLEAN() {
@@ -1013,7 +1013,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Protocol driver not attached
      */
     public static int EUNATCH() {
@@ -1021,7 +1021,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Too many users
      */
     public static int EUSERS() {
@@ -1029,7 +1029,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Operation would block
      */
     public static int EWOULDBLOCK() {
@@ -1037,7 +1037,7 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Cross-device link
      */
     public static int EXDEV() {
@@ -1045,21 +1045,21 @@ public class ErrorCodes {
     }
 
 
-    /**
+    /*
      * Exchange full
      */
     public static int EXFULL() {
         return 54;
     }
 
-    /**
+    /*
      * The extended attribute does not exist
      */
     public static int ENOATTR() {
         return 93;
     }
 
-    /**
+    /*
      * The file system does not support extended attributes or has the feature disabled
      */
     public static int ENOTSUP() {

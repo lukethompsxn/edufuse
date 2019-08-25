@@ -4,7 +4,7 @@ package com.github.lukethompsxn.edufuse.struct;
 import jnr.ffi.BaseStruct;
 import jnr.ffi.Runtime;
 
-/**
+/*
  * Data buffer vector
  * <p>
  * An array of data buffers, each containing a memory pointer or a
@@ -21,22 +21,22 @@ public class FuseBufvec extends BaseStruct {
         super(runtime);
     }
 
-    /**
+    /*
      * Number of buffers in the array
      */
     public final size_t count = new size_t();
 
-    /**
+    /*
      * Index of current buffer within the array
      */
     public final size_t idx = new size_t();
 
-    /**
+    /*
      * Current offset within the current buffer
      */
     public final size_t off = new size_t();
 
-    /**
+    /*
      * Array of buffers
      */
     public final FuseBuf buf = inner(new FuseBuf(getRuntime()));
@@ -47,7 +47,7 @@ public class FuseBufvec extends BaseStruct {
         return buf;
     }
 
-    /**
+    /*
      * Similar to FUSE_BUFVEC_INIT macros
      */
     public static void init(FuseBufvec buf, long size) {

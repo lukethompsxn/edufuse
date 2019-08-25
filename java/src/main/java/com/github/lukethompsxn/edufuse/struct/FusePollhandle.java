@@ -2,9 +2,8 @@ package com.github.lukethompsxn.edufuse.struct;
 
 import jnr.ffi.BaseStruct;
 
-/**
+/*
  * @author Sergey Tselovalnikov
- * @see "fuse_lowlevel.c"
  * <p>
  * <pre>
  * struct fuse_pollhandle {

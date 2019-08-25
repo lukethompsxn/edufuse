@@ -16,7 +16,7 @@ import static java.lang.annotation.ElementType.METHOD;
  * This annotation is not inheritable, so all overridden method would be registered in FuseOperation.
  * <p>
  * The goal of this annotation is performance, if method not registered in FuseOperation
- * then native->java call wouldn't be performed.
+ * then native-java call wouldn't be performed.
  *
  * @author Sergey Tselovalnikov
  * @since 05.06.15

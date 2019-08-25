@@ -93,15 +93,12 @@ function scanDirectory() {
     }
     const index = dir.lastIndexOf('/');
 
-    console.log('scanning directory: ' + dir);
     window.webContents.send('clear-nodes', null, null);
     walkdir(dir, {})
         .on('file', (fn, stat) => {
-            console.log(fn);
             window.webContents.send('file', fn.slice(index), stat);
         })
         .on('directory', (fn, stat) => {
-            console.log(fn);
             window.webContents.send('directory', fn.slice(index), stat);
         })
         .on('error', (fn, err) => {
@@ -110,7 +107,6 @@ function scanDirectory() {
 }
 
 ipcMain.on('rescan-directory', () => {
-    console.log('scan called');
     scanDirectory();
 });
 

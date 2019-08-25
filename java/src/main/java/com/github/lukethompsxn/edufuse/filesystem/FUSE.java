@@ -8,12 +8,11 @@ import jnr.ffi.Pointer;
 import jnr.ffi.types.*;
 
 
-/**
+/*
  * Fuse file system.
  * All documentation from "fuse.h"
  *
  * @author Sergey Tselovalnikov
- * @see <fuse.h>
  * <p>
  * Most of these should work very similarly to the well known UNIX
  * file system operations.  A major exception is that instead of
@@ -31,7 +30,7 @@ import jnr.ffi.types.*;
  * Retrieved from https://github.com/SerCeMan/jnr-fuse
  */
 public interface FUSE {
-    /**
+    /*
      * Get file attributes.
      * <p>
      * Similar to stat().  The 'st_dev' and 'st_blksize' fields are
@@ -40,7 +39,7 @@ public interface FUSE {
      */
     int getattr(String path, FileStat stat);
 
-    /**
+    /*
      * Read the target of a symbolic link
      * <p>
      * The buffer should be filled with a null terminated string.  The
@@ -51,7 +50,7 @@ public interface FUSE {
      */
     int readlink(String path, Pointer buf, @size_t long size);
 
-    /**
+    /*
      * Create a file node
      * <p>
      * This is called for creation of all non-directory, non-symlink
@@ -59,11 +58,11 @@ public interface FUSE {
      * regular files that will be called instead.
      *
      * @param mode The argument mode specifies the permissions to use in case a  new  file
-     *             is created. @see FileStat flags
+     *             is created.
      */
     int mknod(String path, @mode_t long mode, @dev_t long rdev);
 
-    /**
+    /*
      * Create a directory
      * <p>
      * Note that the mode argument may not have the type specification
@@ -71,54 +70,54 @@ public interface FUSE {
      * correct directory type bits use  mode|S_IFDIR
      *
      * @param mode The argument mode specifies the permissions to use in case a  new  file
-     *             is created. @see FileStat flags
+     *             is created.
      */
     int mkdir(String path, @mode_t long mode);
 
-    /**
+    /*
      * Remove a file
      */
     int unlink(String path);
 
-    /**
+    /*
      * Remove a directory
      */
     int rmdir(String path);
 
-    /**
+    /*
      * Create a symbolic link
      */
     int symlink(String oldpath, String newpath);
 
-    /**
+    /*
      * Rename a file
      */
     int rename(String oldpath, String newpath);
 
-    /**
+    /*
      * Create a hard link to a file
      */
     int link(String oldpath, String newpath);
 
-    /**
+    /*
      * Change the permission bits of a file
      *
      * @param mode The argument mode specifies the permissions to use in case a  new  file
-     *             is created. @see FileStat flags
+     *             is created.
      */
     int chmod(String path, @mode_t long mode);
 
-    /**
+    /*
      * Change the owner and group of a file
      */
     int chown(String path, @uid_t long uid, @gid_t long gid);
 
-    /**
+    /*
      * Change the size of a file
      */
     int truncate(String path, @off_t long size);
 
-    /**
+    /*
      * File open operation
      * <p>
      * No creation (O_CREAT, O_EXCL) and by default also no
@@ -134,11 +133,10 @@ public interface FUSE {
      * filehandle in the fuse_file_info structure, which will be
      * passed to all file operations.
      *
-     * @see jnr.constants.platform.OpenFlags
      */
     int open(String path, FuseFileInfo fi);
 
-    /**
+    /*
      * Read data from an open file
      * <p>
      * Read should return exactly the number of bytes requested except
@@ -150,7 +148,7 @@ public interface FUSE {
      */
     int read(String path, Pointer buf, @size_t long size, @off_t long offset, FuseFileInfo fi);
 
-    /**
+    /*
      * Write data to an open file
      * <p>
      * Write should return exactly the number of bytes requested
@@ -159,14 +157,14 @@ public interface FUSE {
      */
     int write(String path, Pointer buf, @size_t long size, @off_t long offset, FuseFileInfo fi);
 
-    /**
+    /*
      * Get file system statistics
      * <p>
      * The 'f_frsize', 'f_favail', 'f_fsid' and 'f_flag' fields are ignored
      */
     int statfs(String path, Statvfs stbuf);
 
-    /**
+    /*
      * Possibly flush cached data
      * <p>
      * BIG NOTE: This is not equivalent to fsync().  It's not a
@@ -190,7 +188,7 @@ public interface FUSE {
      */
     int flush(String path, FuseFileInfo fi);
 
-    /**
+    /*
      * Release an open file
      * <p>
      * Release is called when there are no more references to an open
@@ -205,7 +203,7 @@ public interface FUSE {
      */
     int release(String path, FuseFileInfo fi);
 
-    /**
+    /*
      * Synchronize file contents
      * <p>
      * If the datasync parameter is non-zero, then only the user data
@@ -213,16 +211,16 @@ public interface FUSE {
      */
     int fsync(String path, int isdatasync, FuseFileInfo fi);
 
-    /**
+    /*
      * Set the attribute NAME of the file pointed to by PATH to VALUE (which
      * is SIZE bytes long).
      *
-     * @param flags @see {@link XAttrConstants}
+     * @param flags flags
      * @return Return 0 on success, -1 for errors.
      */
     int setxattr(String path, String name, Pointer value, @size_t long size, int flags);
 
-    /**
+    /*
      * Get the attribute NAME of the file pointed to by PATH to VALUE (which is
      * SIZE bytes long).
      *
@@ -230,7 +228,7 @@ public interface FUSE {
      */
     int getxattr(String path, String name, Pointer value, @size_t long size);
 
-    /**
+    /*
      * List extended attributes
      * <p>
      * The retrieved list is placed
@@ -242,14 +240,14 @@ public interface FUSE {
      */
     int listxattr(String path, Pointer list, @size_t long size);
 
-    /**
+    /*
      * Remove the attribute NAME from the file pointed to by PATH.
      *
      * @return Return 0 on success, -1 for errors.
      */
     int removexattr(String path, String name);
 
-    /**
+    /*
      * Open directory
      * <p>
      * Unless the 'default_permissions' mount option is given,
@@ -260,7 +258,7 @@ public interface FUSE {
      */
     int opendir(String path, FuseFileInfo fi);
 
-    /**
+    /*
      * Read directory
      * <p>
      * This supersedes the old getdir() interface.  New applications
@@ -282,12 +280,12 @@ public interface FUSE {
      */
     int readdir(String path, Pointer buf, FuseFillDir filter, @off_t long offset, FuseFileInfo fi);
 
-    /**
+    /*
      * Release directory
      */
     int releasedir(String path, FuseFileInfo fi);
 
-    /**
+    /*
      * Synchronize directory contents
      * <p>
      * If the datasync parameter is non-zero, then only the user data
@@ -295,7 +293,7 @@ public interface FUSE {
      */
     int fsyncdir(String path, FuseFileInfo fi);
 
-    /**
+    /*
      * Initialize filesystem
      * <p>
      * The return value will passed in the private_data field of
@@ -304,14 +302,14 @@ public interface FUSE {
      */
     Pointer init(Pointer conn);
 
-    /**
+    /*
      * Clean up filesystem
      * <p>
      * Called on filesystem exit.
      */
     void destroy(Pointer initResult);
 
-    /**
+    /*
      * Check file access permissions
      * <p>
      * This will be called for the access() system call.  If the
@@ -325,7 +323,7 @@ public interface FUSE {
      */
     int access(String path, int mask);
 
-    /**
+    /*
      * Create and open a file
      * <p>
      * If the file does not exist, first create it with the specified
@@ -340,7 +338,7 @@ public interface FUSE {
      */
     int create(String path, @mode_t long mode, FuseFileInfo fi);
 
-    /**
+    /*
      * Change the size of an open file
      * <p>
      * This method is called instead of the truncate() method if the
@@ -352,7 +350,7 @@ public interface FUSE {
      */
     int ftruncate(String path, @off_t long size, FuseFileInfo fi);
 
-    /**
+    /*
      * Get attributes from an open file
      * <p>
      * This method is called instead of the getattr() method if the
@@ -364,7 +362,7 @@ public interface FUSE {
      */
     int fgetattr(String path, FileStat stbuf, FuseFileInfo fi);
 
-    /**
+    /*
      * Perform POSIX file locking operation
      * <p>
      * The cmd argument will be either F_GETLK, F_SETLK or F_SETLKW.
@@ -373,7 +371,7 @@ public interface FUSE {
      * for fcntl(2).  The l_whence field will always be set to
      * SEEK_SET.
      * <p>
-     * For checking lock ownership, the 'fuse_file_info->owner'
+     * For checking lock ownership, the 'fuse_file_info-owner'
      * argument must be used.
      * <p>
      * For F_GETLK operation, the library will first check currently
@@ -398,7 +396,7 @@ public interface FUSE {
      */
     int lock(String path, FuseFileInfo fi, int cmd, Flock flock);
 
-    /**
+    /*
      * Change the access and modification times of a file with
      * nanosecond resolution
      * <p>
@@ -409,7 +407,7 @@ public interface FUSE {
      */
     int utimens(String path, Timespec[] timespec);
 
-    /**
+    /*
      * Map block index within file to block index within device
      * <p>
      * Note: This makes sense only for block device backed filesystems
@@ -420,7 +418,7 @@ public interface FUSE {
      */
     int bmap(String path, @size_t long blocksize, long idx);
 
-    /**
+    /*
      * Ioctl
      * <p>
      * flags will have FUSE_IOCTL_COMPAT set for 32bit ioctls in
@@ -434,7 +432,7 @@ public interface FUSE {
      */
     int ioctl(String path, int cmd, Pointer arg, FuseFileInfo fi, @u_int32_t long flags, Pointer data);
 
-    /**
+    /*
      * Poll for IO readiness events
      * <p>
      * Note: If ph is non-NULL, the client should notify
@@ -453,7 +451,7 @@ public interface FUSE {
      */
     int poll(String path, FuseFileInfo fi, FusePollhandle ph, Pointer reventsp);
 
-    /**
+    /*
      * Write contents of buffer to an open file
      * <p>
      * Similar to the write() method, but data is supplied in a
@@ -466,7 +464,7 @@ public interface FUSE {
      */
     int write_buf(String path, FuseBufvec buf, @off_t long off, FuseFileInfo fi);
 
-    /**
+    /*
      * Store data from an open file in a buffer
      * <p>
      * Similar to the read() method, but data is stored and
@@ -487,7 +485,7 @@ public interface FUSE {
      */
     int read_buf(String path, Pointer bufp, @size_t long size, @off_t long off, FuseFileInfo fi);
 
-    /**
+    /*
      * Perform BSD file locking operation
      * <p>
      * The op argument will be either LOCK_SH, LOCK_EX or LOCK_UN
@@ -497,9 +495,9 @@ public interface FUSE {
      * <p>
      * For more information see the flock(2) manual page.
      * <p>
-     * Additionally fi->owner will be set to a value unique to
+     * Additionally fi-owner will be set to a value unique to
      * this open file.  This same value will be supplied to
-     * ->release() when the file is released.
+     * -release() when the file is released.
      * <p>
      * Note: if this method is not implemented, the kernel will still
      * allow file locking to work locally.  Hence it is only
@@ -509,7 +507,7 @@ public interface FUSE {
      */
     int flock(String path, FuseFileInfo fi, int op);
 
-    /**
+    /*
      * Allocates space for an open file
      * <p>
      * This function ensures that required space is allocated for specified

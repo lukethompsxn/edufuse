@@ -44,7 +44,6 @@ public class FuseFileInfo extends Struct {
     /**
      * Open flags.	 Available in open() and release()
      *
-     * @see jnr.constants.platform.OpenFlags
      */
     public final Signed32 flags;
     /**
@@ -75,7 +74,7 @@ public class FuseFileInfo extends Struct {
     /**
      * Indicates that flock locks for this file should be
      * released.  If set, lock_owner shall contain a valid value.
-     * May only be set in ->release().  Introduced in version
+     * May only be set in -release().  Introduced in version
      * 2.9
      */
     public final Padding flock_release;
