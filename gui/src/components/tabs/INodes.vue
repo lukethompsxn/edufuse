@@ -27,6 +27,7 @@
 <script>
     import vuescroll from 'vuescroll';
     import {messageBus} from '../../main.js';
+    import fs from 'fs';
 
     export default {
         name: "INodes",
@@ -37,21 +38,42 @@
             return {
                 iNodeTable: ['File System not running, or no iNode Table'],
                 blockFileView: ['File System not running, or no block file'],
+                mount: "/tmp/example",
             }
         },
         methods: {
-            updateBlockFile() {
+            updateBlockFile(json) {
+                console.log(typeof json);
+                console.log(Object.values(json));
+                console.log(json["Blocks"]);
 
+                let key;
+                for(key in json["Blocks"]) {
+                    if(json["Blocks"].hasOwnProperty(key)) {
+                        let value = json["Blocks"][key];
+                        console.log(key);
+                        //do something with value;
+                        console.log(this.mount + value["File"]);
+                        let buffer = fs.readFileSync(this.mount + value["File"]);
+                        console.log(buffer.toString());
+                        value["Contents"] = buffer;
+                    }
+                }
             }
         },
         created: function () {
             messageBus.$on('INODE_TABLE', (json) => {
                 this.iNodeTable = json;
-                this.updateBlockFile();
+                // this.updateBlockFile();
             });
             messageBus.$on('BLOCK_FILE', (json) => {
                 this.blockFileView = json;
-                this.updateBlockFile();
+                this.updateBlockFile(json);
+            });
+            messageBus.$on('MOUNT', (json) => {
+                if (json.dir !== null && json.dir !== '') {
+                    this.mount = json.dir;
+                }
             });
         },
         mounted: function () {
