@@ -144,9 +144,6 @@ static int edufuse_open(const char *path, struct fuse_file_info *fi) {
 static int edufuse_read(const char *path, char *buf, size_t size, off_t off, struct fuse_file_info *fi) {
     if (is_visualised) {
         send_fs_call_info("read", path, stringify_fusefileinfo_with_buf_size_off(fi, buf, size, off));
-    }
-
-    if (is_visualised) {
         send_amount_read_write("read", path);
     }
 
@@ -157,10 +154,7 @@ static int edufuse_read(const char *path, char *buf, size_t size, off_t off, str
 static int edufuse_write(const char *path, const char *buf, size_t size, off_t off, struct fuse_file_info *fi) {
     if (is_visualised) {
         send_fs_call_info("write", path, stringify_fusefileinfo_with_buf_size_off(fi, buf, size, off));
-    }
-
-    if (is_visualised) {
-        send_amount_read_write("write", path);
+        send_amount_read_write("read", path);
     }
 
     return registered_operations->write(path, buf, size, off, fi);

@@ -10,15 +10,7 @@
                     <span>INode Table.</span>
                 </div>
                 <div>
-                    <tree-view style="max-height: 200px" class="tree" :data="iNodeTable"></tree-view>
-                </div>
-            </b-row>
-            <b-row class="bottom card">
-                <div class="title">
-                    <span>Block File.</span>
-                </div>
-                <div>
-                    <tree-view style="max-height: 200px" class="tree" :data="blockFileView" :options="{maxDepth: 2}"></tree-view>
+                    <tree-view style="max-height: 480px" class="tree" :data="iNodeTable"></tree-view>
                 </div>
             </b-row>
         </b-container>
@@ -37,39 +29,16 @@
         data() {
             return {
                 iNodeTable: ['File System not running, or no iNode Table'],
-                blockFileView: ['File System not running, or no block file'],
-                mount: "/tmp/example",
-            }
-        },
-        methods: {
-            updateBlockFile(json) {
-                let key;
-                for(key in json["Blocks"]) {
-                    if(json["Blocks"].hasOwnProperty(key)) {
-                        let value = json["Blocks"][key];
-                        value["Contents"] = fs.readFileSync(this.mount + value["File"]);
-                    }
-                }
             }
         },
         created: function () {
             messageBus.$on('INODE_TABLE', (json) => {
                 this.iNodeTable = json;
             });
-            messageBus.$on('BLOCK_FILE', (json) => {
-                this.blockFileView = json;
-                this.updateBlockFile(json);
-            });
-            messageBus.$on('MOUNT', (json) => {
-                if (json.dir !== null && json.dir !== '') {
-                    this.mount = json.dir;
-                }
-            });
         },
         mounted: function () {
            this.$bvModal.show('beta');
            this.iNodeTable = this.iNodes;
-           this.blockFileView = this.blockFile;
         }
     }
 </script>
@@ -78,13 +47,7 @@
     .top {
         margin: 16px 16px 16px 16px;
         padding: 0 15px 0 15px;
-        height: 252px
-    }
-
-    .bottom {
-        margin: 8px 16px 16px 16px;
-        padding: 0 15px 0 15px;
-        height: 274px;
+        height: 542px
     }
 
     .bv-example-row {

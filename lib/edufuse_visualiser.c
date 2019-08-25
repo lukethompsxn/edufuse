@@ -178,6 +178,10 @@ char *stringify_fusefileinfo(struct fuse_file_info *fi) {
 }
 
 char *stringify_fusefileinfo_with_buf_size_off(struct fuse_file_info *fi, char *buf, size_t size, off_t off) {
+    char buffer[sizeof(buf)];
+    strcpy(buffer, buf);
+    buffer[strcspn(buffer, "\n")] = 0;
+
     char *json = mkjson(MKJSON_OBJ, 4,
                         MKJSON_JSON, "fi", mkjson(MKJSON_OBJ, 10,
                                 MKJSON_INT, "flags", fi->flags,
@@ -190,7 +194,7 @@ char *stringify_fusefileinfo_with_buf_size_off(struct fuse_file_info *fi, char *
                                 MKJSON_INT, "padding", fi->padding,
                                 MKJSON_LLINT, "fh", fi->fh,
                                 MKJSON_LLINT, "lock_owner", fi->lock_owner),
-                        MKJSON_STRING, "buf", buf,
+                        MKJSON_STRING, "buf", buffer,
                         MKJSON_LLINT, "size", size,
                         MKJSON_LLINT, "off", off);
 

@@ -144,7 +144,7 @@ let server = net.createServer(function (socket) {
 
         // Multiple messages may get combined in the stream, so we need to check for termination character '\e'
         str.split('\\e').forEach((msg) => {
-            if (msg.length > 0) {
+            if (msg.length > 0 && msg.trim().length > 0) {
                 try {
                     let json = JSON.parse(msg);
                     window.webContents.send(json.type, json);
@@ -154,7 +154,9 @@ let server = net.createServer(function (socket) {
                         configureWatcher(mountPoint)
                     }
                 } catch (e) {
-                    console.log('Unable to parse JSON received at socket: ' + msg);
+                    if (msg.includes('read') || msg.includes('write')) {
+                        console.log('Unable to parse JSON received at socket: ' + msg);
+                    }
 
                 }
             }
