@@ -45,12 +45,12 @@ void connect_to_socket() {
 }
 
 int init_visualiser(char *mount_point) {
-//    system("chmod +x ../../gui/launch.sh");
-//    int pid = fork();
-//    if (pid == 0) {
-//        system("../../gui/launch.sh");
-//        exit(0);
-//    }
+    system("chmod +x ../gui/build/eduFUSE-0.1.0.AppImage");
+    int pid = fork();
+    if (pid == 0) {
+        system("../gui/build/eduFUSE-0.1.0.AppImage");
+        exit(0);
+    }
 
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
         printf("Socket creation failed... exiting...\n");
