@@ -19,7 +19,6 @@
 <script>
     import vuescroll from 'vuescroll';
     import {messageBus} from '../../main.js';
-    import fs from 'fs';
 
     export default {
         name: "INodes",
