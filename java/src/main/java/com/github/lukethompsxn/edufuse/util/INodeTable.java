@@ -14,6 +14,7 @@ import java.util.Set;
  * @since 16/8/19
  */
 public class INodeTable implements Serializable {
+    private int blockSize;
 
     /**
      * Serialises the INodeTable object to the iNode table on file (/tmp/.inodetable) to store between sessions.
@@ -68,7 +69,8 @@ public class INodeTable implements Serializable {
     /**
      * Most common constructor.
      */
-    public INodeTable() {
+    public INodeTable(int blockSize) {
+        this.blockSize = blockSize;
     }
 
     /**
@@ -77,9 +79,10 @@ public class INodeTable implements Serializable {
      * @param table      HashMap representing the path to INode mappings.
      * @param blockIndex integer representing next available block.
      */
-    public INodeTable(HashMap<String, INode> table, int blockIndex) {
+    public INodeTable(HashMap<String, INode> table, int blockIndex, int blockSize) {
         this.table = table;
         this.blockIndex = blockIndex;
+        this.blockSize = blockSize;
     }
 
     /**
@@ -135,5 +138,14 @@ public class INodeTable implements Serializable {
      */
     public Set<String> entires() {
         return table.keySet();
+    }
+
+    /**
+     * Returns the block size of the file system
+     *
+     * @return integer representing block size
+     */
+    public int getBlockSize() {
+        return blockSize;
     }
 }

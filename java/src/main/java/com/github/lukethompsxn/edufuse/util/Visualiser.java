@@ -1,6 +1,5 @@
 package com.github.lukethompsxn.edufuse.util;
 
-import com.github.lukethompsxn.edufuse.examples.ManualBlocksFS;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -35,7 +34,7 @@ public class Visualiser {
 
         table.put("type", "INODE_TABLE");
         table.put("nextBlock", String.valueOf(iNodeTable.peekNextFreeBlock()));
-        table.put("block-size", String.valueOf(ManualBlocksFS.BLOCK_SIZE));
+        table.put("block-size", String.valueOf(iNodeTable.getBlockSize()));
 
         int totalBlocks = 0;
 

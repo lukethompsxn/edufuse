@@ -28,7 +28,7 @@
         },
         data() {
             return {
-                iNodeTable: ['File System not running, or no iNode Table'],
+                iNodeTable: ['File System not running, no iNode Table, or no write call made yet'],
             }
         },
         created: function () {
