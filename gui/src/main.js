@@ -77,7 +77,7 @@ ipcRenderer.on('CALL_INFO', (event, json) => {
 });
 
 ipcRenderer.on('MOUNT', (event, json) => {
-    Vue.prototype.mountPoint = json
+    Vue.prototype.mountPoint = json;
     messageBus.$emit('MOUNT', json);
 });
 
