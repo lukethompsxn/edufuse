@@ -7,7 +7,8 @@
 <script>
     import {Chart} from 'highcharts-vue'
     import {messageBus} from '../../../main.js';
-    import fs from 'fs';
+    // import fs from 'fs';
+    import {ipcRenderer} from 'electron';
 
     // let mount = '';
 
@@ -63,24 +64,24 @@
                         color: '#6fcd98',
                     }],
                 },
-                mount: '/tmp/example'
+                // mount: '/tmp/example'
             }
         },
 
         methods: {
             updateValues(call, path) {
-                let stats;
-                if (path !== undefined) {
-                    stats = fs.statSync(this.mount + path);
-                }
-
-                // Temp solution
-                if (call !== undefined && call === 'read') this.points[0]+= stats.size;
-                else if (call !== undefined && call === 'write') {
-                    this.points[1]+= stats.size;
-                }
-
-                this.updateSeries(this.points);
+                // let stats;
+                // if (path !== undefined) {
+                //     stats = fs.statSync(this.mount + path);
+                // }
+                //
+                // // Temp solution
+                // if (call !== undefined && call === 'read') this.points[0]+= stats.size;
+                // else if (call !== undefined && call === 'write') {
+                //     this.points[1]+= stats.size;
+                // }
+                //
+                // this.updateSeries(this.points);
 
             },
             updateSeries(newValue) {
@@ -96,12 +97,18 @@
         created: function () {
             messageBus.$on('READ_WRITE', (json) => {
                 //this.updateValues(json.amount);
-                this.updateValues(json.syscall, json.file);
+                // this.updateValues(json.syscall, json.file);
+                ipcRenderer.send('read-write', json.syscall, json.file);
             });
-            messageBus.$on('MOUNT', (json) => {
-                if (json.dir !== null && json.dir !== '') {
-                    this.mount = json.dir;
-                }
+            messageBus.$on('read1', (read_size) => {
+                console.log('read: ' + read_size);
+                this.points[0] += read_size;
+                this.updateSeries(this.points);
+            });
+            messageBus.$on('write1', (write_size) => {
+                console.log('write: ' + write_size);
+                this.points[1] += write_size;
+                this.updateSeries(this.points);
             });
         },
 
@@ -109,8 +116,6 @@
             this.logHistory.forEach((log) => {
                 this.updateValues(log.syscall);
             });
-
-            this.mount = this.mountPoint;
         },
     }
 </script>

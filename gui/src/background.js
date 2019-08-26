@@ -5,6 +5,7 @@ import {createProtocol, installVueDevtools} from 'vue-cli-plugin-electron-builde
 import walkdir from 'walkdir';
 import chokidar from 'chokidar';
 import * as net from 'net';
+import fs from 'fs';
 
 const isDev = process.env.NODE_ENV !== 'production';
 const port = 8081;
@@ -65,8 +66,6 @@ app.on('ready', async () => {
         }
     }
     createWindow();
-    window.webContents.send('MOUNT', mountPoint);
-    console.log(mountPoint);
 });
 
 // Exit cleanly on request from parent process in development mode.
@@ -87,7 +86,6 @@ if (isDev) {
 }
 
 let mountPoint = '';
-let mountJSON = null;
 
 function scanDirectory() {
     let dir = mountPoint;
@@ -153,8 +151,8 @@ let server = net.createServer(function (socket) {
                     window.webContents.send(json.type, json);
 
                     if (json.type === 'MOUNT') {
-                        mountJSON = json;
-                        configureWatcher(mountPoint)
+                        mountPoint = json.dir;
+                        configureWatcher(mountPoint);
                     }
                 } catch (e) {
                     if (msg.includes('read') || msg.includes('write')) {
@@ -166,5 +164,50 @@ let server = net.createServer(function (socket) {
         });
     });
 });
+
+ipcMain.on('read-write', (idk, call, path) => {
+    let stats, read_size, write_size;
+
+    if (path !== undefined) {
+        stats = fs.statSync(mountPoint + path);
+    }
+
+    // Temp solution
+    if (call !== undefined && call === 'read') {
+        read_size = stats.size;
+        window.webContents.send('read1', read_size);
+    }
+    else if (call !== undefined && call === 'write') {
+        write_size = stats.size;
+        window.webContents.send('write1', write_size);
+    }
+});
+
+ipcMain.on('timeline', (idk, call, path) => {
+    let stats, dataRead, dataWritten;
+    if (path !== undefined) {
+        stats = fs.statSync(mountPoint + path);
+    }
+
+    let data = fs.readFileSync("/tmp/.readwrites.json");
+    if (data !== undefined) {
+        let parsedData = JSON.parse(data);
+        dataRead = parsedData["read"];
+        dataWritten = parsedData["write"];
+    }
+
+    // Temp solution
+    if (call !== undefined && call === 'read') dataRead += stats.size;
+    else if (call !== undefined && call === 'write') dataWritten += stats.size;
+    else return;
+
+    let obj = {};
+    obj.read = dataRead;
+    obj.write = dataWritten;
+
+    let jsonString = JSON.stringify(obj);
+    fs.writeFileSync("/tmp/.readwrites.json", jsonString);
+});
+
 
 server.listen(port, host);

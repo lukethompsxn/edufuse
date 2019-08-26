@@ -48,7 +48,6 @@ const ignorePaths = [
 ];
 Vue.prototype.logHistory = [];
 Vue.prototype.iNodes = ['File System not running, no iNode Table, or no write call made yet'];
-Vue.prototype.mountPoint = '/tmp/example';
 Vue.config.productionTip = false;
 
 
@@ -77,7 +76,6 @@ ipcRenderer.on('CALL_INFO', (event, json) => {
 });
 
 ipcRenderer.on('MOUNT', (event, json) => {
-    Vue.prototype.mountPoint = json;
     messageBus.$emit('MOUNT', json);
 });
 
@@ -93,4 +91,16 @@ ipcRenderer.on('INODE_TABLE', (event, json) => {
 ipcRenderer.on('BLOCK_FILE', (event, json) => {
     Vue.prototype.blockFile = json;
     messageBus.$emit('BLOCK_FILE', json);
+});
+
+ipcRenderer.on('read1', (event, read) => {
+    messageBus.$emit('read1', read);
+});
+
+ipcRenderer.on('write1', (event, read) => {
+    messageBus.$emit('write1', read);
+});
+
+ipcRenderer.on('timeline', (event, read) => {
+    messageBus.$emit('timeline', read);
 });

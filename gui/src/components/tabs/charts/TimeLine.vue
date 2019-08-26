@@ -8,6 +8,8 @@
     import Highcharts from "highcharts";
     import {messageBus} from '../../../main.js';
     import fs from 'fs';
+    import {ipcRenderer} from 'electron';
+
 
     export default {
         components: {
@@ -41,6 +43,7 @@
                                     let data = fs.readFileSync("/tmp/.readwrites.json");
                                     if (data !== undefined) {
                                         let parsedData = JSON.parse(data);
+                                        console.log('read: ' + parsedData["read"] + ' write: ' + parsedData["write"]);
                                         chart.series[0].addPoint([x, parsedData["read"]], false, true);
                                         chart.series[1].addPoint([x, parsedData["write"]], true, true);
 
@@ -54,7 +57,7 @@
                                         chart.series[0].addPoint([x, y], false, true);
                                         chart.series[1].addPoint([x, y2], true, true);
                                     }
-                                }, 5000);
+                                }, 3500);
                             }
                         },
                         height: 216
@@ -111,7 +114,7 @@
 
                                 for (i = -19; i <= 0; i += 1) {
                                     data.push({
-                                        x: time + i * 2500,
+                                        x: time + i * 3500,
                                         y: 0
                                     });
                                 }
@@ -128,7 +131,7 @@
 
                                 for (i = -19; i <= 0; i += 1) {
                                     data1.push({
-                                        x: time + i * 5000,
+                                        x: time + i * 3500,
                                         y: 0
                                     });
                                 }
@@ -137,35 +140,35 @@
                         }
                     ]
                 },
-                mount: '/tmp/example'
+                // mount: '/tmp/example'
             };
         },
 
         methods: {
             updateValues(call, path) {
-                let stats;
-                if (path !== undefined) {
-                    stats = fs.statSync(this.mount + path);
-                }
-
-                let data = fs.readFileSync("/tmp/.readwrites.json");
-                if (data !== undefined) {
-                    let parsedData = JSON.parse(data);
-                    this.dataReadCurrent = parsedData["read"];
-                    this.dataWrittenCurrent = parsedData["write"];
-                }
-
-                // Temp solution
-                if (call !== undefined && call === 'read') this.dataReadCurrent += stats.size;
-                else if (call !== undefined && call === 'write') this.dataWrittenCurrent += stats.size;
-                else return;
-
-                let obj = {};
-                obj.read = this.dataReadCurrent;
-                obj.write = this.dataWrittenCurrent;
-
-                let jsonString = JSON.stringify(obj);
-                fs.writeFileSync("/tmp/.readwrites.json", jsonString);
+                // let stats;
+                // if (path !== undefined) {
+                //     stats = fs.statSync(this.mount + path);
+                // }
+                //
+                // let data = fs.readFileSync("/tmp/.readwrites.json");
+                // if (data !== undefined) {
+                //     let parsedData = JSON.parse(data);
+                //     this.dataReadCurrent = parsedData["read"];
+                //     this.dataWrittenCurrent = parsedData["write"];
+                // }
+                //
+                // // Temp solution
+                // if (call !== undefined && call === 'read') this.dataReadCurrent += stats.size;
+                // else if (call !== undefined && call === 'write') this.dataWrittenCurrent += stats.size;
+                // else return;
+                //
+                // let obj = {};
+                // obj.read = this.dataReadCurrent;
+                // obj.write = this.dataWrittenCurrent;
+                //
+                // let jsonString = JSON.stringify(obj);
+                // fs.writeFileSync("/tmp/.readwrites.json", jsonString);
 
                 // this.updateSeries();
 
@@ -181,7 +184,8 @@
         created: function () {
             messageBus.$on('READ_WRITE', (json) => {
                 // Maybe need threads for these?
-                this.updateValues(json.syscall, json.file);
+                // this.updateValues(json.syscall, json.file);
+                ipcRenderer.send('timeline', json.syscall, json.file);
             });
             let obj = {};
             obj.read = this.dataReadCurrent;
@@ -189,19 +193,13 @@
 
             let jsonString = JSON.stringify(obj);
             fs.writeFileSync("/tmp/.readwrites.json", jsonString);
-
-            messageBus.$on('MOUNT', (json) => {
-                if (json.dir !== null && json.dir !== '') {
-                    this.mount = json.dir;
-                }
-            });
         },
 
         mounted() {
             this.logHistory.forEach((log) => {
                 this.updateValues(log.syscall);
             });
-            this.mount = this.mountPoint;
+            // this.mount = this.mountPoint;
 
         },
     };
