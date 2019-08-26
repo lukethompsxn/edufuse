@@ -63,6 +63,7 @@
                         color: '#6fcd98',
                     }],
                 },
+                mount: '/tmp/example'
             }
         },
 
@@ -70,7 +71,7 @@
             updateValues(call, path) {
                 let stats;
                 if (path !== undefined) {
-                    stats = fs.statSync('/tmp/example' + path);
+                    stats = fs.statSync(this.mount + path);
                 }
 
                 // Temp solution
@@ -99,7 +100,7 @@
             });
             messageBus.$on('MOUNT', (json) => {
                 if (json.dir !== null && json.dir !== '') {
-                    // mount = json.dir;
+                    this.mount = json.dir;
                 }
             });
         },
@@ -108,6 +109,8 @@
             this.logHistory.forEach((log) => {
                 this.updateValues(log.syscall);
             });
+
+            this.mount = this.mountPoint;
         },
     }
 </script>

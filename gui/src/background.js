@@ -65,6 +65,8 @@ app.on('ready', async () => {
         }
     }
     createWindow();
+    window.webContents.send('MOUNT', mountPoint);
+    console.log(mountPoint);
 });
 
 // Exit cleanly on request from parent process in development mode.
@@ -85,6 +87,7 @@ if (isDev) {
 }
 
 let mountPoint = '';
+let mountJSON = null;
 
 function scanDirectory() {
     let dir = mountPoint;
@@ -150,7 +153,7 @@ let server = net.createServer(function (socket) {
                     window.webContents.send(json.type, json);
 
                     if (json.type === 'MOUNT') {
-                        mountPoint = json.dir;
+                        mountJSON = json;
                         configureWatcher(mountPoint)
                     }
                 } catch (e) {

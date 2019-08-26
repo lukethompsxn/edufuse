@@ -137,6 +137,7 @@
                         }
                     ]
                 },
+                mount: '/tmp/example'
             };
         },
 
@@ -144,7 +145,7 @@
             updateValues(call, path) {
                 let stats;
                 if (path !== undefined) {
-                    stats = fs.statSync('/tmp/example' + path);
+                    stats = fs.statSync(this.mount + path);
                 }
 
                 let data = fs.readFileSync("/tmp/.readwrites.json");
@@ -188,12 +189,20 @@
 
             let jsonString = JSON.stringify(obj);
             fs.writeFileSync("/tmp/.readwrites.json", jsonString);
+
+            messageBus.$on('MOUNT', (json) => {
+                if (json.dir !== null && json.dir !== '') {
+                    this.mount = json.dir;
+                }
+            });
         },
 
         mounted() {
             this.logHistory.forEach((log) => {
                 this.updateValues(log.syscall);
             });
+            this.mount = this.mountPoint;
+
         },
     };
 </script>
