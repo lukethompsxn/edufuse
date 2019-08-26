@@ -22,8 +22,7 @@ Socket not ready, sleeping for 2 seconds then retrying... (attempt 2/2)
 Failed to connect to the socket.... exiting....
 ```
 #### Solution
-This occurs when you run eduFUSE with visualisations enabled, but you don't have the GUI open. To fix make sure to run the GUI
-before you run your file system.
+This occurs when you run eduFUSE with visualisations enabled, but you don't have the GUI open. The GUI should launch automatically, howover you can disable visualisations by passing false in the mount command (java) or edufuse_register (c).
 
 ### Corrupt iNode Table
 ```
