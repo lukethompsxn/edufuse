@@ -35,7 +35,7 @@ Find the Java User Guide [here](https://github.com/lukethompsxn/edufuse/tree/mas
 Find the GUI User Guide [here](https://github.com/lukethompsxn/edufuse/tree/master/gui/).
 
 ## Troubleshooting
-todo
+Basic Troubleshooting can be found [here](https://github.com/lukethompsxn/edufuse/blob/master/Troubleshooting.md).
 
 ## Acknowledgements
 - [mkjson](https://github.com/Jacajack/mkjson)
