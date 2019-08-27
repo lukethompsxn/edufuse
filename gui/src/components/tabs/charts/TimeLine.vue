@@ -32,7 +32,6 @@
                         events: {
                             load: function() {
                                 // set up the updating of the chart each second
-                                // let series = this.series;
                                 let chart = this;
 
                                 setInterval(function() {
@@ -140,51 +139,11 @@
                         }
                     ]
                 },
-                // mount: '/tmp/example'
             };
-        },
-
-        methods: {
-            updateValues(call, path) {
-                // let stats;
-                // if (path !== undefined) {
-                //     stats = fs.statSync(this.mount + path);
-                // }
-                //
-                // let data = fs.readFileSync("/tmp/.readwrites.json");
-                // if (data !== undefined) {
-                //     let parsedData = JSON.parse(data);
-                //     this.dataReadCurrent = parsedData["read"];
-                //     this.dataWrittenCurrent = parsedData["write"];
-                // }
-                //
-                // // Temp solution
-                // if (call !== undefined && call === 'read') this.dataReadCurrent += stats.size;
-                // else if (call !== undefined && call === 'write') this.dataWrittenCurrent += stats.size;
-                // else return;
-                //
-                // let obj = {};
-                // obj.read = this.dataReadCurrent;
-                // obj.write = this.dataWrittenCurrent;
-                //
-                // let jsonString = JSON.stringify(obj);
-                // fs.writeFileSync("/tmp/.readwrites.json", jsonString);
-
-                // this.updateSeries();
-
-            },
-            updateSeries() {
-                // this.chartOptions.series[0].data = newValue;
-                // this.points.push();
-            },
-            test() {
-            }
         },
 
         created: function () {
             messageBus.$on('READ_WRITE', (json) => {
-                // Maybe need threads for these?
-                // this.updateValues(json.syscall, json.file);
                 ipcRenderer.send('timeline', json.syscall, json.file);
             });
             let obj = {};
@@ -199,8 +158,6 @@
             this.logHistory.forEach((log) => {
                 this.updateValues(log.syscall);
             });
-            // this.mount = this.mountPoint;
-
         },
     };
 </script>

@@ -208,12 +208,6 @@
                 this.updateValues(log.syscall);
             });
         },
-
-        watch: {
-            points () {
-                // this.chartOptions.series[0].data = newValue;
-            },
-        }
     }
 </script>
 

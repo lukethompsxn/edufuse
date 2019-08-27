@@ -7,10 +7,8 @@
 <script>
     import {Chart} from 'highcharts-vue'
     import {messageBus} from '../../../main.js';
-    // import fs from 'fs';
     import {ipcRenderer} from 'electron';
 
-    // let mount = '';
 
     export default {
         name: "RnWThroughput",
@@ -34,8 +32,6 @@
                         backgroundColor: 'transparent',
                         height: 216,
                         margin: [20, 0, 50, 60],
-                        // maxWidth: ,
-                        // inverted: true,
                     },
                     title: {
                         text: null
@@ -65,26 +61,10 @@
                         color: '#6fcd98',
                     }],
                 },
-                // mount: '/tmp/example'
             }
         },
 
         methods: {
-            updateValues(call, path) {
-                // let stats;
-                // if (path !== undefined) {
-                //     stats = fs.statSync(this.mount + path);
-                // }
-                //
-                // // Temp solution
-                // if (call !== undefined && call === 'read') this.points[0]+= stats.size;
-                // else if (call !== undefined && call === 'write') {
-                //     this.points[1]+= stats.size;
-                // }
-                //
-                // this.updateSeries(this.points);
-
-            },
             updateSeries(newValue) {
                 this.chartOptions.series[0].data = newValue;
                 this.points.push();
@@ -97,8 +77,6 @@
 
         created: function () {
             messageBus.$on('READ_WRITE', (json) => {
-                //this.updateValues(json.amount);
-                // this.updateValues(json.syscall, json.file);
                 ipcRenderer.send('read-write', json.syscall, json.file);
             });
             messageBus.$on('read1', (read_size) => {
@@ -117,7 +95,6 @@
 
         mounted() {
             this.logHistory.forEach((log) => {
-                // this.updateValues(log.syscall);
             });
             this.updateSeries(this.points);
         },
