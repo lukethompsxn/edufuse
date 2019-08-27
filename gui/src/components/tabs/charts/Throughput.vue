@@ -189,7 +189,7 @@
 
         created: function () {
             messageBus.$on('CALL_INFO', (json) => {
-                if (json.syscall !== "read" || json.syscall !== "write") {
+                if (json.syscall !== "read" && json.syscall !== "write") {
                     this.updateValues(json.syscall);
                 }
             });
@@ -197,6 +197,10 @@
                 this.updateValues(json.syscall);
 
             });
+        },
+
+        activated: function () {
+            this.updateValues();
         },
 
         mounted() {

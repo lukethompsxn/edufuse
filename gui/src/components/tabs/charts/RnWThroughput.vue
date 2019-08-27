@@ -26,7 +26,7 @@
                 seriesColor: '#6fcd98',
                 colorInputIsSupported: null,
                 animationDuration: 500,
-                updateArgs: [true, true, {duration: 1000}],
+                updateArgs: [true, false, {duration: 1000}],
 
                 chartOptions: {
                     chart: {
@@ -34,6 +34,7 @@
                         backgroundColor: 'transparent',
                         height: 216,
                         margin: [20, 0, 50, 60],
+                        // maxWidth: ,
                         // inverted: true,
                     },
                     title: {
@@ -101,21 +102,24 @@
                 ipcRenderer.send('read-write', json.syscall, json.file);
             });
             messageBus.$on('read1', (read_size) => {
-                console.log('read: ' + read_size);
                 this.points[0] += read_size;
                 this.updateSeries(this.points);
             });
             messageBus.$on('write1', (write_size) => {
-                console.log('write: ' + write_size);
                 this.points[1] += write_size;
                 this.updateSeries(this.points);
             });
         },
 
+        activated: function () {
+            this.updateSeries(this.points);
+        },
+
         mounted() {
             this.logHistory.forEach((log) => {
-                this.updateValues(log.syscall);
+                // this.updateValues(log.syscall);
             });
+            this.updateSeries(this.points);
         },
     }
 </script>
