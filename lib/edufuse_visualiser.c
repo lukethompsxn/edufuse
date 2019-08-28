@@ -19,6 +19,7 @@
 int sockfd;
 struct sockaddr_in servaddr;
 int attempt = 1;
+int alive = 0;
 
 /*
  *
@@ -40,6 +41,7 @@ void connect_to_socket() {
             exit(0);
         }
     } else {
+        alive = 1;
         printf("Successfully connected to socket\n");
     }
 }
@@ -71,7 +73,9 @@ int init_visualiser(char *mount_point) {
 }
 
 void destroy_visualiser() {
-
+    printf("Destroying socket...\n");
+    alive = 0;
+    shutdown(sockfd, SHUT_RDWR);
 }
 
 char *terminateString(const char *s1) {
@@ -91,46 +95,55 @@ char *terminateString(const char *s1) {
  */
 
 int send_fs_call_info(char *syscall, char *file, char *fileInfo) {
-    char *msg = mkjson( MKJSON_OBJ, 4,
-                         MKJSON_STRING, "type", "CALL_INFO",
-                         MKJSON_STRING, "syscall", syscall,
-                         MKJSON_STRING, "file", file,
-                         MKJSON_JSON, "fileInfo", fileInfo);
+    if (alive) {
+        char *msg = mkjson(MKJSON_OBJ, 4,
+                           MKJSON_STRING, "type", "CALL_INFO",
+                           MKJSON_STRING, "syscall", syscall,
+                           MKJSON_STRING, "file", file,
+                           MKJSON_JSON, "fileInfo", fileInfo);
 
-    char *terminatedMsg = terminateString(msg);
-    int result = send(sockfd, terminatedMsg, strlen(terminatedMsg), 0);
-    free(msg);
-    free(terminatedMsg);
-    free(fileInfo); //freeing this may cause seg fault if we call more send methods with it
+        char *terminatedMsg = terminateString(msg);
+        int result = send(sockfd, terminatedMsg, strlen(terminatedMsg), 0);
+        free(msg);
+        free(terminatedMsg);
+//        free(fileInfo); //freeing this may cause seg fault if we call more send methods with it
 
-    return result;
+        return result;
+    }
+    return 0;
 }
 
 int send_mount_point(char *mount_point) {
-    char *msg = mkjson( MKJSON_OBJ, 2,
-                        MKJSON_STRING, "type", "MOUNT",
-                        MKJSON_STRING, "dir", mount_point);
+    if (alive) {
+        char *msg = mkjson(MKJSON_OBJ, 2,
+                           MKJSON_STRING, "type", "MOUNT",
+                           MKJSON_STRING, "dir", mount_point);
 
-    char *terminatedMsg = terminateString(msg);
-    int result = send(sockfd, terminatedMsg, strlen(terminatedMsg), 0);
-    free(msg);
-    free(terminatedMsg);
+        char *terminatedMsg = terminateString(msg);
+        int result = send(sockfd, terminatedMsg, strlen(terminatedMsg), 0);
+        free(msg);
+        free(terminatedMsg);
 
-    return result;
+        return result;
+    }
+    return 0;
 }
 
 int send_amount_read_write(char *syscall, char *file) {
-    char *msg = mkjson( MKJSON_OBJ, 3,
-            MKJSON_STRING, "type", "READ_WRITE",
-            MKJSON_STRING, "syscall", syscall,
-            MKJSON_STRING, "file", file);
+    if (alive) {
+        char *msg = mkjson(MKJSON_OBJ, 3,
+                           MKJSON_STRING, "type", "READ_WRITE",
+                           MKJSON_STRING, "syscall", syscall,
+                           MKJSON_STRING, "file", file);
 
-    char *terminatedMsg = terminateString(msg);
-    int result = send(sockfd, terminatedMsg, strlen(terminatedMsg), 0);
-    free(msg);
-    free(terminatedMsg);
+        char *terminatedMsg = terminateString(msg);
+        int result = send(sockfd, terminatedMsg, strlen(terminatedMsg), 0);
+        free(msg);
+        free(terminatedMsg);
 
-    return result;
+        return result;
+    }
+    return 0;
 }
 
 /*
