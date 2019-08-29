@@ -8,6 +8,7 @@ import jnr.ffi.Runtime;
 import jnr.ffi.Struct;
 import jnr.ffi.mapper.FromNativeConverter;
 import jnr.ffi.provider.jffi.ClosureHelper;
+import sun.misc.IOUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -55,7 +56,7 @@ public abstract class AbstractFS implements FUSE {
         try (FileOutputStream fos = new FileOutputStream(lib)){
             lib.createNewFile();
             lib.deleteOnExit();
-            fos.write(this.getClass().getResourceAsStream(library).readAllBytes());
+            fos.write(IOUtils.readFully(this.getClass().getResourceAsStream(library), -1, false));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,7 +65,7 @@ public abstract class AbstractFS implements FUSE {
         if (!visualiser.exists()) {
             try (FileOutputStream fos = new FileOutputStream(visualiser)) {
                 lib.createNewFile();
-                fos.write(this.getClass().getResourceAsStream(VISUALISER).readAllBytes());
+                fos.write(IOUtils.readFully(this.getClass().getResourceAsStream(VISUALISER), -1, false));
             } catch (IOException e) {
                 e.printStackTrace();
             }
