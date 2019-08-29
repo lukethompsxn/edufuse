@@ -8,11 +8,9 @@ Error:java: invalid source release: 1.8
 Download and install JDK 8 found [here](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html).
 Once you've done this you'll need to set the correct JDK within your IDE (example shown is IntelliJ).
 1. File > Project Structure > Project Settings > Project. Set your project JDK to point to JDK 11 by selecting new > /usr/lib/jvm/jdk-1.8.x.x
-![image](https://user-images.githubusercontent.com/31730723/63681195-668a0580-c849-11e9-82a9-2ce0ef473281.png)
-2. File > Project Structure > Project Settings > Modules. Ensure Language level is set to 11.
-![image](https://user-images.githubusercontent.com/31730723/63681254-87525b00-c849-11e9-945d-92e487d4e9ec.png)
-3. File > Settings > Build, Execution, Deployment > Compiler > Java Compiler. Check Target bytecode version is 11.
-![image](https://user-images.githubusercontent.com/31730723/63681315-a94bdd80-c849-11e9-9e50-b12169280a6e.png)
+![image](https://user-images.githubusercontent.com/31237267/63901609-67918180-ca59-11e9-81c1-b5e1c1d4059b.png)
+2. File > Settings > Build, Execution, Deployment > Compiler > Java Compiler. Check Target bytecode version is 1.8.
+![image](https://user-images.githubusercontent.com/31237267/63901655-90197b80-ca59-11e9-8a3c-ba18b6b40191.png)
 
 ### Failed to Connect to Socket
 ``` Bash
