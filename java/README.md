@@ -1,5 +1,5 @@
 # eduFUSE Java
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com/edufuse/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com/edufuse)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.lukethompsxn/edufuse/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.lukethompsxn/edufuse)
 
 ### Installation
 - Download and install [jdk-11](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html) (or newer).
