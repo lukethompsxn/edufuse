@@ -1,6 +1,10 @@
 # eduFUSE Java
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.lukethompsxn/edufuse/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.lukethompsxn/edufuse)
 
+### Installation
+- Download and install jdk-8 (or newer).
+- Add edufuse as a dependency in your project either by downloading the latest [release](https://github.com/lukethompsxn/edufuse/releases) or using [maven, gradle or similar](https://mvnrepository.com/artifact/com.github.lukethompsxn/edufuse).
+
 Maven
 ```
 <dependency>
@@ -14,10 +18,6 @@ Gradle
 ```
 compile group: 'com.github.lukethompsxn', name: 'edufuse', version: '1.0.2'
 ```
-
-### Installation
-- Download and install jdk-8 (or newer).
-- Add edufuse as a dependency in your project either by downloading the latest [release](https://github.com/lukethompsxn/edufuse/releases) or using [maven, gradle or similar](https://mvnrepository.com/artifact/com.github.lukethompsxn/edufuse).
 
 ### Important Classes
 - `FileSystemStub` is the stub class which your file system implementations must extend. This stub class has method signatures for all of the supported FUSE functions. 
