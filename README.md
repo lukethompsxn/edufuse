@@ -15,6 +15,20 @@ When running your file system, make sure you pass `-d -f <mount-point>` where `<
 ### Linux
 In order to use eduFUSE on a linux system, all you need to do is download the latest release [here](https://github.com/lukethompsxn/edufuse/releases).
 
+Maven
+```
+<dependency>
+  <groupId>com.github.lukethompsxn</groupId>
+  <artifactId>edufuse</artifactId>
+  <version>1.0.2</version>
+</dependency>
+```
+
+Gradle
+```
+compile group: 'com.github.lukethompsxn', name: 'edufuse', version: '1.0.2'
+```
+
 ### macOS
 *Please note this is only a beta version so there may be a few hiccups.*
 
