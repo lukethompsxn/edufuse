@@ -47,7 +47,7 @@ const ignorePaths = [
     '/.DS_Store'
 ];
 Vue.prototype.logHistory = [];
-Vue.prototype.iNodes = ['File System not running, no iNode Table, or no write call made yet'];
+Vue.prototype.iNodes = ['File System not running, no iNode Table, or no write, read, or mknod call made yet'];
 Vue.config.productionTip = false;
 
 
