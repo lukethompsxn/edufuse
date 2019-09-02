@@ -8,9 +8,9 @@ Error:java: invalid source release: 11
 Download and install JDK 11 found [here](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html).
 Once you've done this you'll need to set the correct JDK within your IDE (example shown is IntelliJ).
 1. File > Project Structure > Project Settings > Project. Set your project JDK to point to JDK 11 by selecting new > /usr/lib/jvm/jdk-11.x.x
-![image](https://user-images.githubusercontent.com/31237267/63901609-67918180-ca59-11e9-81c1-b5e1c1d4059b.png)
-2. File > Settings > Build, Execution, Deployment > Compiler > Java Compiler. Check Target bytecode version is 1.8.
-![image](https://user-images.githubusercontent.com/31237267/63901655-90197b80-ca59-11e9-8a3c-ba18b6b40191.png)
+![image](https://user-images.githubusercontent.com/31730723/64099669-f5ed6680-cdbd-11e9-8e91-1b2a3f645eed.png)
+2. File > Settings > Build, Execution, Deployment > Compiler > Java Compiler. Check Target bytecode version is 11.
+![image](https://user-images.githubusercontent.com/31730723/64100024-cf7bfb00-cdbe-11e9-9331-5603205afc2b.png)
 
 ### Failed to Connect to Socket
 ``` Bash
