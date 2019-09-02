@@ -1,10 +1,5 @@
 <template>
      <b-container class="bv-example-row">
-            <div>
-                <b-modal id="beta" title="Warning">
-                    <p class="my-4">This feature is only in beta.</p>
-                </b-modal>
-            </div>
             <b-row class="top card">
                 <div class="title">
                     <span>INode Table.</span>
@@ -17,14 +12,10 @@
 </template>
 
 <script>
-    import vuescroll from 'vuescroll';
     import {messageBus} from '../../main.js';
 
     export default {
         name: "INodes",
-        components: {
-            vuescroll
-        },
         data() {
             return {
                 iNodeTable: ['File System not running, no iNode Table, or no write call made yet'],
@@ -36,7 +27,6 @@
             });
         },
         mounted: function () {
-           this.$bvModal.show('beta');
            this.iNodeTable = this.iNodes;
         }
     }

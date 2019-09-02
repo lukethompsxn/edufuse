@@ -158,6 +158,14 @@
 
 <style>
 
+    .sl-vue-tree-nodes-list {
+        height: 495px !important;
+    }
+
+    .sl-vue-tree-root>.sl-vue-tree-nodes-list {
+        overflow: scroll !important;
+    }
+
     body {
         height: 100%;
         font-size: 13px;
@@ -173,7 +181,7 @@
     }
 
     #file-tree {
-        height: 100%;
+        height: 542px;
         overflow: scroll;
     }
 

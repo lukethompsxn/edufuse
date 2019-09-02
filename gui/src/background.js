@@ -85,7 +85,7 @@ if (isDev) {
     }
 }
 
-let mountPoint = '';
+let mountPoint = '/tmp';
 
 function scanDirectory() {
     let dir = mountPoint;

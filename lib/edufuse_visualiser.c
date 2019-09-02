@@ -80,9 +80,13 @@ void destroy_visualiser() {
 
 char *terminateString(const char *s1) {
     char *terminator = "\\e";
-    char *result = malloc(strlen(s1) + strlen(terminator) + 1);
+    const size_t stringLength     = strlen(s1);
+    const size_t terminatorLength = strlen(terminator);
+    const size_t totalLength = stringLength + terminatorLength;
+
+    char *const result = malloc(totalLength + 1);
     strcpy(result, s1);
-    strcat(result, terminator);
+    strcpy(result + stringLength, terminator);
     return result;
 }
 
@@ -191,7 +195,8 @@ char *stringify_fusefileinfo(struct fuse_file_info *fi) {
 }
 
 char *stringify_fusefileinfo_with_buf_size_off(struct fuse_file_info *fi, char *buf, size_t size, off_t off) {
-    char buffer[sizeof(buf)];
+    const size_t stringLength     = strlen(buf);
+    char *const buffer = malloc(stringLength + 1);
     strcpy(buffer, buf);
     buffer[strcspn(buffer, "\n")] = 0;
 
@@ -210,6 +215,8 @@ char *stringify_fusefileinfo_with_buf_size_off(struct fuse_file_info *fi, char *
                         MKJSON_STRING, "buf", buffer,
                         MKJSON_LLINT, "size", size,
                         MKJSON_LLINT, "off", off);
+
+    free(buffer);
 
     return json;
 }
