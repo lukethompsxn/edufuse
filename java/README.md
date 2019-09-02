@@ -2,7 +2,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.lukethompsxn/edufuse/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.lukethompsxn/edufuse)
 
 ### Installation
-- Download and install jdk-8 (or newer).
+- Download and install jdk-11 (or newer).
 - Add edufuse as a dependency in your project either by downloading the latest [release](https://github.com/lukethompsxn/edufuse/releases) or using [maven, gradle or similar](https://mvnrepository.com/artifact/com.github.lukethompsxn/edufuse).
 
 Maven
