@@ -9,7 +9,9 @@ Download and install JDK 11 found [here](https://www.oracle.com/technetwork/java
 Once you've done this you'll need to set the correct JDK within your IDE (example shown is IntelliJ).
 1. File > Project Structure > Project Settings > Project. Set your project JDK to point to JDK 11 by selecting new > /usr/lib/jvm/jdk-11.x.x
 ![image](https://user-images.githubusercontent.com/31730723/64099669-f5ed6680-cdbd-11e9-8e91-1b2a3f645eed.png)
-2. File > Settings > Build, Execution, Deployment > Compiler > Java Compiler. Check Target bytecode version is 11.
+2. File > Project Structure > Project Settings > Modules. Set language level to 11.
+![image](https://user-images.githubusercontent.com/31730723/64100117-03572080-cdbf-11e9-94b3-05774c4cfa3e.png)
+3. File > Settings > Build, Execution, Deployment > Compiler > Java Compiler. Check Target bytecode version is 11.
 ![image](https://user-images.githubusercontent.com/31730723/64100024-cf7bfb00-cdbe-11e9-9331-5603205afc2b.png)
 
 ### Failed to Connect to Socket
