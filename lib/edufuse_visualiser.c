@@ -31,8 +31,8 @@ int alive = 0;
 
 void connect_to_socket() {
     if (connect(sockfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) != 0) {
-        if (attempt < 3) {
-            printf("%s%i%s","Socket not ready, sleeping for 2 seconds then retrying... (attempt ", attempt,"/2)\n");
+        if (attempt < 6) {
+            printf("%s%i%s","Socket not ready, sleeping for 2 seconds then retrying... (attempt ", attempt,"/5)\n");
             attempt = attempt + 1;
             usleep(2000000);
             connect_to_socket();
