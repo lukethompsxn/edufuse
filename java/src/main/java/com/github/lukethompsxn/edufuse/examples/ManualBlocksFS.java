@@ -1,8 +1,8 @@
 package com.github.lukethompsxn.edufuse.examples;
 
-import com.github.lukethompsxn.edufuse.examples.util.MemoryINode;
-import com.github.lukethompsxn.edufuse.examples.util.MemoryINodeTable;
-import com.github.lukethompsxn.edufuse.examples.util.MemoryVisualiser;
+import com.github.lukethompsxn.edufuse.examples.util.FSVisualiser;
+import com.github.lukethompsxn.edufuse.examples.util.MockINode;
+import com.github.lukethompsxn.edufuse.examples.util.MockINodeTable;
 import com.github.lukethompsxn.edufuse.filesystem.FileSystemStub;
 import com.github.lukethompsxn.edufuse.struct.*;
 import com.github.lukethompsxn.edufuse.util.ErrorCodes;
@@ -14,36 +14,79 @@ import jnr.ffi.types.mode_t;
 import jnr.ffi.types.off_t;
 import jnr.ffi.types.size_t;
 
+
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
  * @author Luke Thompson
  * @since 14.08.19
  */
-public class MemoryFS extends FileSystemStub {
-    private static final String HELLO_PATH = "/hello";
-    private static final String HELLO_STR = "Hello World!\n";
+public class ManualBlocksFS extends FileSystemStub {
 
-    private MemoryINodeTable iNodeTable = new MemoryINodeTable();
-    private MemoryVisualiser visualiser;
+    public static final int BLOCK_SIZE = 32; //bytes
+    private static final String BLOCK_FILE_LOCATION = "/tmp/.blockfile"; //todo remove hardcode
+    private static final String INODE_LOCATION = "/tmp/.inodetable"; //todo remove hardcode
+
+    private static final String HELLO_PATH = "/hello";
+    private static final String HELLO_STR = "Hello World!";
+
+    private static File blockFile = null;
+    private static File iNodeFile = null;
+
+    private MockINodeTable iNodeTable = null;
+
+    private FSVisualiser visualiser;
 
     @Override
     public Pointer init(Pointer conn) {
+        blockFile = new File(BLOCK_FILE_LOCATION);
+        iNodeFile = new File(INODE_LOCATION);
 
+        try {
+            if (!iNodeFile.exists()) {
+                iNodeFile.createNewFile();
+                iNodeTable = new MockINodeTable(BLOCK_SIZE);
 
-        // setup an example file for testing purposes
-        MemoryINode iNode = new MemoryINode();
-        FileStat stat = new FileStat(Runtime.getSystemRuntime());
-        stat.st_mode.set(FileStat.S_IFREG | 0444 | 0222);
-        stat.st_size.set(HELLO_STR.getBytes().length);
-        stat.st_nlink.set(1);
-        iNode.setStat(stat);
-        iNode.setContent(HELLO_STR.getBytes());
-        iNodeTable.updateINode(HELLO_PATH, iNode);
+                // setup an example file for testing purposes
+                MockINode mockINode = new MockINode();
+                FileStat stat = new FileStat(Runtime.getSystemRuntime());
+                stat.st_mode.set(FileStat.S_IFREG | 0444 | 0222);
+                stat.st_size.set(HELLO_STR.getBytes().length);
+                stat.st_nlink.set(1);
+                mockINode.setStat(stat);
+                iNodeTable.updateINode(HELLO_PATH, mockINode);
+                List<Integer> blocks = new ArrayList<>();
+                blocks.add(iNodeTable.nextFreeBlock());
+                mockINode.addBlocks(blocks);
+
+                try (FileOutputStream stream = new FileOutputStream(blockFile)) {
+                    stream.write(HELLO_STR.getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                iNodeTable = MockINodeTable.deserialise(iNodeFile);
+            }
+
+            if (iNodeTable == null) {
+                iNodeTable = new MockINodeTable(BLOCK_SIZE);
+            }
+
+            if (!blockFile.exists()) {
+                blockFile.createNewFile();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         if (isVisualised()) {
-            visualiser = new MemoryVisualiser();
+            visualiser = new FSVisualiser();
             visualiser.sendINodeTable(iNodeTable);
         }
 
@@ -80,9 +123,9 @@ public class MemoryFS extends FileSystemStub {
 
     @Override
     public int open(String path, FuseFileInfo fi) {
-//        if (!iNodeTable.containsINode(path)) {
-//            mknod(path, FileStat.S_IFREG, 0);
-//        }
+        if (!iNodeTable.containsINode(path)) {
+            mknod(path, FileStat.S_IFREG, 0);
+        }
         return 0;
     }
 
@@ -98,9 +141,21 @@ public class MemoryFS extends FileSystemStub {
         }
 
         synchronized (this) {
-            MemoryINode mockINode = iNodeTable.getINode(path);
+            MockINode mockINode = iNodeTable.getINode(path);
             int fileSize = mockINode.getStat().st_size.intValue();
-            buf.put(0, mockINode.getContent(), 0, mockINode.getContent().length);
+
+            int buffOffset = 0;
+            try (RandomAccessFile raf = new RandomAccessFile(blockFile, "r")) {
+                for (Integer block : mockINode.getBlocks()) {
+                    raf.seek(block * BLOCK_SIZE);
+                    byte[] bytes = new byte[(int) size];
+                    raf.read(bytes);
+                    buf.put(buffOffset * BLOCK_SIZE, bytes, 0, BLOCK_SIZE);
+                    buffOffset++;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             if (isVisualised()) {
                 visualiser.sendINodeTable(iNodeTable);
@@ -117,29 +172,50 @@ public class MemoryFS extends FileSystemStub {
         }
 
         synchronized (this) {
-            MemoryINode mockINode = iNodeTable.getINode(path);
+            MockINode mockINode = iNodeTable.getINode(path);
+            List<Integer> blocks = mockINode.getBlocks();
 
-            byte[] content = mockINode.getContent();
+            int blockPointer = (int) Math.floorDiv(offset, (long) BLOCK_SIZE);
+            int blockOffset = (int) offset % BLOCK_SIZE;
+            int bufPointer = blockOffset;
 
-            if (offset + size > content.length) {
-                byte[] newContent = new byte[(int) (offset + size)];
-                FileStat stat = mockINode.getStat();
-                stat.st_size.set(offset + size);
+            try (RandomAccessFile raf = new RandomAccessFile(blockFile, "rw")) {
 
-                System.arraycopy(content, 0, newContent, 0, content.length);
-                content = newContent;
+                // write remaining bytes in the initial block
+                if (blockPointer < blocks.size()) {
+                    int numBytes = (int) Math.min(BLOCK_SIZE, size);
+                    byte[] bytes = new byte[numBytes];
+                    buf.get(0, bytes, 0, numBytes);
+                    raf.seek((blocks.get(blockPointer) * BLOCK_SIZE) + blockOffset);
+                    raf.write(bytes);
+                    blockPointer++;
+                    bufPointer += BLOCK_SIZE - blockOffset;
+                }
+
+                // write remaining blocks
+                while (blockPointer < blocks.size() && bufPointer < size) {
+                    bufPointer += write(raf, blocks, buf, size, blockPointer, bufPointer);
+                    blockPointer++;
+                }
+
+                // write new blocks if needed
+                while (bufPointer < size) {
+                    blocks.add(iNodeTable.nextFreeBlock());
+                    bufPointer += write(raf, blocks, buf, size, blockPointer, bufPointer);
+                    blockPointer++;
+                }
+
+                FileStat stat = iNodeTable.getINode(path).getStat();
+                stat.st_size.set(size + offset);
+                MockINodeTable.serialise(iNodeFile, iNodeTable);
+
+                if (isVisualised()) {
+                    visualiser.sendINodeTable(iNodeTable);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-            for (long i = offset; i < offset + size; i++) {
-                content[(int) i] = buf.getByte(i);
-            }
-
-            mockINode.setContent(content);
-        }
-
-        if (isVisualised()) {
-            visualiser = new MemoryVisualiser();
-            visualiser.sendINodeTable(iNodeTable);
         }
 
         return (int) size;
@@ -151,12 +227,11 @@ public class MemoryFS extends FileSystemStub {
             return -ErrorCodes.EEXIST();
         }
 
-        MemoryINode mockINode = new MemoryINode();
+        MockINode mockINode = new MockINode();
         FileStat stat = new FileStat(Runtime.getSystemRuntime());
         stat.st_mode.set(mode);
         stat.st_rdev.set(rdev);
         mockINode.setStat(stat);
-
         iNodeTable.updateINode(path, mockINode);
 
         if (isVisualised()) {
@@ -177,19 +252,6 @@ public class MemoryFS extends FileSystemStub {
         timespec[0].tv_sec.set(System.currentTimeMillis() / 100);
         timespec[1].tv_nsec.set(System.nanoTime());
         timespec[1].tv_sec.set(System.currentTimeMillis() / 100);
-        return 0;
-    }
-
-    @Override
-    public int unlink(String path) {
-        if (!iNodeTable.containsINode(path)) {
-            return -ErrorCodes.ENONET();
-        }
-
-        synchronized (this) {
-            iNodeTable.removeINode(path);
-        }
-
         return 0;
     }
 
@@ -275,11 +337,20 @@ public class MemoryFS extends FileSystemStub {
     }
 
     public static void main(String[] args) {
-        MemoryFS fs = new MemoryFS();
+        ManualBlocksFS fs = new ManualBlocksFS();
         try {
             fs.mount(args, true);
         } finally {
             fs.unmount();
         }
+    }
+
+    private int write(RandomAccessFile raf, List<Integer> blocks, Pointer buf, @size_t long size, int blockPointer, int bufPointer) throws IOException {
+        int numBytes = Math.min(BLOCK_SIZE, (int) size - bufPointer);
+        byte[] bytes = new byte[numBytes];
+        buf.get(bufPointer, bytes, 0, numBytes);
+        raf.seek((blocks.get(blockPointer) * BLOCK_SIZE));
+        raf.write(bytes);
+        return numBytes;
     }
 }
