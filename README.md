@@ -7,6 +7,19 @@ A multi-language, educational, user space file system tool. This tool is designe
 
 Part IV Honours Project by Luke Thompson and Joel Clarke. Supervised by Dr Robert Sheehan.
 
+## Screenshots
+
+![Screenshot_2](https://user-images.githubusercontent.com/31730723/63314823-03860380-c35d-11e9-9735-0406b3de8ede.png)
+
+![image](https://user-images.githubusercontent.com/31237267/63645019-b97c9380-c749-11e9-8341-5c3886c68042.png)
+
+
+![image](https://user-images.githubusercontent.com/31237267/63645031-e466e780-c749-11e9-9d94-9139cb96b36f.png)
+
+
+![image](https://user-images.githubusercontent.com/31237267/63645056-81298500-c74a-11e9-82b1-5ea482a3b1a3.png)
+
+
 ## Getting Started
 Firstly, you will need to install fuse, this can be done on linux using `sudo apt-get install libfuse-dev`. Then, below you will find the general eduFUSE user guide. Guides for [Java](https://github.com/lukethompsxn/edufuse/tree/master/java/) and [GUI](https://github.com/lukethompsxn/edufuse/tree/master/gui/) can be found at the respective links.
 
